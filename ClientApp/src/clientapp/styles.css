@@ -14,3 +14,27 @@
     -fx-stroke: black; /* Color de la línea */
     -fx-stroke-width: 2; /* Grosor de la línea */
 }
+
+/* Estilo minimalista para el botón */
+.minimal-button {
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-border-color: black; /* Borde negro minimalista */
+    -fx-border-width: 1px; /* Grosor del borde */
+    -fx-text-fill: black; /* Color del texto */
+    -fx-font-size: 14px; /* Tamaño de la fuente */
+    -fx-padding: 5 10; /* Ajuste del padding */
+    -fx-cursor: hand; /* Cambiar el cursor a mano al pasar el ratón */
+    -fx-background-radius: 5; /* Borde redondeado suave */
+    -fx-border-radius: 5; /* Bordes redondeados */
+    -fx-transition: background-color 0.3s ease, border-color 0.3s ease; /* Transición suave para hover */
+}
+
+.minimal-button:hover {
+    -fx-background-color: lightgray; /* Color de fondo al pasar el ratón */
+    -fx-border-color: gray; /* Borde más claro al pasar el ratón */
+}
+
+.minimal-button:pressed {
+    -fx-background-color: darkgray; /* Fondo más oscuro al presionar */
+    -fx-border-color: black; /* Borde negro al presionar */
+}
