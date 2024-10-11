@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gluonhq.charm.glisten.control.Icon?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 
 <SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <TextField fx:id="emailId" layoutX="47.0" layoutY="72.0" />
-            <TextField fx:id="retryPasswordId" layoutX="47.0" layoutY="268.0" />
-            <TextField fx:id="passwordId" layoutX="47.0" layoutY="234.0" />
-            <TextField fx:id="birthDateId" layoutX="47.0" layoutY="156.0" />
-            <TextField fx:id="usernameId" layoutX="47.0" layoutY="116.0" />
-            <RadioButton fx:id="maleRadioButtonId" layoutX="47.0" layoutY="199.0" mnemonicParsing="false" text="Male" />
-            <RadioButton fx:id="otherRadioButtonId" layoutX="263.0" layoutY="200.0" mnemonicParsing="false" text="Other" />
-            <RadioButton fx:id="femaleRadioButtonId" layoutX="152.0" layoutY="200.0" mnemonicParsing="false" text="Female" />
-            <Button fx:id="singUpButton" layoutX="109.0" layoutY="328.0" mnemonicParsing="false" text="SignUp" />
-            <Button fx:id="singInButton" layoutX="255.0" layoutY="328.0" mnemonicParsing="false" text="SignIn" />
-            <Line fx:id="birthDateLineId" endX="100.0" layoutX="147.0" layoutY="181.0" startX="-100.0" />
-            <Line fx:id="usernameLineId" endX="100.0" layoutX="146.0" layoutY="141.0" startX="-100.0" />
-            <Line fx:id="emailLineId" endX="100.0" layoutX="147.0" layoutY="97.0" startX="-100.0" />
-            <Line fx:id="passwordLineId" endX="100.0" layoutX="146.0" layoutY="259.0" startX="-100.0" />
-            <Line fx:id="retryPasswordLineId" endX="100.0" layoutX="145.0" layoutY="293.0" startX="-100.0" />
+            <Button fx:id="returnButton" layoutX="21.0" layoutY="28.0" minWidth="34.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <TextField fx:id="emailTxf" layoutX="47.0" layoutY="55.0" prefHeight="26.0" prefWidth="201.0" />
+            <TextField fx:id="birthTxf" layoutX="47.0" layoutY="157.0" prefHeight="26.0" prefWidth="201.0" />
+            <TextField fx:id="usernameTxf" layoutX="47.0" layoutY="107.0" prefHeight="26.0" prefWidth="201.0" />
+            <RadioButton fx:id="maleRadioButtonId" layoutX="46.0" layoutY="209.0" mnemonicParsing="false" text="Male" />
+            <RadioButton fx:id="otherRadioButtonId" layoutX="281.0" layoutY="209.0" mnemonicParsing="false" text="Other" />
+            <RadioButton fx:id="femaleRadioButtonId" layoutX="147.0" layoutY="209.0" mnemonicParsing="false" text="Female" />
+            <Button fx:id="singUpButton" layoutX="292.0" layoutY="352.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="74.0" text="SignUp" />
+            <Icon fx:id="passwdIcon" content="HELP_OUTLINE" layoutX="251.0" layoutY="261.0" />
+            <Icon fx:id="passwdRetryIcon" content="HELP_OUTLINE" layoutX="252.0" layoutY="311.0" />
+            <PasswordField fx:id="passwordPwdf" layoutX="47.0" layoutY="261.0" prefHeight="26.0" prefWidth="202.0" />
+            <PasswordField fx:id="repeatPasswordPwdf" layoutX="47.0" layoutY="311.0" prefHeight="26.0" prefWidth="201.0" />
+            <Label fx:id="emailLabel" layoutX="45.0" layoutY="37.0" prefHeight="18.0" prefWidth="68.0" text="Email: " />
+            <Label fx:id="usernameLabel" layoutX="45.0" layoutY="89.0" prefHeight="18.0" prefWidth="68.0" text="Username: " />
+            <Label fx:id="birthLabel" layoutX="45.0" layoutY="141.0" prefHeight="18.0" prefWidth="68.0" text="Birth Date: " />
+            <Label fx:id="genderLabel" layoutX="45.0" layoutY="191.0" prefHeight="18.0" prefWidth="68.0" text="Gender: " />
+            <Label fx:id="passwordLabel" layoutX="45.0" layoutY="243.0" prefHeight="18.0" prefWidth="68.0" text="Password: " />
+            <Label fx:id="repeatPasswdLabel" layoutX="43.0" layoutY="295.0" prefHeight="18.0" prefWidth="114.0" text="Repeat password: " />
          </children></AnchorPane>
   </items>
 </SplitPane>
