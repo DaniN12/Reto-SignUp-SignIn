@@ -1,19 +1,16 @@
 .text-field {
     -fx-background-color: transparent; /* Hacer el fondo transparente */
-    -fx-border-color: transparent; /* Eliminar el borde */
+    -fx-border-color: transparent transparent grey transparent; /* Eliminar el borde */
     -fx-padding: 0; /* Eliminar el padding */
     -fx-font-size: 14px; /* Cambiar el tamaño de la fuente si es necesario */
+    -fx-border-width: 0 0 1px 0;
 }
 
 .text-field:focused {
     -fx-background-color: transparent; /* Mantener el fondo transparente cuando está enfocado */
-    -fx-border-color: transparent; /* Mantener el borde transparente cuando está enfocado */
+    -fx-border-color: transparent transparent darkgrey transparent; /* Mantener el borde transparente cuando está enfocado */
 }
 
-.line {
-    -fx-stroke: black; /* Color de la línea */
-    -fx-stroke-width: 2; /* Grosor de la línea */
-}
 
 /* Estilo minimalista para el botón */
 .minimal-button {

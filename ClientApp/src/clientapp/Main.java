@@ -5,6 +5,7 @@
  */
 package clientapp;
 
+import clientapp.controller.SignUpViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,12 +20,17 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
-        Scene scene = new Scene(root);
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/clientapp/view/SignUpView.fxml"));
         
-        stage.setScene(scene);
-        stage.show();
+        Parent root = (Parent)loader.load();
+        
+        SignUpViewController controller = loader.getController();
+        controller.setStage(stage);
+        
+        controller.initialize(root);
+        
     }
 
     /**

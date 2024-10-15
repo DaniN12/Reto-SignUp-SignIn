@@ -2,18 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/SignUpView.fxml</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/exceptions/IncorrectPatternException.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/Main.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/SignInView.fxml</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/SignInController.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/SignUpView.fxml</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/styles.css</file>
-
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/SignUpView.fxml</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/exceptions/IncorrectPasswordException.java</file>
         </group>
->>>>>>> 98338b389a29b863228eea3ac5cf5d499d69f943
     </open-files>
 </project-private>
