@@ -21,6 +21,19 @@ import javafx.scene.control.TextField;
 public class SignInController implements Initializable {
     
     @FXML
+    private Label label;
+    
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+        System.out.println("You clicked me!");
+        label.setText("Hello World!");
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
+    
     private TextField usernameField;
 
     @FXML
