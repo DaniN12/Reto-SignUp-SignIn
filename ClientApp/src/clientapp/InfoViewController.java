@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author 2dam
  */
-public class UserDataViewController implements Initializable {
+public class InfoViewController implements Initializable {
 
     /**
      * Initializes the controller class.
