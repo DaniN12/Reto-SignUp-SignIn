@@ -1,3 +1,4 @@
+/* Estilos para los campos de texto */
 .text-field {
     -fx-background-color: transparent; /* Hacer el fondo transparente */
     -fx-border-color: transparent transparent grey transparent; /* Eliminar el borde */
@@ -11,8 +12,13 @@
     -fx-border-color: transparent transparent darkgrey transparent; /* Mantener el borde transparente cuando está enfocado */
 }
 
+/* Estilos para las líneas */
+.line {
+    -fx-stroke: black; /* Color de la línea */
+    -fx-stroke-width: 2; /* Grosor de la línea */
+}
 
-/* Estilo minimalista para el botón */
+/* Estilo minimalista para el botón de inicio de sesión */
 .minimal-button {
     -fx-background-color: transparent; /* Fondo transparente */
     -fx-border-color: black; /* Borde negro minimalista */
@@ -34,4 +40,14 @@
 .minimal-button:pressed {
     -fx-background-color: darkgray; /* Fondo más oscuro al presionar */
     -fx-border-color: black; /* Borde negro al presionar */
+}
+
+/* Estilo para el botón de mostrar/ocultar contraseña */
+.btnShowPasswd {
+    -fx-background-color: transparent;  /* Fondo transparente */
+    -fx-border-color: transparent;      /* Borde transparente */
+    -fx-padding: 0;                     /* Sin padding */
+    -fx-background-radius: 0;           /* Elimina bordes redondeados */
+    -fx-border-radius: 0;               /* Elimina bordes redondeados */
+    -fx-cursor: hand;                   /* Cursor de mano */
 }
