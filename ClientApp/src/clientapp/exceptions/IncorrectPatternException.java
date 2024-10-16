@@ -7,12 +7,12 @@ package clientapp.exceptions;
 
 /**
  *
- * @author 2dam
+ * @author Kelian
  */
 public class IncorrectPatternException extends Exception {
-    
-    public IncorrectPatternException (String msg) {
+
+    public IncorrectPatternException(String msg) {
         super(msg);
     }
-    
+
 }
