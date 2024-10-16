@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -6,7 +9,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" 
+           stylesheets="@styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.SignUpViewController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -14,25 +18,26 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <TextField fx:id="emailTxf" layoutX="47.0" layoutY="55.0" prefHeight="26.0" prefWidth="201.0" />
-            <TextField fx:id="birthTxf" layoutX="47.0" layoutY="272.0" prefHeight="26.0" prefWidth="201.0" />
-            <TextField fx:id="usernameTxf" layoutX="47.0" layoutY="107.0" prefHeight="26.0" prefWidth="201.0" />
-            <Button fx:id="singUpButton" layoutX="302.0" layoutY="472.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="74.0" text="SignUp" />
-            <PasswordField fx:id="passwordPwdf" layoutX="49.0" layoutY="162.0" prefHeight="26.0" prefWidth="202.0" />
-            <PasswordField fx:id="repeatPasswordPwdf" layoutX="45.0" layoutY="214.0" prefHeight="26.0" prefWidth="201.0" />
+            <TextField fx:id="emailTxf" layoutX="47.0" layoutY="55.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your email" />
+            <TextField fx:id="streetTxf" layoutX="47.0" layoutY="272.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your street" />
+            <TextField fx:id="fullNameTxf" layoutX="47.0" layoutY="107.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your full name" />
+            <Button fx:id="singUpButton" layoutX="306.0" layoutY="502.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="74.0" text="SignUp" />
+            <PasswordField fx:id="passwordPwdf" layoutX="47.0" layoutY="162.0" prefHeight="26.0" prefWidth="202.0" />
+            <PasswordField fx:id="repeatPasswordPwdf" layoutX="47.0" layoutY="214.0" prefHeight="26.0" prefWidth="201.0" />
             <Label fx:id="emailLabel" layoutX="45.0" layoutY="37.0" prefHeight="18.0" prefWidth="68.0" text="Email: " />
-            <Label fx:id="usernameLabel" layoutX="45.0" layoutY="89.0" prefHeight="18.0" prefWidth="137.0" text="Nombre y apellidos:" />
-            <Label fx:id="birthLabel" layoutX="45.0" layoutY="256.0" prefHeight="18.0" prefWidth="68.0" text="Street:" />
+            <Label fx:id="usernameLabel" layoutX="45.0" layoutY="89.0" prefHeight="18.0" prefWidth="137.0" text="Full Name:" />
+            <Label fx:id="streetLabel" layoutX="45.0" layoutY="256.0" prefHeight="18.0" prefWidth="68.0" text="Street:" />
             <Label fx:id="passwordLabel" layoutX="47.0" layoutY="144.0" prefHeight="18.0" prefWidth="68.0" text="Password: " />
             <Label fx:id="repeatPasswdLabel" layoutX="45.0" layoutY="196.0" prefHeight="18.0" prefWidth="114.0" text="Repeat password: " />
-            <TextField fx:id="birthTxf1" layoutX="45.0" layoutY="325.0" prefHeight="26.0" prefWidth="201.0" />
-            <Label fx:id="birthLabel1" layoutX="47.0" layoutY="306.0" prefHeight="18.0" prefWidth="68.0" text="City:" />
-            <Label fx:id="birthLabel11" layoutX="45.0" layoutY="368.0" prefHeight="18.0" prefWidth="68.0" text="Zip:" />
-            <TextField fx:id="birthTxf11" layoutX="47.0" layoutY="386.0" prefHeight="26.0" prefWidth="201.0" />
+            <TextField fx:id="cityTxf" layoutX="45.0" layoutY="325.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your city" />
+            <Label fx:id="cityLabel" layoutX="47.0" layoutY="306.0" prefHeight="18.0" prefWidth="68.0" text="City:" />
+            <Label fx:id="zipLabel" layoutX="45.0" layoutY="368.0" prefHeight="18.0" prefWidth="68.0" text="Zip:" />
+            <TextField fx:id="zipTxf" layoutX="47.0" layoutY="386.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your zip" />
             <Button layoutX="261.0" layoutY="164.0" minHeight="18.0" minWidth="46.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="46.0" />
             <Button layoutX="261.0" layoutY="227.0" minWidth="42.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="42.0" />
-            <TextField fx:id="passwordTxf" layoutX="49.0" layoutY="162.0" prefHeight="26.0" prefWidth="202.0" />
-            <TextField fx:id="retryPasswordTxf" layoutX="45.0" layoutY="214.0" prefHeight="26.0" prefWidth="202.0" />
+            <TextField fx:id="passwordTxf" layoutX="47.0" layoutY="162.0" prefHeight="26.0" prefWidth="202.0" promptText="enter your password" />
+            <TextField fx:id="retryPasswordTxf" layoutX="47.0" layoutY="214.0" prefHeight="26.0" prefWidth="202.0" promptText="repeat your password" />
+            <CheckBox fx:id="checkActive" layoutX="49.0" layoutY="456.0" mnemonicParsing="false" selected="true" text="Active" />
          </children></AnchorPane>
   </items>
 </SplitPane>

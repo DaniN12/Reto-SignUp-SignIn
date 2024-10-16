@@ -67,5 +67,4 @@ public class SignInController implements Initializable {
         return username.equals("admin") && password.equals("admin");
     }
 
-    
 }
