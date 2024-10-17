@@ -5,6 +5,7 @@
  */
 package clientapp.controller;
 
+import clientapp.model.SocketFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.User;
 
 /**
  * FXML Controller class
@@ -158,8 +160,26 @@ public class SignUpViewController {
 
     }
 
-    public void handleButtonAction(ActionEvent event) {
- 
+    public void handleButtonAction(ActionEvent event) throws Exception {
+
+        try{
+        User user = SocketFactory.getSignable().signUp();
+        
+        emailTxf.setId("email");
+        fullNameTxf.setId("fullName");
+        passwordTxf.setId("password");
+        passwordPwdf.setId("password");
+        retryPasswordTxf.setId("password");
+        repeatPasswordPwdf.setId("password");
+        streetTxf.setId("street");
+        cityTxf.setId("city");
+        zipTxf.setId("zip");
+        checkActive.setId("active");
+        
+        }catch(Exception e){
+            
+        }
+        
 
     }
 
