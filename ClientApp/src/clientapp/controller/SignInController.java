@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientapp;
+package clientapp.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +21,19 @@ import javafx.scene.control.TextField;
 public class SignInController implements Initializable {
     
     @FXML
+    private Label label;
+    
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+        System.out.println("You clicked me!");
+        label.setText("Hello World!");
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
+    
     private TextField usernameField;
 
     @FXML
@@ -54,8 +67,4 @@ public class SignInController implements Initializable {
         return username.equals("admin") && password.equals("admin");
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
