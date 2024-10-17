@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientapp.exceptions;
+package model;
 
 /**
  *
- * @author Enzo
+ * @author kbilb
  */
-public class IncorrectPasswordException extends Exception {
-
-    public IncorrectPasswordException(String msg) {
-        super(msg);
-    }
+public class User {
+    
 }
