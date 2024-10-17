@@ -5,6 +5,11 @@
  */
 package clientapp.model;
 
+import clientapp.exceptions.EmptyFieldException;
+import clientapp.exceptions.IncorrectPasswordException;
+import clientapp.exceptions.IncorrectPatternException;
+import exceptions.UserAlreadyExistException;
+import exceptions.UserDoesntExistExeption;
 import model.Signable;
 import model.User;
 
@@ -12,16 +17,18 @@ import model.User;
  *
  * @author 2dam
  */
-public class Client implements Signable{
-
-    @Override
-    public User signUp() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public User signIn() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public class Client implements Signable {
     
+    
+
+    @Override
+    public User signIn() throws UserAlreadyExistException, UserDoesntExistExeption {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public User signUp() throws UserAlreadyExistException, UserDoesntExistExeption {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

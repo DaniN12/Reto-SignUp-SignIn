@@ -7,12 +7,11 @@ package exceptions;
 
 /**
  *
- * @author Kelian
+ * @author Enzo
  */
-public class IncorrectPatternException extends Exception {
+public class UserDoesntExistExeption extends Exception {
 
-    public IncorrectPatternException(String msg) {
+    public UserDoesntExistExeption(String msg) {
         super(msg);
     }
-
 }

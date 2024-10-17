@@ -9,9 +9,9 @@ package clientapp.exceptions;
  *
  * @author Enzo
  */
-public class UserDoesntExistExeption extends Exception {
+public class EmptyFieldException extends Exception {
 
-    public UserDoesntExistExeption(String msg) {
+    public EmptyFieldException(String msg) {
         super(msg);
     }
 }

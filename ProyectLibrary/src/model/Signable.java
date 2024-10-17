@@ -11,8 +11,8 @@ package model;
  */
 public interface Signable {
     
-    public User signIn() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException;
+    public User signIn() throws exceptions.UserAlreadyExistException, exceptions.UserDoesntExistExeption;
     
-    public User signUp() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException, exceptions.IncorrectPatternException;
+    public User signUp() throws exceptions.UserAlreadyExistException, exceptions.UserDoesntExistExeption;
 
 }

@@ -22,9 +22,18 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
+import clientapp.exceptions.EmptyFieldException;
+import clientapp.exceptions.IncorrectPasswordException;
+import clientapp.exceptions.IncorrectPatternException;
+import exceptions.UserAlreadyExistException;
+import exceptions.UserDoesntExistExeption;
+import java.io.IOException;
+import java.util.logging.Level;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
- * FXML Controller class
+ * FXML Controller class of the signUp window
  *
  * @author Kelian and Enzo
  */
@@ -146,7 +155,7 @@ public class SignUpViewController {
     /**
      * method that handles the events that occur before the window opens
      *
-     * @param event
+     * @param event triggers an action, in this case a window opening
      */
     public void handleWindowShowing(WindowEvent event) {
 
@@ -160,27 +169,86 @@ public class SignUpViewController {
 
     }
 
-    public void handleButtonAction(ActionEvent event) throws Exception {
+    /**
+     * This method handles the event that occurs when the button signUp is
+     * clicked and makes sure that all the conditions to register a user are met
+     *
+     * @param event triggers the action, in this case a button click
+     * @throws UserAlreadyExistException checks if the user already exits
+     * @throws UserDoesntExistExeption checks if the user doesn't exist
+     */
+    @FXML
+    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, UserDoesntExistExeption {
 
-        try{
-        User user = SocketFactory.getSignable().signUp();
-        
-        emailTxf.setId("email");
-        fullNameTxf.setId("fullName");
-        passwordTxf.setId("password");
-        passwordPwdf.setId("password");
-        retryPasswordTxf.setId("password");
-        repeatPasswordPwdf.setId("password");
-        streetTxf.setId("street");
-        cityTxf.setId("city");
-        zipTxf.setId("zip");
-        checkActive.setId("active");
-        
-        }catch(Exception e){
-            
+        try {
+            User user = SocketFactory.getSignable().signUp();
+
+            emailTxf.setId("email");
+            fullNameTxf.setId("fullName");
+            passwordTxf.setId("password");
+            passwordPwdf.setId("password");
+            streetTxf.setId("street");
+            cityTxf.setId("city");
+            zipTxf.setId("zip");
+            checkActive.setId("active");
+
+            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
+
+                throw new EmptyFieldException("Fields are empty, all filds need to be filled");
+
+            } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
+
+                throw new IncorrectPasswordException("The password fields do not match");
+
+            } else if (!emailTxf.getText().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+
+                throw new IncorrectPatternException("The email has to have a email format, don't forget the @");
+            } else if (!zipTxf.getText().matches("\\d+")) {
+
+                throw new IncorrectPatternException("The zip has to be an Integer");
+            }
+
+        } catch (IncorrectPasswordException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (IncorrectPatternException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (EmptyFieldException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
-        
 
+    }
+
+    @FXML
+    public void backButtonAction(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/clientapp/view/SignInView.fxml"));
+
+            Parent root = (Parent) loader.load();
+
+            SignInController controller = loader.getController();
+            if (controller == null) {
+                throw new RuntimeException("Failed to load SignInController");
+            }
+
+            if (stage == null) {
+                throw new RuntimeException("Stage is not initialized");
+            }
+
+            controller.setStage(stage);
+            controller.initialize(root);
+
+        } catch (IOException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+        } catch (RuntimeException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+        }
     }
 
     public Stage getStage() {

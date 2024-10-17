@@ -7,33 +7,52 @@ package clientapp.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  *
  * @author 2dam
  */
-public class SignInController implements Initializable {
-    
+public class SignInController {
+
     @FXML
     private Label label;
-    
+
+    private Stage stage;
+
+    private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+
+    public void initialize(Parent root) {
+
+        logger.info("Initializing SignIp stage.");
+        //create a scene associated the node graph root
+        Scene scene = new Scene(root);
+        //Associate scene to primaryStage(Window)
+        stage.setScene(scene);
+        //set window properties
+        stage.setTitle("Sign Up");
+        stage.setResizable(false);
+        //set window's events handlesrs
+        //stage.setOnShowing(this::handleWindowShowing);
+        //show primary window
+        stage.show();
+    }
+
     private TextField usernameField;
 
     @FXML
@@ -65,6 +84,14 @@ public class SignInController implements Initializable {
     private boolean validateCredentials(String username, String password) {
         // Ejemplo simple: validar si el usuario y la contraseña son "admin"
         return username.equals("admin") && password.equals("admin");
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
 }

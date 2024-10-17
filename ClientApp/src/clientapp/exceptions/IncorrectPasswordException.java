@@ -9,10 +9,9 @@ package clientapp.exceptions;
  *
  * @author Enzo
  */
-public class UserAlreadyExistException extends Exception {
+public class IncorrectPasswordException extends Exception {
 
-    public UserAlreadyExistException(String msg) {
+    public IncorrectPasswordException(String msg) {
         super(msg);
     }
-
 }
