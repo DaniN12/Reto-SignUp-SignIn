@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientapp.exceptions;
+package exceptions;
 
 /**
  *
- * @author Kelian
+ * @author Enzo
  */
-public class IncorrectPatternException extends Exception {
+public class EmptyFieldException extends Exception {
 
-    public IncorrectPatternException(String msg) {
+    public EmptyFieldException(String msg) {
         super(msg);
     }
-
 }

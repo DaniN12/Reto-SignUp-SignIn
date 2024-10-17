@@ -91,4 +91,3 @@ public class User implements Serializable {
         this.active = active;
     }
 
-}
