@@ -5,11 +5,21 @@
  */
 package clientapp.model;
 
+import model.Signable;
+
 /**
  *
  * @author Enzo
  */
 public class SocketFactory {
-    
-    
+
+    public static Signable getSignable() {
+
+        Signable signable;
+
+        signable = new Client();
+
+        return signable;
+
+    }
 }

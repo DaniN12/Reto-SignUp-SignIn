@@ -7,12 +7,12 @@ package model;
 
 /**
  *
- * @author kbilb
+ * @author Kelian
  */
 public interface Signable {
     
     public User signIn() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException;
     
     public User signUp() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException, exceptions.IncorrectPatternException;
-    
+
 }
