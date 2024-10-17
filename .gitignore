@@ -1,2 +1,5 @@
 /ClientApp/build/
 /ClientApp/dist/
+/ClientApp/nbproject/private/
+/ProyectLibrary/nbproject/private/
+/ServerApp/nbproject/private/
