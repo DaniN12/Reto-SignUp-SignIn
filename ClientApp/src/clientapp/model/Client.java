@@ -21,6 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Message;
 import model.MessageType;
+import exceptions.EmptyFieldException;
+import exceptions.IncorrectPasswordException;
+import exceptions.IncorrectPatternException;
 import model.Signable;
 import model.User;
 
