@@ -73,8 +73,7 @@ public class InfoViewController {
     
     
     @FXML
-    public void backButtonAction(ActionEvent event) {
-        
+    public void backButtonAction(ActionEvent event) { 
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
@@ -104,7 +103,6 @@ public class InfoViewController {
 
       @FXML
     public void onCloseRequest(WindowEvent event) {
-        
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setTitle("EXIT");

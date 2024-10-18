@@ -5,7 +5,7 @@
  */
 package clientapp;
 
-import clientapp.controller.InfoViewController;
+import clientapp.controller.SignInController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,10 +21,10 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/InfoView.fxml"));
+                getClass().getResource("/clientapp/view/SignInView.fxml"));
 
-        Parent root = (Parent) loader.load();
-        InfoViewController controller = (InfoViewController) loader.getController();
+        Parent root = (Parent)loader.load();
+        SignInController controller = (SignInController) loader.getController();
 
         controller.setStage(stage);
         controller.initialize(root);

@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -51,7 +52,12 @@ public class SignInController  {
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
     protected void handleSignIn() throws IOException {
-           /** FXMLLoader loader = new FXMLLoader(
+        User u = new User(email,street,city,zip);
+        
+        
+        
+        
+         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/clientapp/view/InfoView.fxml"));
 
         Parent root = (Parent) loader.load();
@@ -60,6 +66,7 @@ public class SignInController  {
         controller.setStage(stage);
         controller.initialize(root);
         
+        /**
         String username = usernameField.getText();
         String password = passwordField.getText();
 
