@@ -93,4 +93,13 @@ public class SignInController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+    // Método que simula la validación de credenciales
+    private boolean validateCredentials(String username, String password) {
+        // Ejemplo simple: validar si el usuario y la contraseña son "admin"
+        return username.equals("admin") && password.equals("admin");
+    }
+
 }
+
