@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -127,11 +128,10 @@ public class SignUpViewController {
      */
     @FXML
     private Button returnButton;
-    
-    
+
     @FXML
     private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
-    
+
     @FXML
     private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
 
@@ -150,9 +150,9 @@ public class SignUpViewController {
      * Stage for the view
      */
     private Stage stage;
-    
+
     private boolean passwordVisible = false;
-    
+
     private boolean repeatpasswordVisible = false;
 
     /**
@@ -171,7 +171,7 @@ public class SignUpViewController {
 
         buttonImgView = new ImageView(passwd);
         repeatbuttonImgView = new ImageView(passwd);
-        
+
         //set window's events handlesrs
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
@@ -200,15 +200,15 @@ public class SignUpViewController {
         retryButtonEye.setGraphic(repeatbuttonImgView);
 
     }
-  
+
     /**
      * This method handles the event that occurs when the button signUp is
      * clicked and makes sure that all the conditions to register a user are met
      *
      * @param event triggers the action, in this case a button click
      * @throws UserAlreadyExistException checks if the user already exits
-     * @throws ConnectionErrorException checks if there was an error while connecting
-     * with the server
+     * @throws ConnectionErrorException checks if there was an error while
+     * connecting with the server
      */
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
@@ -224,7 +224,7 @@ public class SignUpViewController {
             cityTxf.setId("city");
             zipTxf.setId("zip");
             checkActive.setId("active");
-          
+
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
                 throw new EmptyFieldException("Fields are empty, all filds need to be filled");
@@ -243,15 +243,15 @@ public class SignUpViewController {
 
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (IncorrectPatternException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (EmptyFieldException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
 
@@ -321,10 +321,7 @@ public class SignUpViewController {
             Platform.exit();
         } else {
             //else the alert will dispose and the user will continue in the app
-            event.consume()
-        } catch (Exception e) {
-            logger.severe("Error during sign-up: " + e.getMessage());
-            // Handle the error appropriately (show an alert, log it, etc.)
+            event.consume();
         }
     }
 
@@ -362,7 +359,7 @@ public class SignUpViewController {
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-            passwordVisible = false
+            passwordVisible = false;
         }
     }
 

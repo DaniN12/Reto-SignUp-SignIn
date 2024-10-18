@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,9 +25,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
