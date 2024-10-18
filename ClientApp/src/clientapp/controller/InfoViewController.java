@@ -6,8 +6,10 @@
 package clientapp.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -99,6 +102,22 @@ public class InfoViewController {
         }
     }
 
+      @FXML
+    public void onCloseRequest(WindowEvent event) {
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+        
+        Optional<ButtonType> answer = alert.showAndWait();
+        
+        if (answer.get() == ButtonType.OK) {
+            Platform.exit();
+        } else {
+            event.consume();
+        }
+    }
 
      /**
      * logger to show the steps of the application by console
@@ -124,7 +143,7 @@ public class InfoViewController {
         stage.setTitle("User info");
         stage.setResizable(false);
         //set window's events handlesrs
-        //stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
         stage.show();
     }
