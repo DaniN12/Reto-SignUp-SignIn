@@ -5,12 +5,12 @@
  */
 package clientapp.controller;
 
+import clientapp.model.SocketFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,8 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.User;
 
 /**
  * FXML Controller class
@@ -29,98 +33,115 @@ import javafx.stage.WindowEvent;
 public class SignUpViewController {
 
     /**
-     * textField for email
+     * TextField for email
      */
     @FXML
     private TextField emailTxf;
 
     /**
-     * textField for full name
+     * TextField for full name
      */
     @FXML
     private TextField fullNameTxf;
 
     /**
-     * textField for password
+     * TextField for password (visible)
      */
     @FXML
     private TextField passwordTxf;
 
     /**
-     * passwordField for password
+     * PasswordField for password (hidden)
      */
     @FXML
     private PasswordField passwordPwdf;
 
     /**
-     * textField for retrypassword
+     * TextField for retry password (visible)
      */
     @FXML
     private TextField retryPasswordTxf;
 
     /**
-     * passwordField for retry password
+     * PasswordField for retry password (hidden)
      */
     @FXML
     private PasswordField repeatPasswordPwdf;
 
     /**
-     * textField for street
+     * TextField for street
      */
     @FXML
     private TextField streetTxf;
 
     /**
-     * textField for city
+     * TextField for city
      */
     @FXML
     private TextField cityTxf;
 
     /**
-     * textField for zip
+     * TextField for zip
      */
     @FXML
     private TextField zipTxf;
 
     /**
-     * button to show password
+     * Button to show password
      */
     @FXML
-    private Button buttonEye;
+    private Button buttonEye = new Button();
 
     /**
-     * button to show password in retry password
+     * Button to show password in retry password
      */
     @FXML
-    private Button retryButtonEye;
+    private Button retryButtonEye = new Button();
 
     /**
-     * checkBox to know if the user is active or not
+     * CheckBox to know if the user is active or not
      */
     @FXML
     private CheckBox checkActive;
 
     /**
-     * button to signUp
+     * Button to sign up
      */
     @FXML
     private Button signUpButton;
 
     /**
-     * button to return to the main window
+     * Button to return to the main window
      */
     @FXML
     private Button returnButton;
+    
+    
+    @FXML
+    private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
+    
+    @FXML
+    private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
+
+    @FXML
+    private ImageView buttonImgView;
+
+    @FXML
+    private ImageView repeatbuttonImgView;
 
     /**
-     * logger to show the steps of the application by console
+     * Logger to show the steps of the application in the console
      */
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
 
     /**
-     * stage for the view
+     * Stage for the view
      */
     private Stage stage;
+    
+    private boolean passwordVisible = false;
+    
+    private boolean repeatpasswordVisible = false;
 
     /**
      * Initializes the controller class.
@@ -135,6 +156,10 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
+
+        buttonImgView = new ImageView(passwd);
+        repeatbuttonImgView = new ImageView(passwd);
+        
         //set window's events handlesrs
         stage.setOnShowing(this::handleWindowShowing);
         //show primary window
@@ -142,7 +167,7 @@ public class SignUpViewController {
     }
 
     /**
-     * method that handles the events that occur before the window opens
+     * Method that handles the events that occur before the window opens
      *
      * @param event
      */
@@ -151,16 +176,76 @@ public class SignUpViewController {
         logger.info("Beginning SignUpViewController::handleWindowShowing");
         // hide the password textfields
         passwordTxf.setVisible(false);
+        passwordTxf.setManaged(false);
         retryPasswordTxf.setVisible(false);
+        retryPasswordTxf.setManaged(false);
         // to write in both passwordFields and textFields at the same time
         passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
         retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
+        //set the ImageView un the button
+        buttonEye.setGraphic(buttonImgView);
+        retryButtonEye.setGraphic(repeatbuttonImgView);
 
     }
 
     public void handleButtonAction(ActionEvent event) {
- 
+        try {
+            User user = SocketFactory.getSignable().signUp();
 
+            // Set IDs for the fields (this may depend on how you're using them)
+            emailTxf.setId("email");
+            fullNameTxf.setId("fullName");
+            passwordTxf.setId("password");
+            passwordPwdf.setId("password");
+            retryPasswordTxf.setId("password");
+            repeatPasswordPwdf.setId("password");
+            streetTxf.setId("street");
+            cityTxf.setId("city");
+            zipTxf.setId("zip");
+            checkActive.setId("active");
+
+        } catch (Exception e) {
+            logger.severe("Error during sign-up: " + e.getMessage());
+            // Handle the error appropriately (show an alert, log it, etc.)
+        }
+    }
+
+    public void showPassword(ActionEvent event) {
+
+        if (!passwordVisible) {
+            buttonImgView.setImage(showingPasswd);
+            passwordPwdf.setVisible(false);
+            passwordPwdf.setManaged(false);
+            passwordTxf.setVisible(true);
+            passwordTxf.setManaged(true);
+            passwordVisible = true;
+        } else {
+            buttonImgView.setImage(passwd);
+            passwordTxf.setVisible(false);
+            passwordTxf.setManaged(false);
+            passwordPwdf.setVisible(true);
+            passwordPwdf.setManaged(true);
+            passwordVisible = false;
+        }
+    }
+
+    public void retryShowPassword(ActionEvent event) {
+
+        if (!repeatpasswordVisible) {
+            repeatbuttonImgView.setImage(showingPasswd);
+            repeatPasswordPwdf.setVisible(false);
+            repeatPasswordPwdf.setManaged(false);
+            retryPasswordTxf.setVisible(true);
+            retryPasswordTxf.setManaged(true);
+            passwordVisible = true;
+        } else {
+            repeatbuttonImgView.setImage(passwd);
+            retryPasswordTxf.setVisible(false);
+            retryPasswordTxf.setManaged(false);
+            repeatPasswordPwdf.setVisible(true);
+            repeatPasswordPwdf.setManaged(true);
+            passwordVisible = false;
+        }
     }
 
     public Stage getStage() {
@@ -170,5 +255,4 @@ public class SignUpViewController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }
