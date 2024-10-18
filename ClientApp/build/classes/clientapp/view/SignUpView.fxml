@@ -22,7 +22,7 @@
             <children>
                 <Button fx:id="btnShowPasswd" layoutX="257.0" layoutY="162.0" minHeight="18.0" minWidth="34.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="26.0" prefWidth="34.0">
                     <graphic>
-                        <ImageView fx:id="buttonImgView" fitHeight="32.0" fitWidth="42.0" layoutX="257.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="buttonImgView" fitHeight="32.0" fitWidth="42.0" layoutX="257.0" layoutY="159.0" pickOnBounds="true"/>
                     </graphic>
                 </Button>
                 <TextField fx:id="emailTxf" layoutX="47.0" layoutY="55.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your email" />
@@ -40,9 +40,9 @@
                 <Label fx:id="cityLabel" layoutX="47.0" layoutY="306.0" prefHeight="18.0" prefWidth="68.0" text="City:" />
                 <Label fx:id="zipLabel" layoutX="45.0" layoutY="368.0" prefHeight="18.0" prefWidth="68.0" text="Zip:" />
                 <TextField fx:id="zipTxf" layoutX="47.0" layoutY="386.0" prefHeight="26.0" prefWidth="201.0" promptText="enter your zip" />
-                <Button fx:id="btnShowPasswd2" layoutX="257.0" layoutY="214.0" minWidth="34.0" mnemonicParsing="false" onAction="#retryShowPassword" prefHeight="26.0" prefWidth="34.0" >
+                <Button fx:id="btnShowPasswd2" layoutX="257.0" layoutY="214.0" minWidth="34.0" mnemonicParsing="false" onAction="#retryShowPassword" prefHeight="26.0" prefWidth="34.0">
                     <graphic>
-                        <ImageView fx:id="repeatbuttonImgView" fitHeight="32.0" fitWidth="42.0" layoutX="257.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true"/>
+                        <ImageView fx:id="repeatbuttonImgView" fitHeight="32.0" fitWidth="42.0" layoutX="257.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" />
                     </graphic>
                 </Button>
                 <TextField fx:id="passwordTxf" layoutX="47.0" layoutY="162.0" prefHeight="26.0" prefWidth="202.0" promptText="enter your password" />
