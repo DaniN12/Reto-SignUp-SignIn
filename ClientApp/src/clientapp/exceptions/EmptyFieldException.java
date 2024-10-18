@@ -9,9 +9,9 @@ package clientapp.exceptions;
  *
  * @author Enzo
  */
-public class IncorrectPasswordException extends Exception {
+public class EmptyFieldException extends Exception {
 
-    public IncorrectPasswordException(String msg) {
+    public EmptyFieldException(String msg) {
         super(msg);
     }
 }

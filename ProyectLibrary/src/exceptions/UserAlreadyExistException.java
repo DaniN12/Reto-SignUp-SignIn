@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientapp.exceptions;
+package exceptions;
 
 /**
  *
  * @author Enzo
  */
-public class IncorrectPasswordException extends Exception {
+public class UserAlreadyExistException extends Exception {
 
-    public IncorrectPasswordException(String msg) {
+    public UserAlreadyExistException(String msg) {
         super(msg);
     }
+
 }

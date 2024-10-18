@@ -51,3 +51,13 @@
     -fx-border-radius: 0;               /* Elimina bordes redondeados */
     -fx-cursor: hand;                   /* Cursor de mano */
 }
+
+/* Estilo para el botón de mostrar/ocultar contraseña */
+.btnShowPasswd2 {
+    -fx-background-color: transparent;  /* Fondo transparente */
+    -fx-border-color: transparent;      /* Borde transparente */
+    -fx-padding: 0;                     /* Sin padding */
+    -fx-background-radius: 0;           /* Elimina bordes redondeados */
+    -fx-border-radius: 0;               /* Elimina bordes redondeados */
+    -fx-cursor: hand;                   /* Cursor de mano */
+}

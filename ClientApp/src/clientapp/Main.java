@@ -26,7 +26,7 @@ public class Main extends Application {
         
         Parent root = (Parent)loader.load();
         
-        SignUpViewController controller = loader.getController();
+        SignUpViewController controller = (SignUpViewController)loader.getController();
         controller.setStage(stage);
         
         controller.initialize(root);
