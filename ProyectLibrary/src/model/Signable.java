@@ -10,9 +10,9 @@ package model;
  * @author Kelian
  */
 public interface Signable {
-    
-    public User signIn() throws exceptions.UserAlreadyExistException, exceptions.UserDoesntExistExeption;
-    
-    public User signUp() throws exceptions.UserAlreadyExistException, exceptions.UserDoesntExistExeption;
+
+    public User signIn() throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption;
+
+    public User signUp() throws exceptions.UserAlreadyExistException, exceptions.ConnectionErrorException;
 
 }

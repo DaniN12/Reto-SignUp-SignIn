@@ -9,12 +9,15 @@ import clientapp.controller.SignUpViewController;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
+import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Message;
 import model.MessageType;
@@ -33,9 +36,10 @@ public class Client implements Signable {
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
     private MessageType msgType;
     private Message msg;
+    private User user;
 
     @Override
-    public User signIn() throws UserAlreadyExistException, UserDoesntExistExeption {
+    public User signIn() throws UserDoesntExistExeption, ConnectionErrorException {
 
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
@@ -45,19 +49,80 @@ public class Client implements Signable {
             Socket SocketCliente = new Socket(host, port);
             oos = new ObjectOutputStream(SocketCliente.getOutputStream());
             ois = new ObjectInputStream(SocketCliente.getInputStream());
-            msg.setMsg(msgType.SIGNUP_REQUEST);
+            msg.setUser(user);
+            msg.setMsg(msgType.SIGNIN_REQUEST);
             oos.writeObject(msg);
+            msg = (Message) ois.readObject();
+            user = msg.getUser();
+            oos.close();
+            SocketCliente.close();
 
-        } catch (Exception ex) {
+            switch (msgType) {
 
+                case OK_RESPONSE:
+                    return user;
+
+                case USER_ALREADY_EXISTS_RESPONSE:
+                    throw new UserDoesntExistExeption("This user doesn't exist");
+
+                case CONNECTION_ERROR_RESPONSE:
+                    throw new ConnectionErrorException("A problem occurred trying to connect with the server");
+
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserDoesntExistExeption ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionErrorException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
-
+        return user;
     }
 
     @Override
-    public User signUp() throws UserAlreadyExistException, UserDoesntExistExeption {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User signUp() throws UserAlreadyExistException, ConnectionErrorException {
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+
+        try {
+            logger.info("Initializing register...");
+            Socket SocketCliente = new Socket(host, port);
+            oos = new ObjectOutputStream(SocketCliente.getOutputStream());
+            ois = new ObjectInputStream(SocketCliente.getInputStream());
+            msg.setUser(user);
+            msg.setMsg(msgType.SIGNUP_REQUEST);
+            oos.writeObject(msg);
+            msg = (Message) ois.readObject();
+            user = msg.getUser();
+            oos.close();
+            SocketCliente.close();
+
+            switch (msgType) {
+
+                case OK_RESPONSE:
+                    return user;
+
+                case USER_ALREADY_EXISTS_RESPONSE:
+                    throw new UserAlreadyExistException("This user already exist");
+
+                case CONNECTION_ERROR_RESPONSE:
+                    throw new ConnectionErrorException("A problem occurred trying to connect with the server");
+
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserAlreadyExistException ex) {
+
+        } catch (ConnectionErrorException ex) {
+
+        }
+        return user;
     }
 
 }
