@@ -5,11 +5,10 @@
  */
 package clientapp;
 
-import clientapp.controller.SignUpViewController;
+import clientapp.controller.InfoViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -17,20 +16,19 @@ import javafx.stage.Stage;
  * @author 2dam
  */
 public class Main extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         FXMLLoader loader = new FXMLLoader(
-            getClass().getResource("/clientapp/view/SignUpView.fxml"));
-        
-        Parent root = (Parent)loader.load();
-        
-        SignUpViewController controller = loader.getController();
+                getClass().getResource("/clientapp/view/InfoView.fxml"));
+
+        Parent root = (Parent) loader.load();
+        InfoViewController controller = (InfoViewController) loader.getController();
+
         controller.setStage(stage);
-        
         controller.initialize(root);
-        
+
     }
 
     /**
@@ -39,5 +37,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
+
 }
