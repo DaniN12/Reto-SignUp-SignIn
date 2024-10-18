@@ -24,9 +24,21 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
+import clientapp.exceptions.EmptyFieldException;
+import clientapp.exceptions.IncorrectPasswordException;
+import clientapp.exceptions.IncorrectPatternException;
+import exceptions.ConnectionErrorException;
+import exceptions.UserAlreadyExistException;
+import exceptions.UserDoesntExistExeption;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.logging.Level;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
- * FXML Controller class
+ * FXML Controller class of the signUp window
  *
  * @author Kelian and Enzo
  */
@@ -162,6 +174,7 @@ public class SignUpViewController {
         
         //set window's events handlesrs
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
         stage.show();
     }
@@ -169,7 +182,7 @@ public class SignUpViewController {
     /**
      * Method that handles the events that occur before the window opens
      *
-     * @param event
+     * @param event triggers an action, in this case a window opening
      */
     public void handleWindowShowing(WindowEvent event) {
 
@@ -187,8 +200,18 @@ public class SignUpViewController {
         retryButtonEye.setGraphic(repeatbuttonImgView);
 
     }
-
-    public void handleButtonAction(ActionEvent event) {
+  
+    /**
+     * This method handles the event that occurs when the button signUp is
+     * clicked and makes sure that all the conditions to register a user are met
+     *
+     * @param event triggers the action, in this case a button click
+     * @throws UserAlreadyExistException checks if the user already exits
+     * @throws ConnectionErrorException checks if there was an error while connecting
+     * with the server
+     */
+    @FXML
+    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
             User user = SocketFactory.getSignable().signUp();
 
@@ -197,13 +220,108 @@ public class SignUpViewController {
             fullNameTxf.setId("fullName");
             passwordTxf.setId("password");
             passwordPwdf.setId("password");
-            retryPasswordTxf.setId("password");
-            repeatPasswordPwdf.setId("password");
             streetTxf.setId("street");
             cityTxf.setId("city");
             zipTxf.setId("zip");
             checkActive.setId("active");
+          
+            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
+                throw new EmptyFieldException("Fields are empty, all filds need to be filled");
+
+            } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
+
+                throw new IncorrectPasswordException("The password fields do not match");
+
+            } else if (!emailTxf.getText().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+
+                throw new IncorrectPatternException("The email has to have a email format, don't forget the @");
+            } else if (!zipTxf.getText().matches("\\d+")) {
+
+                throw new IncorrectPatternException("The zip has to be an Integer");
+            }
+
+        } catch (IncorrectPasswordException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (IncorrectPatternException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (EmptyFieldException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        }
+
+    }
+
+    /**
+     * This method handles the event that occur when the button to go back to
+     * the signIn window is pressed
+     *
+     * @param event triggers an action, in this case a button click
+     */
+    @FXML
+    public void backButtonAction(ActionEvent event) {
+
+        try {
+            // Load DOM form FXML view
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/clientapp/view/SignInView.fxml"));
+            Parent root = (Parent) loader.load();
+            // Retrieve the controller associated with the view
+            SignInController controller = loader.getController();
+            //Check if there is a RuntimeException while opening the view
+            if (controller == null) {
+                throw new RuntimeException("Failed to load SignInController");
+            }
+
+            if (stage == null) {
+                throw new RuntimeException("Stage is not initialized");
+            }
+            controller.setStage(stage);
+            //Initializes the controller with the loaded view
+            controller.initialize(root);
+
+        } catch (IOException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+        } catch (RuntimeException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+        }
+    }
+
+    /**
+     * This method handles the close request for the application
+     *
+     * @param event triggers an action, in this case a close request when the
+     * user attemps to close the window
+     */
+    @FXML
+    public void onCloseRequest(WindowEvent event) {
+
+        //Create an alert to make sure that the user wants to close the application
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //set the alert message and title
+        alert.setHeaderText(null);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+
+        //create a variable to compare the button type
+        Optional<ButtonType> answer = alert.showAndWait();
+
+        //Condition to close the application
+        if (answer.get() == ButtonType.OK) {
+            //if the answer is ok the app will close
+            Platform.exit();
+        } else {
+            //else the alert will dispose and the user will continue in the app
+            event.consume()
         } catch (Exception e) {
             logger.severe("Error during sign-up: " + e.getMessage());
             // Handle the error appropriately (show an alert, log it, etc.)
@@ -244,7 +362,7 @@ public class SignUpViewController {
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-            passwordVisible = false;
+            passwordVisible = false
         }
     }
 
