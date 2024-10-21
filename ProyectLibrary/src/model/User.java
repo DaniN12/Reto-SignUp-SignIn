@@ -34,7 +34,7 @@ public class User implements Serializable {
         this.zip = zip;
         this.active = active;
     }
-
+    
     public String getEmail() {
         return email;
     }

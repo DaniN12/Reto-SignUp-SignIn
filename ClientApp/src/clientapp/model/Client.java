@@ -5,6 +5,7 @@
  */
 package clientapp.model;
 
+
 import clientapp.controller.SignUpViewController;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
@@ -38,7 +39,6 @@ public class Client implements Signable {
     private Message msg;
     private User user;
 
-    @Override
     public User signIn() throws UserDoesntExistExeption, ConnectionErrorException {
 
         ObjectOutputStream oos = null;
@@ -124,5 +124,4 @@ public class Client implements Signable {
         }
         return user;
     }
-
 }

@@ -129,11 +129,13 @@ public class SignUpViewController {
     @FXML
     private Button returnButton;
 
+
     @FXML
     private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
 
     @FXML
     private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
+
 
     @FXML
     private ImageView buttonImgView;
@@ -169,10 +171,14 @@ public class SignUpViewController {
         stage.setTitle("Sign Up");
         stage.setResizable(false);
 
+
         buttonImgView = new ImageView(passwd);
         repeatbuttonImgView = new ImageView(passwd);
 
-        //set window's events handlers
+
+
+        //set window's events handlesrs
+
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
@@ -195,9 +201,9 @@ public class SignUpViewController {
         // to write in both passwordFields and textFields at the same time
         passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
         retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
-        //set the ImageView un the button
-        buttonEye.setGraphic(buttonImgView);
-        retryButtonEye.setGraphic(repeatbuttonImgView);
+        //put the images in the imageviews
+        buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
 
     }
 
@@ -322,20 +328,22 @@ public class SignUpViewController {
         } else {
             //else the alert will dispose and the user will continue in the app
             event.consume();
-        }
-    }
 
-    public void showPassword(ActionEvent event) {
+        }
+
+    }
+    
+    public void showPassword() {
 
         if (!passwordVisible) {
-            buttonImgView.setImage(showingPasswd);
+            buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             passwordPwdf.setVisible(false);
             passwordPwdf.setManaged(false);
             passwordTxf.setVisible(true);
             passwordTxf.setManaged(true);
             passwordVisible = true;
         } else {
-            buttonImgView.setImage(passwd);
+            buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             passwordTxf.setVisible(false);
             passwordTxf.setManaged(false);
             passwordPwdf.setVisible(true);
@@ -347,19 +355,23 @@ public class SignUpViewController {
     public void retryShowPassword(ActionEvent event) {
 
         if (!repeatpasswordVisible) {
-            repeatbuttonImgView.setImage(showingPasswd);
+            repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             repeatPasswordPwdf.setVisible(false);
             repeatPasswordPwdf.setManaged(false);
             retryPasswordTxf.setVisible(true);
             retryPasswordTxf.setManaged(true);
-            passwordVisible = true;
+            repeatpasswordVisible = true;
         } else {
-            repeatbuttonImgView.setImage(passwd);
+            repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             retryPasswordTxf.setVisible(false);
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
+
             passwordVisible = false;
+
+            repeatpasswordVisible = false;
+
         }
     }
 

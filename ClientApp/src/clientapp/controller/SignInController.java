@@ -5,9 +5,18 @@
  */
 package clientapp.controller;
 
-
 import javafx.scene.image.Image;
 import java.io.IOException;
+
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+
+import java.util.Optional;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +33,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -39,6 +49,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -64,11 +75,11 @@ public class SignInController {
     @FXML
     private PasswordField PasswordField;
 
-  
     @FXML
     private Button btnShowPassword = new Button();
 
     @FXML
+
     private Button btnSigin = new Button();
 
     @FXML
@@ -79,21 +90,26 @@ public class SignInController {
 
     @FXML
     private boolean passwordVisible = false;
-    
+
     @FXML
     private ImageView ImageViewEye = new ImageView();
-    
+
     @FXML
+    private Button btnSigIn;
+
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+
     private PasswordField passwordField;
 
     @FXML
     private Label errorLabel;
-    
+
     private Stage stage;
 
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
-    
-    
 
     public void initialize(Parent root) {
 
@@ -114,21 +130,26 @@ public class SignInController {
         stage.show();
     }
 
-
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
-    protected void handleSignIn() {
-        String email = txtFieldEmail.getText();
-        String password = PasswordField.getText();
+    public void handleSignIn() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/clientapp/view/InfoView.fxml"));
 
-        // Ocultar el lblError cada vez que se intenta hacer Sign In
-        lblError.setVisible(false);
+        Parent root = (Parent) loader.load();
+        InfoViewController controller = (InfoViewController) loader.getController();
+
+        controller.setStage(stage);
+        controller.initialize(root);
+
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
         // Verificar si los campos están vacíos
-        if (email.isEmpty() && password.isEmpty()) {
+        if (txtFieldEmail.getText().isEmpty() && password.isEmpty()) {
             lblError.setText("Please enter both email and password.");
             lblError.setVisible(true);  // Mostrar el mensaje de error
-        } else if (email.isEmpty()) {
+        } else if (txtFieldEmail.getText().isEmpty()) {
             lblError.setText("Please enter your email.");
             lblError.setVisible(true);  // Mostrar el mensaje de error
         } else if (password.isEmpty()) {
@@ -136,7 +157,7 @@ public class SignInController {
             lblError.setVisible(true);  // Mostrar el mensaje de error
         } else {
             // Aquí puedes añadir la lógica para validar las credenciales
-            if (validateCredentials(email, password)) {
+            if (validateCredentials(txtFieldEmail.getText(), password)) {
                 lblError.setText("Sign in successful!");
                 lblError.setVisible(false);  // Ocultar el mensaje si el inicio de sesión es exitoso
             } else {
@@ -175,9 +196,9 @@ public class SignInController {
         alert.showAndWait();
     }
 
-    // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
-    @FXML
-    private void handleHyperLinkAction(ActionEvent event) {
+// Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
+@FXML
+        private void handleHyperLinkAction(ActionEvent event) {
         try {
             // Cargar el archivo FXML de la nueva ventana (SignUpView)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
@@ -202,7 +223,7 @@ public class SignInController {
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
             showAlert("Error", "Failed to load SignUpView.fxml", Alert.AlertType.ERROR);
-        }
+}
     }
 
     public void showPassword(ActionEvent event) {
@@ -224,5 +245,5 @@ public class SignInController {
         }
     }
     
-    
+
 }
