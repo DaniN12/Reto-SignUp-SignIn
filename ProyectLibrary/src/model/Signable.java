@@ -10,9 +10,9 @@ package model;
  * @author Kelian
  */
 public interface Signable {
-    
-    public User signIn() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException;
-    
-    public User signUp() throws exceptions.EmptyFieldException, exceptions.IncorrectPasswordException, exceptions.IncorrectPatternException;
+
+    public User signIn() throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption;
+
+    public User signUp() throws exceptions.UserAlreadyExistException, exceptions.ConnectionErrorException;
 
 }
