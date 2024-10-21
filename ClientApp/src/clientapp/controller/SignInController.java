@@ -5,33 +5,16 @@
  */
 package clientapp.controller;
 
+
+import javafx.scene.image.Image;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -40,6 +23,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -66,23 +50,36 @@ public class SignInController {
     @FXML
     private PasswordField PasswordField;
 
+  
     @FXML
-    private Button btnField;
+    private Button btnShowPassword = new Button();
 
     @FXML
-    private Button btnShowPassword;
-
-    @FXML
-    private Button btnSigin;
+    private Button btnSigin = new Button();
 
     @FXML
     private Hyperlink HyperLinkRegistered;
 
+    @FXML
     private Label label;
 
+    @FXML
+    private boolean passwordVisible = false;
+    
+    @FXML
+    private ImageView ImageViewEye = new ImageView();
+    
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Label errorLabel;
+    
     private Stage stage;
 
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+    
+    
 
     public void initialize(Parent root) {
 
@@ -94,19 +91,15 @@ public class SignInController {
         //set window properties
         stage.setTitle("Sign In");
         stage.setResizable(false);
+        txtFieldPassword.setVisible(false);
+        txtFieldPassword.textProperty().bindBidirectional(PasswordField.textProperty());
+        ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlesrs
         //stage.setOnShowing(this::handleWindowShowing);
         //show primary window
         stage.show();
     }
 
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private Label errorLabel;
 
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
@@ -198,4 +191,24 @@ public class SignInController {
         }
     }
 
+    public void showPassword(ActionEvent event) {
+
+        if (!passwordVisible) {
+            ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
+            PasswordField.setVisible(false);
+            PasswordField.setManaged(false);
+            txtFieldPassword.setVisible(true);
+            txtFieldPassword.setManaged(true);
+            passwordVisible = true;
+        } else {
+            ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+            txtFieldPassword.setVisible(false);
+            txtFieldPassword.setManaged(false);
+            PasswordField.setVisible(true);
+            PasswordField.setManaged(true);
+            passwordVisible = false;
+        }
+    }
+    
+    
 }
