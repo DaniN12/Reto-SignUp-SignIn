@@ -172,7 +172,7 @@ public class SignUpViewController {
         buttonImgView = new ImageView(passwd);
         repeatbuttonImgView = new ImageView(passwd);
 
-        //set window's events handlesrs
+        //set window's events handlers
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window

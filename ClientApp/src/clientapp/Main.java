@@ -5,6 +5,7 @@
  */
 package clientapp;
 
+import clientapp.controller.SignInController;
 import clientapp.controller.SignUpViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,10 +30,10 @@ public class Main extends Application {
 
         // Load DOM form FXML view
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/SignUpView.fxml"));
+                getClass().getResource("/clientapp/view/SignInView.fxml"));
         Parent root = (Parent) loader.load();
         // Retrieve the controller associated with the view
-        SignUpViewController controller = (SignUpViewController) loader.getController();
+        SignInController controller = (SignInController) loader.getController();
         controller.setStage(stage);
         //Initializes the controller with the loaded view
         controller.initialize(root);
