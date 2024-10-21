@@ -6,6 +6,14 @@
 package clientapp.controller;
 
 import java.io.IOException;
+
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,15 +50,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.User;
+
 
 /**
  *
  * @author 2dam
  */
-public class SignInController {
+public class SignInController  {
+
 
     @FXML
     private Label lblEmail;
+
     
     @FXML
     private Label lblPassword;
@@ -74,51 +86,12 @@ public class SignInController {
     private Button btnShowPassword;
     
      @FXML
-    private Button btnSigin;
+    private Button btnSigIn;
     
     @FXML
     private Hyperlink HyperLinkRegistered;
-    
-    
-    
-    /**
-     * method that initiates the stage and sets/prepares the values inside of
-     * it.
-     *
-     * @param root
-     */
-    public void initStage(Parent root) {
-    }
-
-    
-    private Label label;
-
-    private Stage stage;
-
-    private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
-
+      
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-
-    public void initialize(Parent root) {
-
-        logger.info("Initializing SignIp stage.");
-        //create a scene associated the node graph root
-        Scene scene = new Scene(root);
-        //Associate scene to primaryStage(Window)
-        stage.setScene(scene);
-        //set window properties
-        stage.setTitle("Sign Up");
-        stage.setResizable(false);
-        //set window's events handlesrs
-        //stage.setOnShowing(this::handleWindowShowing);
-        //show primary window
-        stage.show();
-    }
-
     private TextField usernameField;
 
     @FXML
@@ -126,10 +99,29 @@ public class SignInController {
 
     @FXML
     private Label errorLabel;
+    
+      /**
+     * logger to show the steps of the application by console
+     */
+    private Logger logger = Logger.getLogger(SignInController.class.getName());
+
+    /**
+     * stage for the view
+     */
+    private Stage stage;
 
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
-    protected void handleSignIn() {
+    protected void handleSignIn() throws IOException {
+         FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/clientapp/view/InfoView.fxml"));
+
+        Parent root = (Parent) loader.load();
+        InfoViewController controller = (InfoViewController) loader.getController();
+
+        controller.setStage(stage);
+        controller.initialize(root);
+       
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -146,6 +138,22 @@ public class SignInController {
         }
     }
 
+    public void initialize(Parent root) {
+
+        logger.info("Initializing SignIn stage.");
+        //create a scene associated the node graph root
+        Scene scene = new Scene(root);
+        //Associate scene to primaryStage(Window)
+        stage.setScene(scene);
+        //set window properties
+        stage.setTitle("Sign In");
+        stage.setResizable(false);
+        //set window's events handlesrs
+        //stage.setOnShowing(this::handleWindowShowing);
+        //show primary window
+        stage.show();
+    }
+
 
     // Método que simula la validación de credenciales
     private boolean validateCredentials(String username, String password) {
@@ -160,6 +168,5 @@ public class SignInController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }
 
