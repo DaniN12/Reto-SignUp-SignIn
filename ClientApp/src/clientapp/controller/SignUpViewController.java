@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,16 +18,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
+import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -40,98 +46,114 @@ import javafx.scene.control.ButtonType;
 public class SignUpViewController {
 
     /**
-     * textField for email
+     * TextField for email
      */
     @FXML
     private TextField emailTxf;
 
     /**
-     * textField for full name
+     * TextField for full name
      */
     @FXML
     private TextField fullNameTxf;
 
     /**
-     * textField for password
+     * TextField for password (visible)
      */
     @FXML
     private TextField passwordTxf;
 
     /**
-     * passwordField for password
+     * PasswordField for password (hidden)
      */
     @FXML
     private PasswordField passwordPwdf;
 
     /**
-     * textField for retrypassword
+     * TextField for retry password (visible)
      */
     @FXML
     private TextField retryPasswordTxf;
 
     /**
-     * passwordField for retry password
+     * PasswordField for retry password (hidden)
      */
     @FXML
     private PasswordField repeatPasswordPwdf;
 
     /**
-     * textField for street
+     * TextField for street
      */
     @FXML
     private TextField streetTxf;
 
     /**
-     * textField for city
+     * TextField for city
      */
     @FXML
     private TextField cityTxf;
 
     /**
-     * textField for zip
+     * TextField for zip
      */
     @FXML
     private TextField zipTxf;
 
     /**
-     * button to show password
+     * Button to show password
      */
     @FXML
-    private Button buttonEye;
+    private Button buttonEye = new Button();
 
     /**
-     * button to show password in retry password
+     * Button to show password in retry password
      */
     @FXML
-    private Button retryButtonEye;
+    private Button retryButtonEye = new Button();
 
     /**
-     * checkBox to know if the user is active or not
+     * CheckBox to know if the user is active or not
      */
     @FXML
     private CheckBox checkActive;
 
     /**
-     * button to signUp
+     * Button to sign up
      */
     @FXML
     private Button signUpButton;
 
     /**
-     * button to return to the main window
+     * Button to return to the main window
      */
     @FXML
     private Button returnButton;
 
+    @FXML
+    private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
+
+    @FXML
+    private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
+
+    @FXML
+    private ImageView buttonImgView;
+
+    @FXML
+    private ImageView repeatbuttonImgView;
+
     /**
-     * logger to show the steps of the application by console
+     * Logger to show the steps of the application in the console
      */
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
 
     /**
-     * stage for the view
+     * Stage for the view
      */
     private Stage stage;
+
+    private boolean passwordVisible = false;
+
+    private boolean repeatpasswordVisible = false;
 
     /**
      * Initializes the controller class.
@@ -146,14 +168,19 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-        //set window's events handlesrs
+
+        buttonImgView = new ImageView(passwd);
+        repeatbuttonImgView = new ImageView(passwd);
+
+        //set window's events handlers
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
         stage.show();
     }
 
     /**
-     * method that handles the events that occur before the window opens
+     * Method that handles the events that occur before the window opens
      *
      * @param event triggers an action, in this case a window opening
      */
@@ -162,10 +189,15 @@ public class SignUpViewController {
         logger.info("Beginning SignUpViewController::handleWindowShowing");
         // hide the password textfields
         passwordTxf.setVisible(false);
+        passwordTxf.setManaged(false);
         retryPasswordTxf.setVisible(false);
+        retryPasswordTxf.setManaged(false);
         // to write in both passwordFields and textFields at the same time
         passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
         retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
+        //set the ImageView un the button
+        buttonEye.setGraphic(buttonImgView);
+        retryButtonEye.setGraphic(repeatbuttonImgView);
 
     }
 
@@ -175,14 +207,15 @@ public class SignUpViewController {
      *
      * @param event triggers the action, in this case a button click
      * @throws UserAlreadyExistException checks if the user already exits
-     * @throws UserDoesntExistExeption checks if the user doesn't exist
+     * @throws ConnectionErrorException checks if there was an error while
+     * connecting with the server
      */
     @FXML
-    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, UserDoesntExistExeption {
-
+    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
             User user = SocketFactory.getSignable().signUp();
 
+            // Set IDs for the fields (this may depend on how you're using them)
             emailTxf.setId("email");
             fullNameTxf.setId("fullName");
             passwordTxf.setId("password");
@@ -209,28 +242,38 @@ public class SignUpViewController {
             }
 
         } catch (IncorrectPasswordException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (IncorrectPatternException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (EmptyFieldException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
 
     }
 
+    /**
+     * This method handles the event that occur when the button to go back to
+     * the signIn window is pressed
+     *
+     * @param event triggers an action, in this case a button click
+     */
     @FXML
     public void backButtonAction(ActionEvent event) {
 
         try {
+            // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/clientapp/view/SignInView.fxml"));
-
             Parent root = (Parent) loader.load();
-
+            // Retrieve the controller associated with the view
             SignInController controller = loader.getController();
+            //Check if there is a RuntimeException while opening the view
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignInController");
             }
@@ -238,16 +281,85 @@ public class SignUpViewController {
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
-
             controller.setStage(stage);
+            //Initializes the controller with the loaded view
             controller.initialize(root);
 
         } catch (IOException ex) {
+            // Logs the error and displays an alert messsage
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
+            // Logs the error and displays an alert messsage
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+        }
+    }
+
+    /**
+     * This method handles the close request for the application
+     *
+     * @param event triggers an action, in this case a close request when the
+     * user attemps to close the window
+     */
+    @FXML
+    public void onCloseRequest(WindowEvent event) {
+
+        //Create an alert to make sure that the user wants to close the application
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //set the alert message and title
+        alert.setHeaderText(null);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+
+        //create a variable to compare the button type
+        Optional<ButtonType> answer = alert.showAndWait();
+
+        //Condition to close the application
+        if (answer.get() == ButtonType.OK) {
+            //if the answer is ok the app will close
+            Platform.exit();
+        } else {
+            //else the alert will dispose and the user will continue in the app
+            event.consume();
+        }
+    }
+
+    public void showPassword(ActionEvent event) {
+
+        if (!passwordVisible) {
+            buttonImgView.setImage(showingPasswd);
+            passwordPwdf.setVisible(false);
+            passwordPwdf.setManaged(false);
+            passwordTxf.setVisible(true);
+            passwordTxf.setManaged(true);
+            passwordVisible = true;
+        } else {
+            buttonImgView.setImage(passwd);
+            passwordTxf.setVisible(false);
+            passwordTxf.setManaged(false);
+            passwordPwdf.setVisible(true);
+            passwordPwdf.setManaged(true);
+            passwordVisible = false;
+        }
+    }
+
+    public void retryShowPassword(ActionEvent event) {
+
+        if (!repeatpasswordVisible) {
+            repeatbuttonImgView.setImage(showingPasswd);
+            repeatPasswordPwdf.setVisible(false);
+            repeatPasswordPwdf.setManaged(false);
+            retryPasswordTxf.setVisible(true);
+            retryPasswordTxf.setManaged(true);
+            passwordVisible = true;
+        } else {
+            repeatbuttonImgView.setImage(passwd);
+            retryPasswordTxf.setVisible(false);
+            retryPasswordTxf.setManaged(false);
+            repeatPasswordPwdf.setVisible(true);
+            repeatPasswordPwdf.setManaged(true);
+            passwordVisible = false;
         }
     }
 
@@ -258,5 +370,4 @@ public class SignUpViewController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }
