@@ -52,11 +52,6 @@ public class SignInController  {
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
     protected void handleSignIn() throws IOException {
-        User u = new User(email,street,city,zip);
-        
-        
-        
-        
          FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/clientapp/view/InfoView.fxml"));
 

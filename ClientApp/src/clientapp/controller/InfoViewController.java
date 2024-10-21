@@ -25,7 +25,7 @@ import javafx.stage.WindowEvent;
 /**
  * FXML Controller class
  *
- * @author 2dam
+ * @author ruth
  */
 public class InfoViewController {
 
@@ -70,6 +70,16 @@ public class InfoViewController {
     
     @FXML
     private TextField zipTextF;
+    
+       /**
+     * logger to show the steps of the application by console
+     */
+    private Logger logger = Logger.getLogger(InfoViewController.class.getName());
+
+    /**
+     * stage for the view
+     */
+    private Stage stage;
     
     
     @FXML
@@ -117,20 +127,9 @@ public class InfoViewController {
         }
     }
 
-     /**
-     * logger to show the steps of the application by console
-     */
-    private Logger logger = Logger.getLogger(InfoViewController.class.getName());
-
-    /**
-     * stage for the view
-     */
-    private Stage stage;
-
     /**
      * Initializes the controller class.
      */
-  
     public void initialize(Parent root) {
         logger.info("Initializing InfoView stage.");
         //create a scene associated the node graph root
