@@ -143,7 +143,7 @@ public class SignUpViewController {
     /**
      * Stage for the view
      */
-    private Stage stage = new Stage();
+    private Stage stage;
 
     private boolean passwordVisible = false;
 
@@ -162,9 +162,17 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-
+         passwordTxf.setVisible(false);
+        passwordTxf.setManaged(false);
+        retryPasswordTxf.setVisible(false);
+        retryPasswordTxf.setManaged(false);
+        passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
+        retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
+        //put the images in the imageviews
+        buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlers
-        stage.setOnShowing(this::handleWindowShowing);
+        //on showing doesn't work (stage.setOnShowing(this::handleWindowShowing);)
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
         stage.show();
@@ -217,7 +225,7 @@ public class SignUpViewController {
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
-                throw new EmptyFieldException("Fields are empty, all filds need to be filled");
+                throw new EmptyFieldException("Fields are empty, all fields need to be filled");
 
             } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
 

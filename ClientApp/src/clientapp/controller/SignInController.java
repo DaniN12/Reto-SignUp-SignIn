@@ -5,7 +5,6 @@
  */
 package clientapp.controller;
 
-
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -64,7 +63,6 @@ public class SignInController {
     @FXML
     private PasswordField PasswordField;
 
-  
     @FXML
     private Button btnShowPassword = new Button();
 
@@ -79,25 +77,23 @@ public class SignInController {
 
     @FXML
     private boolean passwordVisible = false;
-    
+
     @FXML
     private ImageView ImageViewEye = new ImageView();
-    
+
     @FXML
     private PasswordField passwordField;
 
     @FXML
     private Label errorLabel;
-    
+
     private Stage stage;
 
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
-    
-    
 
     public void initialize(Parent root) {
 
-        logger.info("Initializing SignUp stage.");
+        logger.info("Initializing SignIn stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
         //Associate scene to primaryStage(Window)
@@ -113,7 +109,6 @@ public class SignInController {
         //show primary window
         stage.show();
     }
-
 
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
@@ -178,30 +173,34 @@ public class SignInController {
     // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
+
         try {
-            // Cargar el archivo FXML de la nueva ventana (SignUpView)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
-            Parent root = loader.load();
+            // Load DOM form FXML view
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/clientapp/view/SignUpView.fxml"));
+            Parent root = (Parent) loader.load();
+            // Retrieve the controller associated with the view
+            SignUpViewController controller = (SignUpViewController) loader.getController();
+            //Check if there is a RuntimeException while opening the view
+            if (controller == null) {
+                throw new RuntimeException("Failed to load SignUpController");
+            }
 
-            // Crear una nueva escena con la nueva vista cargada
-            Scene scene = new Scene(root);
-
-            // Obtener la referencia al escenario actual y cerrarlo
-            Stage currentStage = (Stage) HyperLinkRegistered.getScene().getWindow();
-            currentStage.close();
-
-            // Crear un nuevo escenario (ventana) para la nueva vista
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.setTitle("Sign Up");
-            newStage.setResizable(false);
-
-            // Mostrar la nueva ventana
-            newStage.show();
+            if (stage == null) {
+                throw new RuntimeException("Stage is not initialized");
+            }
+            controller.setStage(stage);
+            //Initializes the controller with the loaded view
+            controller.initialize(root);
 
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-            showAlert("Error", "Failed to load SignUpView.fxml", Alert.AlertType.ERROR);
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+        } catch (RuntimeException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
 
@@ -223,6 +222,5 @@ public class SignInController {
             passwordVisible = false;
         }
     }
-    
-    
+
 }
