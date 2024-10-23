@@ -36,10 +36,10 @@ public class Client implements Signable {
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
     private MessageType msgType;
     private Message msg;
-    private User user;
+   // private User user;
 
     @Override
-    public User signIn() throws UserDoesntExistExeption, ConnectionErrorException {
+    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException {
 
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
@@ -83,7 +83,7 @@ public class Client implements Signable {
     }
 
     @Override
-    public User signUp() throws UserAlreadyExistException, ConnectionErrorException {
+    public User signUp(User user) throws UserAlreadyExistException, ConnectionErrorException {
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
 

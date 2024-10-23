@@ -37,6 +37,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import model.Signable;
 
 /**
  * FXML Controller class of the signUp window
@@ -149,6 +150,8 @@ public class SignUpViewController {
 
     private boolean repeatpasswordVisible = false;
 
+    private Signable sign;
+
     /**
      * Initializes the controller class.
      */
@@ -162,7 +165,7 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-         passwordTxf.setVisible(false);
+        passwordTxf.setVisible(false);
         passwordTxf.setManaged(false);
         retryPasswordTxf.setVisible(false);
         retryPasswordTxf.setManaged(false);
@@ -211,17 +214,6 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            User user = SocketFactory.getSignable().signUp();
-
-            // Set IDs for the fields (this may depend on how you're using them)
-            emailTxf.setId("email");
-            fullNameTxf.setId("fullName");
-            passwordTxf.setId("password");
-            passwordPwdf.setId("password");
-            streetTxf.setId("street");
-            cityTxf.setId("city");
-            zipTxf.setId("zip");
-            checkActive.setId("active");
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
@@ -237,6 +229,41 @@ public class SignUpViewController {
             } else if (!zipTxf.getText().matches("\\d+")) {
 
                 throw new IncorrectPatternException("The zip has to be an Integer");
+            } else {
+                User user = new User();
+
+                user.setEmail(emailTxf.getText());
+                user.setFullName(fullNameTxf.getText());
+                user.setPassword(passwordTxf.getText());
+                user.setStreet(streetTxf.getText());
+                user.setCity(cityTxf.getText());
+                user.setZip(Integer.parseInt(zipTxf.getText()));
+                user.setActive(checkActive.isSelected());
+
+                SocketFactory socket = new SocketFactory();
+                sign = socket.getSignable();
+                sign.signUp(user);
+                //Create an alert to make sure that the user wants to close the application
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                //set the alert message and title
+                alert.setHeaderText(null);
+                alert.setTitle("Sign Up");
+                alert.setContentText("The new user has been correctly created");
+
+                //create a variable to compare the button type
+                Optional<ButtonType> answer = alert.showAndWait();
+                if (answer.get() == ButtonType.OK) {
+                    emailTxf.setText("");
+                    fullNameTxf.setText("");
+                    passwordTxf.setText("");
+                    passwordPwdf.setText("");
+                    retryPasswordTxf.setText("");
+                    repeatPasswordPwdf.setText("");
+                    streetTxf.setText("");
+                    cityTxf.setText("");
+                    zipTxf.setText("");
+                    event.consume();
+                }
             }
 
         } catch (IncorrectPasswordException ex) {

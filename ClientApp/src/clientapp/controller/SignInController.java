@@ -41,7 +41,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author 2dam
+ * @author Dani and Ruth
  */
 public class SignInController {
 
@@ -67,7 +67,7 @@ public class SignInController {
     private Button btnShowPassword = new Button();
 
     @FXML
-    private Button btnSigin = new Button();
+    private Button btnSignIn = new Button();
 
     @FXML
     private Hyperlink HyperLinkRegistered;
@@ -190,6 +190,7 @@ public class SignInController {
                 throw new RuntimeException("Stage is not initialized");
             }
             controller.setStage(stage);
+
             //Initializes the controller with the loaded view
             controller.initialize(root);
 
