@@ -7,30 +7,38 @@ package clientapp.controller;
 
 import javafx.scene.image.Image;
 import java.io.IOException;
+import java.util.Optional;
 
 import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.User;
+import clientapp.model.SocketFactory;
+import exceptions.ConnectionErrorException;
+import exceptions.UserDoesntExistExeption;
+import model.Signable;
 
 /**
  *
  * @author 2dam
  */
 public class SignInController {
+
 
     @FXML
     private Label lblEmail;
@@ -81,6 +89,8 @@ public class SignInController {
 
     @FXML
     private Label errorLabel;
+    
+    private Signable signable;
 
     private Stage stage;
 
@@ -108,36 +118,39 @@ public class SignInController {
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
     public void handleSignIn() throws IOException {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/InfoView.fxml"));
-
-        Parent root = (Parent) loader.load();
-        InfoViewController controller = (InfoViewController) loader.getController();
-
-        controller.setStage(stage);
-        controller.initialize(root);
-
         String email = txtFieldEmail.getText();
         String password = passwordField.getText();
+        SocketFactory socketFactory = new SocketFactory();
+        User user = new User();
 
         // Verificar si los campos están vacíos
-        if (txtFieldEmail.getText().isEmpty() && password.isEmpty()) {
+        if (email.isEmpty() && password.isEmpty()) {
             lblError.setText("Please enter both email and password.");
-            lblError.setVisible(true);  // Mostrar el mensaje de error
-        } else if (txtFieldEmail.getText().isEmpty()) {
+            lblError.setVisible(true);
+        } else if (email.isEmpty()) {
             lblError.setText("Please enter your email.");
-            lblError.setVisible(true);  // Mostrar el mensaje de error
+            lblError.setVisible(true);
         } else if (password.isEmpty()) {
             lblError.setText("Please enter your password.");
-            lblError.setVisible(true);  // Mostrar el mensaje de error
+            lblError.setVisible(true);
         } else {
-            // Aquí puedes añadir la lógica para validar las credenciales
-            if (validateCredentials(txtFieldEmail.getText(), password)) {
+            // Llama al método signIn de DBUserDataAccessor
+            signable = socketFactory.getSignable();
+            try {
+                signable.signIn(user);
+            } catch (ConnectionErrorException ex) {
+                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UserDoesntExistExeption ex) {
+                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (user != null) {
                 lblError.setText("Sign in successful!");
-                lblError.setVisible(false);  // Ocultar el mensaje si el inicio de sesión es exitoso
+                lblError.setVisible(false);
+                // Aquí puedes redirigir a otra vista o realizar acciones adicionales
             } else {
                 lblError.setText("Invalid email or password.");
-                lblError.setVisible(true);  // Mostrar el mensaje de error
+                lblError.setVisible(true);
             }
         }
     }
@@ -170,36 +183,68 @@ public class SignInController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    
+    
+    @FXML
+    public void onCloseRequest(WindowEvent event) {
+
+        //Create an alert to make sure that the user wants to close the application
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //set the alert message and title
+        alert.setHeaderText(null);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+
+        //create a variable to compare the button type
+        Optional<ButtonType> answer = alert.showAndWait();
+
+        //Condition to close the application
+        if (answer.get() == ButtonType.OK) {
+            //if the answer is ok the app will close
+            Platform.exit();
+        } else {
+            //else the alert will dispose and the user will continue in the app
+            event.consume();
+
+        }
+
+    }
+    
 
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
-@FXML
-        private void handleHyperLinkAction(ActionEvent event) {
-        try {
-            // Cargar el archivo FXML de la nueva ventana (SignUpView)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
-            Parent root = loader.load();
+    @FXML
+    private void handleHyperLinkAction(ActionEvent event) {
+       try {
+            // Load DOM form FXML view
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/clientapp/view/SignUpView.fxml"));
+            Parent root = (Parent) loader.load();
+            // Retrieve the controller associated with the view
+            SignUpViewController controller = (SignUpViewController) loader.getController();
+            //Check if there is a RuntimeException while opening the view
+            if (controller == null) {
+                throw new RuntimeException("Failed to load SignUpController");
+            }
 
-            // Crear una nueva escena con la nueva vista cargada
-            Scene scene = new Scene(root);
+            if (stage == null) {
+                throw new RuntimeException("Stage is not initialized");
+            }
+            controller.setStage(stage);
 
-            // Obtener la referencia al escenario actual y cerrarlo
-            Stage currentStage = (Stage) HyperLinkRegistered.getScene().getWindow();
-            currentStage.close();
-
-            // Crear un nuevo escenario (ventana) para la nueva vista
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.setTitle("Sign Up");
-            newStage.setResizable(false);
-
-            // Mostrar la nueva ventana
-            newStage.show();
+            //Initializes the controller with the loaded view
+            controller.initialize(root);
 
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-            showAlert("Error", "Failed to load SignUpView.fxml", Alert.AlertType.ERROR);
-}
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+        } catch (RuntimeException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+        }
     }
+
 
     public void showPassword(ActionEvent event) {
 
@@ -219,6 +264,5 @@ public class SignInController {
             passwordVisible = false;
         }
     }
-    
 
 }

@@ -37,6 +37,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import model.Signable;
 
 /**
  * FXML Controller class of the signUp window
@@ -129,19 +130,12 @@ public class SignUpViewController {
     @FXML
     private Button returnButton;
 
-
-    @FXML
-    private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
-
-    @FXML
-    private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
-
-
     @FXML
     private ImageView buttonImgView;
 
     @FXML
     private ImageView repeatbuttonImgView;
+
 
     /**
      * Logger to show the steps of the application in the console
@@ -157,10 +151,7 @@ public class SignUpViewController {
 
     private boolean repeatpasswordVisible = false;
 
-    /**
-     * Initializes the controller class.
-     */
-    public void initialize(Parent root) {
+     public void initialize(Parent root) {
 
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
@@ -170,20 +161,22 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-
-
-        buttonImgView = new ImageView(passwd);
-        repeatbuttonImgView = new ImageView(passwd);
-
-
-
-        //set window's events handlesrs
-
-        stage.setOnShowing(this::handleWindowShowing);
+        passwordTxf.setVisible(false);
+        passwordTxf.setManaged(false);
+        retryPasswordTxf.setVisible(false);
+        retryPasswordTxf.setManaged(false);
+        passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
+        retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
+        //put the images in the imageviews
+        buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        //set window's events handlers
+        //on showing doesn't work (stage.setOnShowing(this::handleWindowShowing);)
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
         stage.show();
     }
+
 
     /**
      * Method that handles the events that occur before the window opens
@@ -204,10 +197,10 @@ public class SignUpViewController {
         //put the images in the imageviews
         buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-
     }
 
-    /**
+
+   /**
      * This method handles the event that occurs when the button signUp is
      * clicked and makes sure that all the conditions to register a user are met
      *
@@ -219,21 +212,18 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            User user = SocketFactory.getSignable().signUp();
 
-            // Set IDs for the fields (this may depend on how you're using them)
-            emailTxf.setId("email");
+            /* emailTxf.setId("email");
             fullNameTxf.setId("fullName");
             passwordTxf.setId("password");
             passwordPwdf.setId("password");
             streetTxf.setId("street");
             cityTxf.setId("city");
             zipTxf.setId("zip");
-            checkActive.setId("active");
-
+            checkActive.setId("active");*/
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
-                throw new EmptyFieldException("Fields are empty, all filds need to be filled");
+                throw new EmptyFieldException("Fields are empty, all fields need to be filled");
 
             } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
 
@@ -245,6 +235,43 @@ public class SignUpViewController {
             } else if (!zipTxf.getText().matches("\\d+")) {
 
                 throw new IncorrectPatternException("The zip has to be an Integer");
+            }
+            User user = new User();
+
+           /* user.setEmail(emailTxf.getText());
+            user.setFullName(fullNameTxf.getText());
+            user.setPassword(passwordTxf.getText());
+            user.setStreet(streetTxf.getText());
+            user.setCity(cityTxf.getText());
+            user.setZip(Integer.parseInt(zipTxf.getText()));
+            user.setActive(checkActive.isSelected());
+
+            SocketFactory socket = new SocketFactory();
+            sign = socket.getSignable();
+            sign.signUp(user);*/
+            //Create an alert to make sure that the user wants to close the application
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            //set the alert message and title
+            alert.setHeaderText(null);
+            alert.setTitle("Sign Up");
+            alert.setContentText("The new user has been correctly created");
+
+            //create a variable to compare the button type
+            Optional<ButtonType> answer = alert.showAndWait();
+
+            //Condition to close the application
+            if (answer.get() == ButtonType.OK) {
+                //if the answer is ok the app will close
+                emailTxf.setText("");
+                fullNameTxf.setText("");
+                passwordTxf.setText("");
+                passwordPwdf.setText("");
+                retryPasswordTxf.setText("");
+                repeatPasswordPwdf.setText("");
+                streetTxf.setText("");
+                cityTxf.setText("");
+                zipTxf.setText("");
+                event.consume();
             }
 
         } catch (IncorrectPasswordException ex) {
@@ -262,6 +289,7 @@ public class SignUpViewController {
         }
 
     }
+
 
     /**
      * This method handles the event that occur when the button to go back to
@@ -328,13 +356,10 @@ public class SignUpViewController {
         } else {
             //else the alert will dispose and the user will continue in the app
             event.consume();
-
         }
-
     }
-    
-    public void showPassword() {
 
+    public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             passwordPwdf.setVisible(false);
@@ -353,25 +378,20 @@ public class SignUpViewController {
     }
 
     public void retryShowPassword(ActionEvent event) {
-
         if (!repeatpasswordVisible) {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             repeatPasswordPwdf.setVisible(false);
             repeatPasswordPwdf.setManaged(false);
             retryPasswordTxf.setVisible(true);
             retryPasswordTxf.setManaged(true);
-            repeatpasswordVisible = true;
+            repeatpasswordVisible = true;  // Aquí cambias la variable correcta
         } else {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             retryPasswordTxf.setVisible(false);
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-
-            passwordVisible = false;
-
-            repeatpasswordVisible = false;
-
+            repeatpasswordVisible = false;  // Aquí cambias la variable correcta
         }
     }
 
