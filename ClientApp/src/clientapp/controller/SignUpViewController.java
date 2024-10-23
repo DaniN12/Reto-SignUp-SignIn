@@ -124,19 +124,11 @@ public class SignUpViewController {
     @FXML
     private Button returnButton;
 
+    @FXML
+    private ImageView buttonImgView = new ImageView();
 
     @FXML
-    private final Image passwd = new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png"));
-
-    @FXML
-    private final Image showingPasswd = new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png"));
-
-
-    @FXML
-    private ImageView buttonImgView;
-
-    @FXML
-    private ImageView repeatbuttonImgView;
+    private ImageView repeatbuttonImgView = new ImageView();
 
     /**
      * Logger to show the steps of the application in the console
@@ -165,15 +157,7 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-
-
-        buttonImgView = new ImageView(passwd);
-        repeatbuttonImgView = new ImageView(passwd);
-
-
-
         //set window's events handlesrs
-
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         buttonEye.setOnAction(this::handleButtonEyeAction);
@@ -364,9 +348,6 @@ public class SignUpViewController {
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-
-            passwordVisible = false;
-
             repeatpasswordVisible = false;
 
         }

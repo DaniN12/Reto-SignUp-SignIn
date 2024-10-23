@@ -33,7 +33,7 @@ public class Client implements Signable {
     private static final ResourceBundle archive = ResourceBundle.getBundle("resources.Config");
     private static final Integer port = Integer.parseInt(ResourceBundle.getBundle("resources.Config").getString("PORT"));
     private static final String host = ResourceBundle.getBundle("resources.Config").getString("IP");
-    private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+    private Logger logger = Logger.getLogger(Client.class.getName());
     private MessageType msgType;
     private Message msg;
     private User user;
