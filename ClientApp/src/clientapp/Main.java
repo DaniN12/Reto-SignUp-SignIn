@@ -5,11 +5,10 @@
  */
 package clientapp;
 
-import clientapp.controller.SignUpViewController;
+import clientapp.controller.SignInController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -29,10 +28,10 @@ public class Main extends Application {
 
         // Load DOM form FXML view
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/SignUpView.fxml"));
+                getClass().getResource("/clientapp/view/SignInView.fxml"));
         Parent root = (Parent) loader.load();
         // Retrieve the controller associated with the view
-        SignUpViewController controller = (SignUpViewController) loader.getController();
+        SignInController controller = (SignInController) loader.getController();
         controller.setStage(stage);
         //Initializes the controller with the loaded view
         controller.initialize(root);
@@ -47,5 +46,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }
