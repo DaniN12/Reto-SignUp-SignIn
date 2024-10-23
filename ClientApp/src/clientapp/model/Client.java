@@ -61,7 +61,7 @@ public class Client implements Signable {
                 case OK_RESPONSE:
                     return user;
 
-                case USER_ALREADY_EXISTS_RESPONSE:
+                case USER_NOT_FOUND_RESPONSE:
                     throw new UserDoesntExistExeption("This user doesn't exist");
 
                 case CONNECTION_ERROR_RESPONSE:
@@ -74,9 +74,9 @@ public class Client implements Signable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UserDoesntExistExeption ex) {
-             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ConnectionErrorException ex) {
-             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }
@@ -113,13 +113,13 @@ public class Client implements Signable {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
         } catch (UserAlreadyExistException ex) {
-
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
         } catch (ConnectionErrorException ex) {
-
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
         }
         return user;
     }

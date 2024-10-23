@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
+<<<<<<< HEAD
 <SplitPane fx:id="panel" dividerPositions="0.271356783919598" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <items>
         <AnchorPane fx:id="anchorPaneTop" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -66,4 +67,59 @@
             </items>
         </ContextMenu>
     </contextMenu>
+=======
+<SplitPane fx:id="panel" dividerPositions="0.271356783919598" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.InfoViewController">
+  <items>
+    <AnchorPane fx:id="anchorPaneTop" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Button fx:id="logOutBtn" layoutX="639.0" layoutY="16.0" mnemonicParsing="false" onAction="#backButtonAction" prefHeight="49.0" prefWidth="132.0" styleClass="pink-button" text="Log out" />
+            <ImageView fx:id="imageMordecay" disable="true" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/mordecay.png" />
+               </image>
+               <clip>
+                  <Circle centerX="60" centerY="60" radius="55" />
+               </clip>
+            </ImageView>
+            <ImageView fx:id="imageCj" disable="true" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/cj.png" />
+               </image>
+               <clip>
+                  <Circle centerX="60" centerY="60" radius="55" />
+               </clip>
+            </ImageView>
+            <ImageView fx:id="imageRigby" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/rigby.png" />
+               </image>
+               <clip>
+                   <Circle centerX="60" centerY="60" radius="55" />
+               </clip>
+            </ImageView>
+         </children></AnchorPane>
+    <AnchorPane fx:id="anchorPaneDown" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TextField fx:id="userNameTextF" editable="false" layoutX="232.0" layoutY="40.0" prefHeight="26.0" prefWidth="195.0" />
+            <TextField fx:id="emailTextF" editable="false" layoutX="47.0" layoutY="145.0" prefHeight="26.0" prefWidth="195.0" />
+            <TextField fx:id="streetTextF" editable="false" layoutX="47.0" layoutY="292.0" prefHeight="26.0" prefWidth="195.0" />
+            <TextField fx:id="cityTextF" editable="false" layoutX="473.0" layoutY="158.0" prefHeight="26.0" prefWidth="195.0" />
+            <Label fx:id="userNameLbl" layoutX="232.0" layoutY="14.0" prefHeight="16.0" prefWidth="100.0" text="User name:" />
+            <Label fx:id="emailLbl" layoutX="47.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="Email:" />
+            <Label fx:id="streetLbl" layoutX="47.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Street:" />
+            <Label fx:id="cityLbl" layoutX="473.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="City:" />
+            <Label fx:id="zipLbl" layoutX="473.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Zip:" />
+            <TextField fx:id="zipTextF" editable="false" layoutX="473.0" layoutY="292.0" prefHeight="26.0" prefWidth="195.0" />
+         </children></AnchorPane>
+  </items>
+   <contextMenu>
+      <ContextMenu>
+        <items>
+          <MenuItem fx:id="optionMordecay" mnemonicParsing="false" text="Change photo to Mordecay" />
+            <MenuItem fx:id="optionCj" mnemonicParsing="false" text="Change photo to Cj" />
+            <MenuItem fx:id="optionRigby" mnemonicParsing="false" text="Change photo to Rigby" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
+>>>>>>> origin/dani
 </SplitPane>
