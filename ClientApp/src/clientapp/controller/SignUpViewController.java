@@ -5,13 +5,9 @@
  */
 package clientapp.controller;
 
-import clientapp.model.SocketFactory;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,16 +16,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.User;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
 import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
-import exceptions.UserDoesntExistExeption;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -219,7 +212,7 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            User user = SocketFactory.getSignable().signUp();
+           
 
             // Set IDs for the fields (this may depend on how you're using them)
             emailTxf.setId("email");
