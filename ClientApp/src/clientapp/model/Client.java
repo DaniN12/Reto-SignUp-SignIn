@@ -6,9 +6,6 @@
 package clientapp.model;
 
 import clientapp.controller.SignUpViewController;
-import clientapp.exceptions.EmptyFieldException;
-import clientapp.exceptions.IncorrectPasswordException;
-import clientapp.exceptions.IncorrectPatternException;
 import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
@@ -30,13 +27,12 @@ import model.User;
  */
 public class Client implements Signable {
 
-    private static final ResourceBundle archive = ResourceBundle.getBundle("resources.Config");
     private static final Integer port = Integer.parseInt(ResourceBundle.getBundle("resources.Config").getString("PORT"));
     private static final String host = ResourceBundle.getBundle("resources.Config").getString("IP");
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
     private MessageType msgType;
     private Message msg;
-   // private User user;
+    // private User user;
 
     @Override
     public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException {
@@ -110,6 +106,9 @@ public class Client implements Signable {
 
                 case CONNECTION_ERROR_RESPONSE:
                     throw new ConnectionErrorException("A problem occurred trying to connect with the server");
+                    
+                case MAX_THREAD_USER:
+                    
 
             }
 
