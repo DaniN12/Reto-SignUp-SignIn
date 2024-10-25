@@ -153,4 +153,6 @@ public class InfoViewController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+    
 }
+

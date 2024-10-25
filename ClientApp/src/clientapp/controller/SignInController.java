@@ -29,7 +29,7 @@ import model.User;
 
 /**
  *
- * @author 2dam
+ * @author Dani and Ruth
  */
 public class SignInController {
 
@@ -55,8 +55,7 @@ public class SignInController {
     private Button btnShowPassword = new Button();
 
     @FXML
-
-    private Button btnSigin = new Button();
+    private Button btnSignIn = new Button();
 
     @FXML
     private Hyperlink HyperLinkRegistered;
@@ -89,7 +88,7 @@ public class SignInController {
 
     public void initialize(Parent root) {
 
-        logger.info("Initializing SignUp stage.");
+        logger.info("Initializing SignIn stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
         //Associate scene to primaryStage(Window)
@@ -175,6 +174,7 @@ public class SignInController {
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
+
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
