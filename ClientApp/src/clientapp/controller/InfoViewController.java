@@ -11,22 +11,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import model.User;
+
 
 /**
  * FXML Controller class
@@ -34,49 +30,45 @@ import javafx.scene.control.TextField;
  * @author ruth
  */
 public class InfoViewController {
+
     /**
      * Button used to log out user sesion
      */
-    
+
     @FXML
     private Button logOutBtn;
 
     /**
      * Field where the email will be displayed
      */
-    
     @FXML
     private TextField emailTextF;
 
     /**
-     *Field where the street will be displayed
+     * Field where the street will be displayed
      */
-    
     @FXML
     private TextField streetTextF;
 
     /**
-     *Field where the name will be displayed
+     * Field where the name will be displayed
      */
-    
     @FXML
-    private TextField userrNameTextF;
+    private TextField userNameTextF;
 
     /**
-     *Field where the city will be displayed
+     * Field where the city will be displayed
      */
-    
     @FXML
     private TextField citylTextF;
 
     /**
-     *Field where the zip will be displayed
+     * Field where the zip will be displayed
      */
-    
     @FXML
     private TextField zipTextF;
-    
-       /**
+
+    /**
      * logger to show the steps of the application by console
      */
     private Logger logger = Logger.getLogger(InfoViewController.class.getName());
@@ -85,28 +77,28 @@ public class InfoViewController {
      * stage for the view
      */
     private Stage stage;
-    
+
     
     @FXML
-    public void backButtonAction(ActionEvent event) { 
+    public void backButtonAction(ActionEvent event) {
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/clientapp/view/SignInView.fxml"));
             Parent root = (Parent) loader.load();
-            
+
             SignInController controller = loader.getController();
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignInController");
             }
-            
+
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
-            
+
             controller.setStage(stage);
             controller.initialize(root);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
@@ -116,20 +108,30 @@ public class InfoViewController {
         }
     }
 
-      @FXML
+    @FXML
     public void onCloseRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setTitle("EXIT");
         alert.setContentText("Are you sure you want to close the application?");
-        
+
         Optional<ButtonType> answer = alert.showAndWait();
-        
+
         if (answer.get() == ButtonType.OK) {
             Platform.exit();
         } else {
             event.consume();
         }
+    }
+
+    
+    public void handleWindowShowing(WindowEvent event) {
+        User  user=new User();
+        emailTextF.setText(user.getEmail());
+        streetTextF.setText(user.getStreet());
+        userNameTextF.setText(user.getFullName());
+        citylTextF.setText(user.getCity());
+        zipTextF.setText(String.valueOf(user.getZip()));
     }
 
     /**

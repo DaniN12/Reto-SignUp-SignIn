@@ -44,18 +44,17 @@ public class ServerThread {
         ObjectInputStream ois = null;
 
         try {
-            
+
             servidor = new ServerSocket(PUERTO);
             logger.info("Waiting for clients...");
-            
+
             socket = servidor.accept();
             logger.info("Client connected.");
-            
+
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
-            
-           //??AYUDA msg.setUser();
-            
+
+            //??AYUDA msg.setUser();
         } catch (IOException ex) {
             Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
         }

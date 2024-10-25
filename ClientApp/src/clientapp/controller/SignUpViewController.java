@@ -19,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.User;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
@@ -33,6 +32,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import model.Signable;
+import model.User;
 
 /**
  * FXML Controller class of the signUp window
@@ -212,6 +212,15 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
+            // Set IDs for the fields (this may depend on how you're using them)
+            emailTxf.setId("email");
+            fullNameTxf.setId("fullName");
+            passwordTxf.setId("password");
+            passwordPwdf.setId("password");
+            streetTxf.setId("street");
+            cityTxf.setId("city");
+            zipTxf.setId("zip");
+            checkActive.setId("active");
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 

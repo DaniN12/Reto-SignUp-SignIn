@@ -6,14 +6,12 @@
 package clientapp.controller;
 
 import clientapp.exceptions.EmptyFieldException;
-import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
 import exceptions.UserDoesntExistExeption;
 import javafx.scene.image.Image;
 import java.io.IOException;
-
 import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -22,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
@@ -229,5 +226,4 @@ public class SignInController {
             passwordVisible = false;
         }
     }
-
 }

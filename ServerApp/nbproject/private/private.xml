@@ -8,9 +8,13 @@
 =======
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ServerApp/src/serverapp/dao/DAO.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ServerApp/src/serverapp/model/ServerThread.java</file>
+<<<<<<< HEAD
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ServerApp/src/serverapp/model/ServerThread2.java</file>
+=======
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ServerApp/src/serverapp/model/Pool.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ServerApp/src/serverapp/model/DAOFactory.java</file>
 >>>>>>> 2eee9445d386945e71b778d3218f821637f49aec
+>>>>>>> 5cf4cf3e674134eb3c3e3526f0e115c219e5e1e9
         </group>
     </open-files>
 </project-private>

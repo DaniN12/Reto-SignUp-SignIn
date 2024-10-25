@@ -21,7 +21,7 @@ import serverapp.model.Pool;
 public class DAO implements Signable {
 
     private Connection con;
-    private Statement statement;
+
     private static final Logger logger = Logger.getLogger(DAO.class.getName());
     final String INSERT_USER = "insert into res_users (id, login, password, company_id, partner_id, active) values (?,?,?,?,?,?)";
     final String INSERT_USER_DATA = "insert into res_partner (company_id, name, zip, city) values (?,?,?,?)";
@@ -169,7 +169,7 @@ public class DAO implements Signable {
         int id_usuario = 0;
         try {
             this.openConnection();
-            statement = con.prepareStatement(GET_USER_ID);
+            PreparedStatement statement = con.prepareStatement(GET_USER_ID);
 
             ResultSet rs = statement.executeQuery(GET_USER_ID);
 
