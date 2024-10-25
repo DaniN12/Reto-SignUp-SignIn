@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -18,16 +20,15 @@ public class DAO implements Signable {
 
     private Connection con;
     private static final Logger logger = Logger.getLogger(DAO.class.getName());
-
-    final String INSERTAR_USUARIO = "insert into res_users (login, password, company_id, partner_id,notification_type) values (?,?,?,?,'email')";
-    final String INSERTAR_DATOS_USUARIO = "insert into res_partner (company_id, create_date, name, zip, city, phone, active, email) values (?,?,?,?,?,?,?,?)";
-    final String INSERTAR_USUARIO_GRUPO = "insert into res_groups_users_rel (gid, uid) values (16,?), (26,?), (28,?), (31,?)";
-    final String ID_USUARIO = "select MAX(id) as id from res_users";
-    final String INSERTAR_USUARIO_COMPAÑIA = "insert into res_company_users_rel (cid, user_id) values (1,?)";
-    final String ID_PARTNER = "select MAX(id) as id from res_partner";
-    final String BUSCAR_USUARIO = "select * from res_users where login = ? and password = ?";
-    final String NOMBRE_USUARIO = "select * from res_partner where email=?";
-    final String USUARIO_EXISTE = "select * from res_users where login=?";
+    private Statement statement;
+    final String INSERT_USER = "insert into res_users (id, login, password, company_id, partner_id, active) values (?,?,?,?,?,?)";
+    final String INSERT_USER_DATA = "insert into res_partner (company_id, name, zip, city) values (?,?,?,?)";
+    final String GET_USER_ID = "select MAX(id) as id from res_users";
+    final String INSERT_USER_INTO_COMPANY = "insert into res_company_users_rel (cid, user_id) values (1,?)";
+    final String GET_PARTNER_ID = "select MAX(id) as id from res_partner";
+    final String GET_USER = "select * from res_users where login = ? and password = ?";
+    final String GET_USERNAME = "select * from res_partner where id = ?";
+    final String USER_EXIST = "select * from res_users where login=?";
 
     // Método para abrir conexión desde el pool
     private void openConnection() throws ConnectionErrorException {
@@ -54,22 +55,51 @@ public class DAO implements Signable {
     @Override
     public User signIn(User user) throws ConnectionErrorException, UserDoesntExistExeption {
         try {
-            this.openConnection();  // Abre la conexión desde el pool
+            //Open connection with pool
+            this.openConnection();
 
-            // Ejemplo de consulta para buscar al usuario
-            PreparedStatement ps = con.prepareStatement(BUSCAR_USUARIO);
+            // Variable to get the partner id
+            Integer id_partner = getPartnerId();
+            // Statement to get the user's data from the res_users table
+            PreparedStatement ps = con.prepareStatement(GET_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
 
             ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
+                // Set the data from the res_users table
+                user.setActive(rs.getBoolean("active"));
+                user.setEmail(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
+
+            } else {
+                // if the user doesn't exist throw exception
+                throw new UserDoesntExistExeption("User doesn't exist");
+            }
+
+            // Statement to get the user's data from the res_partner table
+            ps = con.prepareStatement(GET_USERNAME);
+            ps.setInt(1, id_partner);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Set the data from the res_partner table
+                user.setFullName(rs.getString("name"));
+                user.setStreet(rs.getString("street"));
+                user.setCity(rs.getString("city"));
+                user.setZip(Integer.parseInt(rs.getString("zip")));
+            }
+
         } catch (SQLException e) {
             logger.severe("Error al iniciar sesión: " + e.getMessage());
-            throw new ConnectionErrorException("Error de base de datos durante el inicio de sesión.");
+            throw new ConnectionErrorException("Error connecting to the database during sign in.");
         } finally {
-            this.closeConnection();  // Cierra la conexión y la devuelve al pool
+            // Close connection with the pool
+            this.closeConnection();
         }
 
+        // return the user with all the data from the database
         return user;
     }
 
@@ -79,7 +109,7 @@ public class DAO implements Signable {
             this.openConnection();  // Abre la conexión desde el pool
 
             // Comprobar si el usuario ya existe
-            PreparedStatement psCheck = con.prepareStatement(USUARIO_EXISTE);
+            PreparedStatement psCheck = con.prepareStatement(USER_EXIST);
             psCheck.setString(1, user.getEmail());
             ResultSet rsCheck = psCheck.executeQuery();
 
@@ -87,12 +117,10 @@ public class DAO implements Signable {
                 throw new UserAlreadyExistException("El usuario ya existe");
             }
 
-            // Insertar usuario en la base de datos
-            PreparedStatement psInsertUser = con.prepareStatement(INSERTAR_USUARIO);
+            PreparedStatement psInsertUser = con.prepareStatement(INSERT_USER);
             psInsertUser.setString(1, user.getEmail());
             psInsertUser.setString(2, user.getPassword());
             psInsertUser.setInt(3, 1);
-            
 
             psInsertUser.executeUpdate();
 
@@ -105,4 +133,52 @@ public class DAO implements Signable {
 
         return user;
     }
+
+    public Integer getUserId() {
+
+        int id_usuario = 0;
+        try {
+            this.openConnection();
+            statement = con.prepareStatement(GET_USER_ID);
+
+            ResultSet rs = statement.executeQuery(GET_USER_ID);
+
+            if (rs.next()) {
+                id_usuario = rs.getInt("id");
+            } else if (id_usuario == 0) {
+                throw new SQLException("An error has occured");
+            }
+            this.closeConnection();
+
+        } catch (ConnectionErrorException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        }
+
+        return id_usuario;
+    }
+
+    public Integer getPartnerId() {
+
+        Integer id = 0;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(GET_PARTNER_ID);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            } else {
+                throw new SQLException("Error in the SQL sentence.");
+            }
+        } catch (SQLException e) {
+            logger.severe("Error in the SQL sentence: " + e.getMessage());
+        }
+
+        return id;
+
+    }
+
 }

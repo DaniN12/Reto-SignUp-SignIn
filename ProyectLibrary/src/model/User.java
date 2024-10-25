@@ -20,6 +20,7 @@ public class User implements Serializable {
     private String city;
     private Integer zip;
     private Boolean active;
+    private Integer company_id;
 
     public User() {
 
@@ -90,5 +91,13 @@ public class User implements Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
-}
 
+    public Integer getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(Integer company_id) {
+        this.company_id = company_id;
+    }
+
+}
