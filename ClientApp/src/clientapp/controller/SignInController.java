@@ -42,7 +42,6 @@ import model.Signable;
  */
 public class SignInController {
 
-
     @FXML
     private Label lblEmail;
 
@@ -92,7 +91,7 @@ public class SignInController {
 
     @FXML
     private Label errorLabel;
-    
+
     private Signable signable;
 
     private Stage stage;
@@ -118,51 +117,45 @@ public class SignInController {
         stage.show();
     }
 
-   @FXML
-public void handleSignIn() throws IOException {
-    String email = txtFieldEmail.getText();
-    String password = passwordField.getText();
-    String password2 = txtFieldPassword.getText();
-    SocketFactory socketFactory = new SocketFactory();
-    User user = new User();
+    @FXML
+    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
+        String email = txtFieldEmail.getText();
+        String password = txtFieldPassword.getText();
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
 
-    try {
-        // Verificar si los campos están vacíos
-        if (email.isEmpty() || password.isEmpty()) {
-            throw new EmptyFieldException("Fields are empty, all fields need to be filled");
+        try {
+            // Verificar si los campos están vacíos
+            if (email.isEmpty() || password.isEmpty() || passwordField.getText().isEmpty()) {
+                throw new EmptyFieldException("Fields are empty, all fields need to be filled");
+            } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+                throw new IncorrectPatternException("The email is not well written or is incorrect");
+            } else {
+
+                SocketFactory socket = new SocketFactory();
+                Signable signable = socket.getSignable();
+                signable.signUp(user);
+
+            }
+
+            // Aquí puedes continuar con la lógica para iniciar sesión...
+        } catch (EmptyFieldException ex) {
+            // Logs the error and displays an alert message for empty fields
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
+        } // Logs the error and displays an alert message for incorrect password
+        catch (IncorrectPatternException ex) {
+            // Logs the error and displays an alert message for incorrect email format
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
+        } catch (Exception ex) {
+            // Logs any unexpected error and displays a generic alert message
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
+            new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
         }
 
-        // Verificar si las contraseñas coinciden
-        if (!password.equals(password)) {
-            throw new IncorrectPasswordException("Passwords do not match");
-        }
-
-        // Verificar si el email tiene el formato correcto
-        if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-            throw new IncorrectPatternException("The email is not well written or is incorrect");
-        }
-
-        // Aquí puedes continuar con la lógica para iniciar sesión...
-
-    } catch (EmptyFieldException ex) {
-        // Logs the error and displays an alert message for empty fields
-        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-        new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
-    } catch (IncorrectPasswordException ex) {
-        // Logs the error and displays an alert message for incorrect password
-        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-        new Alert(Alert.AlertType.ERROR, "Passwords do not match. Please check your password.", ButtonType.OK).showAndWait();
-    } catch (IncorrectPatternException ex) {
-        // Logs the error and displays an alert message for incorrect email format
-        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-        new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
-    } catch (Exception ex) {
-        // Logs any unexpected error and displays a generic alert message
-        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
-        new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
     }
-}
-
 
     // Método que simula la validación de credenciales
     private boolean validateCredentials(String email, String password) {
@@ -192,8 +185,7 @@ public void handleSignIn() throws IOException {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
-    
+
     @FXML
     public void onCloseRequest(WindowEvent event) {
 
@@ -218,12 +210,11 @@ public void handleSignIn() throws IOException {
         }
 
     }
-    
 
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
-       try {
+        try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/clientapp/view/SignUpView.fxml"));
@@ -253,7 +244,6 @@ public void handleSignIn() throws IOException {
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
-
 
     public void showPassword(ActionEvent event) {
 
