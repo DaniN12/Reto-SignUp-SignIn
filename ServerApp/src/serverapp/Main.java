@@ -7,7 +7,7 @@ package serverapp;
 
 /**
  *
- * @author 2dam
+ * @author Dani
  */
 public class Main {
 

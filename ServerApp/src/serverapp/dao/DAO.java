@@ -16,7 +16,10 @@ import model.Signable;
 import model.User;
 import serverapp.model.Pool;
 
-
+/**
+ *
+ * @author Kelian and Enzo
+ */
 
 public class DAO implements Signable {
 

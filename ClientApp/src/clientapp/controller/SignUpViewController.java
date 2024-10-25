@@ -348,6 +348,7 @@ public class SignUpViewController {
         }
 
     }
+
     public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -365,7 +366,7 @@ public class SignUpViewController {
             passwordVisible = false;
         }
     }
-    
+
     public void retryShowPassword(ActionEvent event) {
         if (!repeatpasswordVisible) {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -373,14 +374,14 @@ public class SignUpViewController {
             repeatPasswordPwdf.setManaged(false);
             retryPasswordTxf.setVisible(true);
             retryPasswordTxf.setManaged(true);
-            repeatpasswordVisible = true;  // Aquí cambias la variable correcta
+            repeatpasswordVisible = true;
         } else {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             retryPasswordTxf.setVisible(false);
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-            repeatpasswordVisible = false;  // Aquí cambias la variable correcta
+            repeatpasswordVisible = false;
         }
     }
 
