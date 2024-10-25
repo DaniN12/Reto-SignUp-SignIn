@@ -3,12 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serverapp.model;
+package serverapp.dao;
+
+import model.Signable;
 
 /**
  *
  * @author 2dam
  */
-public interface Signable {
+public class DAOFactory {
+    
+    public Signable getDao() {
+        Signable sign;
+        sign = new DAO();
+        return sign;
+    }
     
 }

@@ -6,12 +6,15 @@
 package clientapp.controller;
 
 import clientapp.exceptions.EmptyFieldException;
-import clientapp.exceptions.IncorrectPasswordException;
-import clientapp.exceptions.IncorrectPatternException;
-import javafx.scene.image.Image;
-import java.io.IOException;
+
 import java.util.Optional;
 
+import clientapp.exceptions.IncorrectPatternException;
+import clientapp.model.SocketFactory;
+import exceptions.ConnectionErrorException;
+import exceptions.UserDoesntExistExeption;
+import javafx.scene.image.Image;
+import java.io.IOException;
 import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -30,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.Signable;
 import model.User;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
@@ -38,7 +42,7 @@ import model.Signable;
 
 /**
  *
- * @author 2dam
+ * @author Dani and Ruth
  */
 public class SignInController {
 
@@ -64,8 +68,7 @@ public class SignInController {
     private Button btnShowPassword = new Button();
 
     @FXML
-
-    private Button btnSigin = new Button();
+    private Button btnSignIn = new Button();
 
     @FXML
     private Hyperlink HyperLinkRegistered;
@@ -156,13 +159,7 @@ public class SignInController {
         }
 
     }
-
-    // Método que simula la validación de credenciales
-    private boolean validateCredentials(String email, String password) {
-        // Ejemplo simple: validar si el usuario y la contraseña son "admin"
-        return email.equals("admin") && password.equals("admin");
-    }
-
+    
     public Stage getStage() {
         return stage;
     }
@@ -263,5 +260,4 @@ public class SignInController {
             passwordVisible = false;
         }
     }
-
 }
