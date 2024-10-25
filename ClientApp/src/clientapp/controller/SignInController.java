@@ -5,6 +5,9 @@
  */
 package clientapp.controller;
 
+import clientapp.exceptions.EmptyFieldException;
+import clientapp.exceptions.IncorrectPasswordException;
+import clientapp.exceptions.IncorrectPatternException;
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.util.Optional;
@@ -94,11 +97,11 @@ public class SignInController {
 
     private Stage stage;
 
-    private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+    private Logger logger = Logger.getLogger(SignInController.class.getName());
 
     public void initialize(Parent root) {
 
-        logger.info("Initializing SignUp stage.");
+        logger.info("Initializing SignIn stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
         //Associate scene to primaryStage(Window)
@@ -115,45 +118,51 @@ public class SignInController {
         stage.show();
     }
 
-    // Método que se ejecuta cuando el botón "Sign In" es presionado
-    @FXML
-    public void handleSignIn() throws IOException {
-        String email = txtFieldEmail.getText();
-        String password = passwordField.getText();
-        SocketFactory socketFactory = new SocketFactory();
-        User user = new User();
+   @FXML
+public void handleSignIn() throws IOException {
+    String email = txtFieldEmail.getText();
+    String password = passwordField.getText();
+    String password2 = txtFieldPassword.getText();
+    SocketFactory socketFactory = new SocketFactory();
+    User user = new User();
 
+    try {
         // Verificar si los campos están vacíos
-        if (email.isEmpty() && password.isEmpty()) {
-            lblError.setText("Please enter both email and password.");
-            lblError.setVisible(true);
-        } else if (email.isEmpty()) {
-            lblError.setText("Please enter your email.");
-            lblError.setVisible(true);
-        } else if (password.isEmpty()) {
-            lblError.setText("Please enter your password.");
-            lblError.setVisible(true);
-        } else {
-            // Llama al método signIn de DBUserDataAccessor
-            signable = socketFactory.getSignable();
-            try {
-                signable.signIn(user);
-            } catch (ConnectionErrorException ex) {
-                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UserDoesntExistExeption ex) {
-                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (user != null) {
-                lblError.setText("Sign in successful!");
-                lblError.setVisible(false);
-                // Aquí puedes redirigir a otra vista o realizar acciones adicionales
-            } else {
-                lblError.setText("Invalid email or password.");
-                lblError.setVisible(true);
-            }
+        if (email.isEmpty() || password.isEmpty()) {
+            throw new EmptyFieldException("Fields are empty, all fields need to be filled");
         }
+
+        // Verificar si las contraseñas coinciden
+        if (!password.equals(password)) {
+            throw new IncorrectPasswordException("Passwords do not match");
+        }
+
+        // Verificar si el email tiene el formato correcto
+        if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+            throw new IncorrectPatternException("The email is not well written or is incorrect");
+        }
+
+        // Aquí puedes continuar con la lógica para iniciar sesión...
+
+    } catch (EmptyFieldException ex) {
+        // Logs the error and displays an alert message for empty fields
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
+    } catch (IncorrectPasswordException ex) {
+        // Logs the error and displays an alert message for incorrect password
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        new Alert(Alert.AlertType.ERROR, "Passwords do not match. Please check your password.", ButtonType.OK).showAndWait();
+    } catch (IncorrectPatternException ex) {
+        // Logs the error and displays an alert message for incorrect email format
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
+    } catch (Exception ex) {
+        // Logs any unexpected error and displays a generic alert message
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
+        new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
     }
+}
+
 
     // Método que simula la validación de credenciales
     private boolean validateCredentials(String email, String password) {

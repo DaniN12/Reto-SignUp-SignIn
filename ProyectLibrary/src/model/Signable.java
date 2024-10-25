@@ -14,5 +14,4 @@ public interface Signable {
     public User signIn(User user) throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption;
 
     public User signUp(User user) throws exceptions.UserAlreadyExistException, exceptions.ConnectionErrorException;
-
 }
