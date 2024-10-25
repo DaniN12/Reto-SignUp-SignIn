@@ -19,8 +19,8 @@ public class User implements Serializable {
     private String street;
     private String city;
     private Integer zip;
-    private Boolean active;
     private Integer company_id;
+    private Boolean active;
 
     public User() {
 

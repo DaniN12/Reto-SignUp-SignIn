@@ -17,10 +17,11 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
                 <Button fx:id="returnButton" layoutX="20.0" layoutY="35.0" minWidth="34.0" mnemonicParsing="false" onAction="#backButtonAction" prefHeight="32.0" prefWidth="62.0" styleClass="minimal-button" />
-            <ImageView fx:id="backButtonImg" disable="true" fitHeight="32.0" fitWidth="55.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="btnShowPasswd">
-               <image>
-                  <Image url="@../../resources/Flecha.png" />
-               </image></ImageView>
+                <ImageView fx:id="backButtonImg" disable="true" fitHeight="32.0" fitWidth="55.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="btnShowPasswd">
+                    <image>
+                        <Image url="@../../resources/Flecha.png" />
+                    </image>
+                </ImageView>
             </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -53,9 +54,10 @@
                 <TextField fx:id="passwordTxf" layoutX="47.0" layoutY="185.0" prefHeight="26.0" prefWidth="202.0" promptText="enter your password" />
                 <TextField fx:id="retryPasswordTxf" layoutX="47.0" layoutY="237.0" prefHeight="26.0" prefWidth="202.0" promptText="repeat your password" />
                 <CheckBox fx:id="checkActive" layoutX="48.0" layoutY="476.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="94.0" selected="true" text="Active">
-               <font>
-                  <Font size="18.0" />
-               </font></CheckBox>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </CheckBox>
                 <Line fx:id="emailLine" endX="100.0" layoutX="146.0" layoutY="104.0" startX="-100.0" />
                 <Line fx:id="fullNameLine" endX="100.0" layoutX="148.0" layoutY="156.0" startX="-100.0" />
                 <Line fx:id="passwordLine" endX="100.0" layoutX="148.0" layoutY="211.0" startX="-100.0" />
