@@ -35,7 +35,7 @@ public class User implements Serializable {
         this.zip = zip;
         this.active = active;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -99,6 +99,5 @@ public class User implements Serializable {
     public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
     }
-    
-}
 
+}
