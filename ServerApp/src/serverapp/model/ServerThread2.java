@@ -118,7 +118,7 @@ public class ServerThread2 implements Runnable{
             Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
-                LOGGER.info("Cerrando conexiónes");
+                LOGGER.info("Cerrando conexiones");
                 //Cerramos los distintos imputs y outputs más el propio socket
                 oos = new ObjectOutputStream(sk.getOutputStream());
                 oos.writeObject(msg);
