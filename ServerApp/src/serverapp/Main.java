@@ -10,7 +10,7 @@ package serverapp;
  * @author 2dam
  */
 public class Main {
-
+    //Del serverThread recoger el run y recoger el DAO desde el socket
     /**
      * @param args the command line arguments
      */
