@@ -217,18 +217,6 @@ public class SignUpViewController {
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
 
-            /* emailTxf.setId("email");
-=======
-            // Set IDs for the fields (this may depend on how you're using them)
-            emailTxf.setId("email");
->>>>>>> d5e0e5d73ebc73f1daa996b96be73a064a8be40f
-            fullNameTxf.setId("fullName");
-            passwordTxf.setId("password");
-            passwordPwdf.setId("password");
-            streetTxf.setId("street");
-            cityTxf.setId("city");
-            zipTxf.setId("zip");
-            checkActive.setId("active");*/
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
@@ -281,17 +269,6 @@ public class SignUpViewController {
             }
             User user = new User();
 
-           /* user.setEmail(emailTxf.getText());
-            user.setFullName(fullNameTxf.getText());
-            user.setPassword(passwordTxf.getText());
-            user.setStreet(streetTxf.getText());
-            user.setCity(cityTxf.getText());
-            user.setZip(Integer.parseInt(zipTxf.getText()));
-            user.setActive(checkActive.isSelected());
-
-            SocketFactory socket = new SocketFactory();
-            sign = socket.getSignable();
-            sign.signUp(user);*/
             //Create an alert to make sure that the user wants to close the application
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             //set the alert message and title
