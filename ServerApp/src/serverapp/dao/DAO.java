@@ -39,8 +39,8 @@ public class DAO implements Signable {
         try {
             con = Pool.getConexion();  // Obtener la conexión desde el pool
         } catch (SQLException e) {
-            logger.severe("Error al abrir la conexión: " + e.getMessage());
-            throw new ConnectionErrorException("Error al conectar con la base de datos.");
+            logger.severe("Error opening the connection: " + e.getMessage());
+            throw new ConnectionErrorException("Error connectiong to the database.");
         }
     }
 
@@ -51,7 +51,7 @@ public class DAO implements Signable {
                 Pool.closeConexion(); // Cerrar la conexión asociada al hilo
             }
         } catch (SQLException e) {
-            logger.severe("Error al cerrar la conexión: " + e.getMessage());
+            logger.severe("Error closing conection: " + e.getMessage());
             new Alert(Alert.AlertType.ERROR, e.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
     }
