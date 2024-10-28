@@ -77,9 +77,6 @@ public class SignInController {
     private ImageView ImageViewEye = new ImageView();
     
     @FXML
-    private Button btnSigIn;
-    
-    @FXML
     private TextField usernameField;
     
     @FXML
@@ -132,8 +129,9 @@ public class SignInController {
                 
                 SocketFactory socket = new SocketFactory();
                 Signable signable = socket.getSignable();
-                signable.signUp(user);
+                signable.signIn(user);
                 
+                btnSignIn.setOnAction(this::openMainWindow);
             }
 
             // Aquí puedes continuar con la lógica para iniciar sesión...
@@ -211,6 +209,40 @@ public class SignInController {
         }
         
     }
+    
+    @FXML
+    public void openMainWindow(ActionEvent event) {
+
+        try {
+            // Load DOM form FXML view
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/clientapp/view/InfoView.fxml"));
+            Parent root = (Parent) loader.load();
+            // Retrieve the controller associated with the view
+            InfoViewController controller = (InfoViewController) loader.getController();
+            //Check if there is a RuntimeException while opening the view
+            if (controller == null) {
+                throw new RuntimeException("Failed to load InfoViewController");
+            }
+
+            if (stage == null) {
+                throw new RuntimeException("Stage is not initialized");
+            }
+            controller.setStage(stage);
+            //Initializes the controller with the loaded view
+            controller.initialize(root);
+
+        } catch (IOException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, "Error loading InfoView.fxml", ButtonType.OK).showAndWait();
+        } catch (RuntimeException ex) {
+            // Logs the error and displays an alert messsage
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+        }
+    }
+
     
     public void showPassword(ActionEvent event) {
         
