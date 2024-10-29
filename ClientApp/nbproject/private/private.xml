@@ -3,10 +3,48 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/InfoViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/Client.java</file>
+=======
+<<<<<<< HEAD
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
             <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/controller/SignInController.java</file>
             <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
             <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/Main.java</file>
         </group>
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/controller/SignInController.java</file>
+            <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/view/SignUpView.fxml</file>
+            <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/model/Client.java</file>
+            <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/kbilb/Desktop/DAMi/2dami/Reto%201/ClientApp/src/clientapp/Main.java</file>
+=======
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/clientapp/controller/SignUpViewController.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/Client.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/Client.java</file>
+>>>>>>> 2eee9445d386945e71b778d3218f821637f49aec
+>>>>>>> 5cf4cf3e674134eb3c3e3526f0e115c219e5e1e9
+        </group>
+>>>>>>> b8b35ceafeacf8b006859d17576dbb7f62cce508
     </open-files>
 </project-private>

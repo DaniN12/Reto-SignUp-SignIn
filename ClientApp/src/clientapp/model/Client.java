@@ -5,7 +5,6 @@
  */
 package clientapp.model;
 
-import clientapp.controller.SignUpViewController;
 import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
