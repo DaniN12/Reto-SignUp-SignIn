@@ -60,7 +60,7 @@ public class DAO implements Signable {
             this.openConnection();  // Abre la conexión desde el pool
 
             // Ejemplo de consulta para buscar al usuario
-            PreparedStatement ps = con.prepareStatement(BUSCAR_USUARIO);
+            PreparedStatement ps = con.prepareStatement(GET_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
 
