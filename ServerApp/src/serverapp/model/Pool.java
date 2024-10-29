@@ -2,7 +2,7 @@ package serverapp.model;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.DataSource;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Pool {
@@ -11,15 +11,16 @@ public class Pool {
 
     // Para asociar conexiones a hilos específicos
     private static ThreadLocal<Connection> threadLocalConnection = new ThreadLocal<>();
+    private static Logger logger = Logger.getLogger(Pool.class.getName());;
 
     // Inicializa el BasicDataSource si aún no está inicializado
     public static BasicDataSource getDataSource() {
         if (ds == null) {
             ds = new BasicDataSource();
-            ds.setDriverClassName("com.postgresql.cj.jdbc.Driver");
+             ds.setDriverClassName("org.postgresql.Driver");
             ds.setUsername("odoo");
             ds.setPassword("abcd*1234");
-            ds.setUrl("jdbc:postgresql://192.168.21.21:5432/flutter");
+            ds.setUrl("jdbc:postgresql://192.168.20.116:5432/flutter");
             ds.setInitialSize(50); // 50 conexiones iniciales
             ds.setMaxIdle(10);
             ds.setMaxTotal(20);
@@ -36,6 +37,7 @@ public class Pool {
             // Si no hay una conexión o está cerrada, asigna una nueva
             conn = getDataSource().getConnection();
             threadLocalConnection.set(conn); // Asociar la conexión con el hilo actual
+            logger.info("Conexión obtenida del pool: " + conn);
         }
         return conn;
     }

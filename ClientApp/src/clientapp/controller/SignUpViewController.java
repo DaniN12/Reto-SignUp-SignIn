@@ -124,10 +124,10 @@ public class SignUpViewController {
      */
     @FXML
     private Button returnButton;
-    
+
     @FXML
     private ImageView buttonImgView;
-    
+
     @FXML
     private ImageView repeatbuttonImgView;
 
@@ -140,18 +140,18 @@ public class SignUpViewController {
      * Stage for the view
      */
     private Stage stage;
-    
+
     private boolean passwordVisible = false;
-    
+
     private boolean repeatpasswordVisible = false;
-    
+
     private Signable sign;
 
     /**
      * Initializes the controller class.
      */
     public void initialize(Parent root) {
-        
+
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
@@ -164,13 +164,14 @@ public class SignUpViewController {
         passwordTxf.setManaged(false);
         retryPasswordTxf.setVisible(false);
         retryPasswordTxf.setManaged(false);
+        // to write in both passwordFields and textFields at the same time
         passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
         retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
         //put the images in the imageviews
         buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlers
-        //on showing doesn't work (stage.setOnShowing(this::handleWindowShowing);)
+       // stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         buttonEye.setOnAction(this::showPassword);
         retryButtonEye.setOnAction(this::retryShowPassword);
@@ -184,8 +185,8 @@ public class SignUpViewController {
      * @param event triggers an action, in this case a window opening
      */
     public void handleWindowShowing(WindowEvent event) {
-        
-        logger.info("Beginning SignUpViewController::handleWindowShowing");
+
+        logger.info("Beginning event handler::handleWindowShowing");
         // hide the password textfields
         passwordTxf.setVisible(false);
         passwordTxf.setManaged(false);
@@ -197,7 +198,7 @@ public class SignUpViewController {
         //put the images in the imageviews
         buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        
+
     }
 
     /**
@@ -212,24 +213,24 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            
+
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
-                
+
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-                
+
             } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
-                
+
                 throw new IncorrectPasswordException("The password fields do not match");
-                
+
             } else if (!emailTxf.getText().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-                
+
                 throw new IncorrectPatternException("The email has to have a email format, don't forget the @");
             } else if (!zipTxf.getText().matches("\\d+")) {
-                
+
                 throw new IncorrectPatternException("The zip has to be an Integer");
             } else {
                 User user = new User();
-                
+
                 user.setEmail(emailTxf.getText());
                 user.setFullName(fullNameTxf.getText());
                 user.setPassword(passwordTxf.getText());
@@ -237,27 +238,33 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                
-                SocketFactory socket = new SocketFactory();
-                sign = socket.getSignable();
+
+                sign = SocketFactory.getSignable();
                 sign.signUp(user);
-                signUpButton.setOnAction(this::backButtonAction);
+                backButtonAction(event);
+               
             }
-            
+
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (IncorrectPatternException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (EmptyFieldException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (UserAlreadyExistException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (ConnectionErrorException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
-        
+
     }
 
     /**
@@ -268,7 +275,7 @@ public class SignUpViewController {
      */
     @FXML
     public void backButtonAction(ActionEvent event) {
-        
+
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
@@ -280,21 +287,21 @@ public class SignUpViewController {
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignInController");
             }
-            
+
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
             controller.setStage(stage);
             //Initializes the controller with the loaded view
             controller.initialize(root);
-            
+
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
@@ -326,9 +333,9 @@ public class SignUpViewController {
             //else the alert will dispose and the user will continue in the app
             event.consume();
         }
-        
+
     }
-    
+
     public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -346,7 +353,7 @@ public class SignUpViewController {
             passwordVisible = false;
         }
     }
-    
+
     public void retryShowPassword(ActionEvent event) {
         if (!repeatpasswordVisible) {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -364,11 +371,11 @@ public class SignUpViewController {
             repeatpasswordVisible = false;
         }
     }
-    
+
     public Stage getStage() {
         return stage;
     }
-    
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

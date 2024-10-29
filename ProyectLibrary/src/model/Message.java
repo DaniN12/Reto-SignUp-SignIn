@@ -13,9 +13,14 @@ import java.io.Serializable;
  */
 public class Message implements Serializable {
     
+    private static final long serialVersionUID = 1L;
     private MessageType msg;
     private User user;
 
+    public Message(){
+        this.msg= MessageType.SIGNUP_REQUEST;
+        this.user = new User();
+    }
     public MessageType getMsg() {
         return msg;
     }

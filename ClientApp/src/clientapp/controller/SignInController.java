@@ -39,59 +39,59 @@ import model.User;
  * @author Dani and Ruth
  */
 public class SignInController {
-    
+
     @FXML
     private Label lblEmail;
-    
+
     @FXML
     private Label lblPassword;
-    
+
     @FXML
     private Label lblError;
-    
+
     @FXML
     private TextField txtFieldEmail;
-    
+
     @FXML
     private TextField txtFieldPassword;
-    
+
     @FXML
     private PasswordField PasswordField;
-    
+
     @FXML
     private Button btnShowPassword = new Button();
-    
+
     @FXML
     private Button btnSignIn = new Button();
-    
+
     @FXML
     private Hyperlink HyperLinkRegistered;
-    
+
     @FXML
     private Label label;
-    
+
     @FXML
     private boolean passwordVisible = false;
-    
+
     @FXML
     private ImageView ImageViewEye = new ImageView();
-    
+
     @FXML
     private TextField usernameField;
-    
+
     @FXML
-    
+
     private PasswordField passwordField;
-    
+
     @FXML
     private Label errorLabel;
-    
+
     private Stage stage;
-    
+
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
-    
+
     public void initialize(Parent root) {
-        
+
         logger.info("Initializing SignIn stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
@@ -112,49 +112,40 @@ public class SignInController {
 
     // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
-    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
-        String email = txtFieldEmail.getText();
-        String password = txtFieldPassword.getText();
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        
+    private void handleSignIn(ActionEvent event) {
         try {
+            String email = txtFieldEmail.getText();
+            String password = PasswordField.getText(); // Usando solo PasswordField
+
             // Verificar si los campos están vacíos
-            if (email.isEmpty() || password.isEmpty() || passwordField.getText().isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
             } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
                 throw new IncorrectPatternException("The email is not well written or is incorrect");
-            } else {
-                
-                SocketFactory socket = new SocketFactory();
-                Signable signable = socket.getSignable();
-                signable.signIn(user);
-                
-                btnSignIn.setOnAction(this::openMainWindow);
             }
 
-            // Aquí puedes continuar con la lógica para iniciar sesión...
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+
+            Signable signable = SocketFactory.getSignable();
+            signable.signIn(user);
+            openMainWindow(event); // Mover la apertura de la ventana aquí
+
         } catch (EmptyFieldException ex) {
-            // Logs the error and displays an alert message for empty fields
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
-        } // Logs the error and displays an alert message for incorrect password
-        catch (IncorrectPatternException ex) {
-            // Logs the error and displays an alert message for incorrect email format
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (IncorrectPatternException ex) {
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         } catch (Exception ex) {
-            // Logs any unexpected error and displays a generic alert message
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
-            new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
+            // Manejar otras excepciones que puedan surgir
+            showAlert("Error", "An unexpected error occurred.", Alert.AlertType.ERROR);
         }
     }
-    
+
     public Stage getStage() {
         return stage;
     }
-    
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -177,7 +168,7 @@ public class SignInController {
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
-        
+
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
@@ -189,7 +180,7 @@ public class SignInController {
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignUpController");
             }
-            
+
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
@@ -197,19 +188,19 @@ public class SignInController {
 
             //Initializes the controller with the loaded view
             controller.initialize(root);
-            
+
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, "Error loading SignUpView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
-        
+
     }
-    
+
     @FXML
     public void openMainWindow(ActionEvent event) {
 
@@ -234,18 +225,17 @@ public class SignInController {
 
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading InfoView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
 
-    
     public void showPassword(ActionEvent event) {
-        
+
         if (!passwordVisible) {
             ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             PasswordField.setVisible(false);
@@ -262,5 +252,5 @@ public class SignInController {
             passwordVisible = false;
         }
     }
-    
+
 }

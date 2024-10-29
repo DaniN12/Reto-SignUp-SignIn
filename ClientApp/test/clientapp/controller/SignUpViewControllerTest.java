@@ -6,6 +6,7 @@
 package clientapp.controller;
 
 import clientapp.Main;
+import clientapp.MainSignUp;
 import java.util.concurrent.TimeoutException;
 import javafx.stage.Stage;
 import org.junit.Test;
@@ -25,17 +26,18 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SignUpViewControllerTest extends ApplicationTest {
 
-    /* @Override
+    @Override
     public void start(Stage stage) throws Exception {
-        new Main().start(stage);
+        new MainSignUp().start(stage);
     }
-     */
+
+    /*
     @BeforeClass
     public static void setUpClass() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(Main.class);
     }
-
+     */
     @Test
     public void test_A_SignUpOK() {
         clickOn("#emailTxf");
@@ -52,20 +54,30 @@ public class SignUpViewControllerTest extends ApplicationTest {
         write("Zamudio");
         clickOn("#zipTxf");
         write("48170");
-
+        clickOn("#singUpButton");
         verifyThat("#signInPane", isVisible());
     }
 
     @Test
-    public void test_B_SignInUserAlreadyExistError() {
-        clickOn("#txtFieldEmail");
-        write("user@gmail.org");
-        clickOn("#PasswordField");
+    public void test_B_SignUpUserDoesntExistError() {
+        clickOn("#emailTxf");
+        write("user@email.org");
+        clickOn("#fullNameTxf");
+        write("enzo");
+        clickOn("#passwordPwdf");
         write("abcd*1234");
-        clickOn("#btnSignIn");
-        verifyThat("Invalid email format. Please enter a valid Gmail address.", isVisible());
+        clickOn("#repeatPasswordPwdf");
+        write("abcd*1234");
+        clickOn("#streetTxf");
+        write("enara");
+        clickOn("#cityTxf");
+        write("Zamudio");
+        clickOn("#zipTxf");
+        write("48170");
+        clickOn("#singUpButton");
+        verifyThat("Ihe email has to have a email format, don't forget the @", isVisible());
 
-        clickOn("OK");
+        clickOn("Aceptar");
     }
 
 }

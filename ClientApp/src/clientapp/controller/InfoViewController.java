@@ -108,10 +108,10 @@ public class InfoViewController {
             controller.initialize(root);
             
         } catch (IOException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE,ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
