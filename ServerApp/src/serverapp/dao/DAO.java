@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -24,7 +23,7 @@ import serverapp.model.Pool;
 public class DAO implements Signable {
 
     private Connection con;
-    private Statement statement;
+
     private static final Logger logger = Logger.getLogger(DAO.class.getName());
     final String INSERT_USER = "insert into res_users (login, password, company_id, partner_id, active, notification_type) values (?,?,?,?,?, 'email')";
     final String INSERT_USER_DATA = "insert into res_partner (company_id, name, zip, city, street) values (?,?,?,?,?)";
@@ -170,7 +169,7 @@ public class DAO implements Signable {
         int id_usuario = 0;
         try {
             this.openConnection();
-            statement = con.prepareStatement(GET_USER_ID);
+            PreparedStatement statement = con.prepareStatement(GET_USER_ID);
 
             ResultSet rs = statement.executeQuery(GET_USER_ID);
 

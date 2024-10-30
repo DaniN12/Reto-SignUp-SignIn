@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 
-<SplitPane fx:id="signInPane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.SignInController">
+<SplitPane fx:id="signInpane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.SignInController">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -29,9 +29,10 @@
                 <Button fx:id="btnSignIn" layoutX="209.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="38.0" prefWidth="93.0" styleClass="minimal-button" text="Sign In" />
                 <Hyperlink fx:id="HyperLinkRegistered" layoutX="150.0" layoutY="362.0" text="You are not Registered yet? Click here!" />
                 <Button fx:id="btnShowPasswd" layoutX="366.0" layoutY="262.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="22.0" prefWidth="32.0" styleClass="btnShowPasswd">
-               <graphic>
-                      <ImageView fx:id="ImageViewEye" fitHeight="31.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" />
-               </graphic></Button>
+                    <graphic>
+                        <ImageView fx:id="ImageViewEye" fitHeight="31.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" />
+                    </graphic>
+                </Button>
             </children>
         </AnchorPane>
     </items>

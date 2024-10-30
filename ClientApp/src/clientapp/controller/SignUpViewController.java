@@ -19,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.User;
 import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
@@ -32,7 +31,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.input.ContextMenuEvent;
 import model.Signable;
+import model.User;
 
 /**
  * FXML Controller class of the signUp window
@@ -40,6 +44,9 @@ import model.Signable;
  * @author Kelian and Enzo
  */
 public class SignUpViewController {
+
+    @FXML
+    private SplitPane splitPane;
 
     /**
      * TextField for email
@@ -147,10 +154,18 @@ public class SignUpViewController {
 
     private Signable sign;
 
+    private ContextMenu contextMenu = new ContextMenu();
+
+    private MenuItem itemResetFields = new MenuItem("Reset fields");
+
+    private MenuItem itemBack = new MenuItem("Go back");
+
     /**
      * Initializes the controller class.
      */
     public void initialize(Parent root) {
+
+        splitPane = (SplitPane) root;
 
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
@@ -172,11 +187,21 @@ public class SignUpViewController {
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlers
        // stage.setOnShowing(this::handleWindowShowing);
+        //set window's events handlers
+        stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         buttonEye.setOnAction(this::showPassword);
         retryButtonEye.setOnAction(this::retryShowPassword);
+        itemResetFields.setOnAction(this::resetFields);
+        itemBack.setOnAction(this::backButtonAction);
+        root.setOnContextMenuRequested(this::manejarContextMenu);
         //show primary window
         stage.show();
+    }
+
+    private void manejarContextMenu(ContextMenuEvent event) {
+        logger.info("hola");
+        contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
     }
 
     /**
@@ -198,6 +223,8 @@ public class SignUpViewController {
         //put the images in the imageviews
         buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        //Context menu
+        contextMenu.getItems().addAll(itemResetFields, itemBack);
 
     }
 
@@ -213,6 +240,15 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
+            // Set IDs for the fields (this may depend on how you're using them)
+            emailTxf.setId("email");
+            fullNameTxf.setId("fullName");
+            passwordTxf.setId("password");
+            passwordPwdf.setId("password");
+            streetTxf.setId("street");
+            cityTxf.setId("city");
+            zipTxf.setId("zip");
+            checkActive.setId("active");
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
@@ -370,6 +406,19 @@ public class SignUpViewController {
             repeatPasswordPwdf.setManaged(true);
             repeatpasswordVisible = false;
         }
+    }
+
+    public void resetFields(ActionEvent event) {
+        // Limpiar los campos de texto
+        emailTxf.clear();
+        fullNameTxf.clear();
+        passwordTxf.clear();
+        passwordPwdf.clear();
+        retryPasswordTxf.clear();
+        repeatPasswordPwdf.clear();
+        streetTxf.clear();
+        cityTxf.clear();
+        zipTxf.clear();
     }
 
     public Stage getStage() {

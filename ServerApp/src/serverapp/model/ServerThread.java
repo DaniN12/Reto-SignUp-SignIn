@@ -24,7 +24,7 @@ import serverapp.model.DAOFactory;
 
 /**
  *
- * @author 2dam
+ * @author Ruth
  */
 public class ServerThread extends Thread {
 
@@ -133,7 +133,7 @@ public class ServerThread extends Thread {
             } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Error closing resources", e);
             }
+
         }
     }
-
 }
