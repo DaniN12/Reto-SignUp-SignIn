@@ -5,17 +5,9 @@
  */
 package serverapp;
 
-/**
- *
- * @author 2dam
- */
-public class Main {
-    //Del serverThread recoger el run y recoger el DAO desde el socket
-    /**
-     * @param args the command line arguments
-     */
+   
+   public abstract class Main {
+
     public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
-}
+        
+   }}

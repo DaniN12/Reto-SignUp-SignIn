@@ -132,8 +132,8 @@ public class SignInController {
             // Verificar si los campos están vacíos
             if (email.isEmpty() || password.isEmpty() || passwordField.getText().isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-            } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-                throw new IncorrectPatternException("The email is not well written or is incorrect");
+            } else if (!emailExists(email)) {
+                throw new IncorrectPatternException("The email doesn't exist");
             } else {
 
                 SocketFactory socket = new SocketFactory();
@@ -149,9 +149,9 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
         } // Logs the error and displays an alert message for incorrect password
         catch (IncorrectPatternException ex) {
-            // Logs the error and displays an alert message for incorrect email format
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
+           // Logs the error and displays an alert message for non-existent email
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        new Alert(Alert.AlertType.ERROR, "The email does not exist. Please check your information or sign up.", ButtonType.OK).showAndWait();
         } catch (Exception ex) {
             // Logs any unexpected error and displays a generic alert message
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
@@ -159,7 +159,18 @@ public class SignInController {
         }
 
     }
-    
+    /**
+ * Método que verifica si el correo electrónico existe.
+ * @param email El email a verificar
+ * @return true si el email existe, false si no
+ */
+private boolean emailExists(String email) {
+    // Lógica para verificar si el email existe en la base de datos o sistema
+    // Esto puede ser una consulta a la base de datos o una llamada a un servicio
+    // Por ahora se devuelve false para demostrar el funcionamiento
+    return false; // Cambia esto con la lógica real
+}
+
     public Stage getStage() {
         return stage;
     }

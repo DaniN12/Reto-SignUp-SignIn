@@ -29,8 +29,8 @@ public class SignInControllerTest extends ApplicationTest{
     public SignInControllerTest() {
     }
 
-    @Test
-    public void testSomeMethod() {
+  //@Test
+    public void testSignIn() {
         clickOn("#txtFieldEmail");
         write("test@gmail.com");
         clickOn("#PasswordField");
@@ -38,15 +38,31 @@ public class SignInControllerTest extends ApplicationTest{
         /*verifyThat("#logOutBtn", isVisible());*/
     }
     
-     @Test
-    public void testCredentials() {
+    @Test
+    public void testEmailExists(){
         clickOn("#txtFieldEmail");
-        write("test@gmail.com");
+        write("dani@gmail.com");
         clickOn("#PasswordField");
-        write("");
+        write("abcd");
         clickOn("#btnSignIn");
-        verifyThat("ERROR: Invalid email format. Please enter a valid Gmail address", isVisible());
+        verifyThat("The email does not exist. Please check your information or sign up.", isVisible());
         clickOn("Aceptar");
     }
     
+   //@Test
+    public void testCredentials() {
+        clickOn("#txtFieldEmail");
+        write("");
+        clickOn("#PasswordField");
+        write("");
+        clickOn("#btnSignIn");
+        verifyThat("Please fill in all fields.", isVisible());
+        clickOn("Aceptar");
+    }
+ 
+   // @Test
+    public void testHyperlink() {
+        clickOn("#HyperLinkRegistered");
+        verifyThat("#signUpView", isVisible());
+    }
 }
