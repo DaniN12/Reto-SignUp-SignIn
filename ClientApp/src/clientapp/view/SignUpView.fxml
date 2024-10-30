@@ -12,9 +12,10 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="signUppane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.SignUpViewController">
+
+<SplitPane fx:id="splitPane" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../resources/styles.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.SignUpViewController">
     <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        <AnchorPane fx:id="anchorPaneL" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
                 <Button fx:id="returnButton" layoutX="20.0" layoutY="35.0" minWidth="34.0" mnemonicParsing="false" onAction="#backButtonAction" prefHeight="32.0" prefWidth="62.0" styleClass="minimal-button" />
                 <ImageView fx:id="backButtonImg" disable="true" fitHeight="32.0" fitWidth="55.0" layoutX="35.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="btnShowPasswd">
@@ -24,7 +25,7 @@
                 </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        <AnchorPane fx:id="anchorPaneR" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
             <children>
                 <Button fx:id="btnShowPasswd" layoutX="257.0" layoutY="162.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="22.0" prefWidth="32.0" styleClass="btnShowPasswd">
                     <graphic>

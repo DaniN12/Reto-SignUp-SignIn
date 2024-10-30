@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
@@ -58,7 +57,7 @@ public class DAO implements Signable {
         try {
             //Open connection with pool
             this.openConnection();
-
+            
             // Variable to get the partner id
             Integer id_partner = getPartnerId();
             // Statement to get the user's data from the res_users table
