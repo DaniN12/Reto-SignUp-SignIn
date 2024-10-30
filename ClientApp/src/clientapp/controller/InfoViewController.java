@@ -18,10 +18,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import model.User;
+import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 
 /**
@@ -67,6 +73,22 @@ public class InfoViewController {
      */
     @FXML
     private TextField zipTextF;
+    
+     @FXML
+    private ImageView profileImageView;
+
+    @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem optionMordecay;
+
+    @FXML
+    private MenuItem optionCj;
+
+    @FXML
+    private MenuItem optionRigby;
+
 
     /**
      * logger to show the steps of the application by console
@@ -80,7 +102,7 @@ public class InfoViewController {
 
     
     @FXML
-    public void backButtonAction(ActionEvent event) {
+    public void logOutButtonActtion(ActionEvent event) {
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
@@ -134,6 +156,18 @@ public class InfoViewController {
         zipTextF.setText(String.valueOf(user.getZip()));
     }
 
+    
+    private void showContextMenu(MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY) { // Clic derecho
+            contextMenu.show(profileImageView, event.getScreenX(), event.getScreenY());
+        }
+    }
+    
+    private void changeProfileImage(String imageFile) {
+        Image image = new Image(getClass().getResourceAsStream("/resources/" + imageFile));
+        profileImageView.setImage(image);
+    }
+    
     /**
      * Initializes the controller class.
      */
@@ -146,6 +180,24 @@ public class InfoViewController {
         //set window properties
         stage.setTitle("User info");
         stage.setResizable(false);
+        
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
+        
+        
+        
+        
+        
+         Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
+        profileImageView.setImage(rigbyImage);
+
+        // Asignar el evento de clic derecho para mostrar el ContextMenu
+        profileImageView.setOnMouseClicked(this::showContextMenu);
+
+        // Asignar eventos de cambio de imagen a cada opción del menú
+        optionMordecay.setOnAction(event -> changeProfileImage("mordecay.png"));
+        optionCj.setOnAction(event -> changeProfileImage("cj.png"));
+        optionRigby.setOnAction(event -> changeProfileImage("rigby.png"));
+    
         //set window's events handlesrs
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window

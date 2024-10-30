@@ -5,6 +5,9 @@
 <<<<<<< HEAD
         <group/>
 =======
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
 <<<<<<< HEAD
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ProyectLibrary/src/model/Signable.java</file>
@@ -13,5 +16,6 @@
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ProyectLibrary/src/model/MessageType.java</file>
         </group>
 >>>>>>> b8b35ceafeacf8b006859d17576dbb7f62cce508
+>>>>>>> 399a996bf6a06dc0eae7a620fb10ea3b7f511d4c
     </open-files>
 </project-private>
