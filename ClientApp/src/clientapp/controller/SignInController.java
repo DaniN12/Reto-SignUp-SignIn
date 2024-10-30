@@ -126,8 +126,13 @@ public class SignInController {
             user.setPassword(password);
 
             Signable signable = SocketFactory.getSignable();
-            signable.signIn(user);
-            openMainWindow(event); // Mover la apertura de la ventana aquí
+            User signedInUser = signable.signIn(user);
+
+            if (signedInUser != null) {
+                openMainWindow(event, signedInUser);
+            } else {
+                showAlert("Error", "User not found or credentials incorrect.", Alert.AlertType.ERROR);
+            }
 
         } catch (EmptyFieldException ex) {
             showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
@@ -188,18 +193,18 @@ public class SignInController {
 
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignUpView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
 
     }
 
     @FXML
-    public void openMainWindow(ActionEvent event) {
+    public void openMainWindow(ActionEvent event, User user) {
 
         try {
             // Load DOM form FXML view
@@ -218,15 +223,15 @@ public class SignInController {
             }
             controller.setStage(stage);
             //Initializes the controller with the loaded view
-            controller.initialize(root);
+            controller.initialize(root, user);
 
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading InfoView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }

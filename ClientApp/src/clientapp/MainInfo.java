@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -26,6 +27,7 @@ public class MainInfo extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        User user = new User();
         // Load DOM form FXML view
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/clientapp/view/InfoView.fxml"));
@@ -34,7 +36,7 @@ public class MainInfo extends Application {
         InfoViewController controller = (InfoViewController) loader.getController();
         controller.setStage(stage);
         //Initializes the controller with the loaded view
-        controller.initialize(root);
+        controller.initialize(root, user);
 
     }
 

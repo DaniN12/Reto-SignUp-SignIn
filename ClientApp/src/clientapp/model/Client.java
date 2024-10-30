@@ -80,8 +80,8 @@ public class Client implements Signable {
                     throw new ConnectionErrorException("A problem occurred trying to connect with the server");
             }
         } catch (IOException | ClassNotFoundException e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
-            throw new ConnectionErrorException("Connection issue: " + e.getMessage());
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
+            
         }
         return null;
     }

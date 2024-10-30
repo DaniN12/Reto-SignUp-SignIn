@@ -29,7 +29,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-
 /**
  * FXML Controller class
  *
@@ -40,7 +39,6 @@ public class InfoViewController {
     /**
      * Button used to log out user sesion
      */
-
     @FXML
     private Button logOutBtn;
 
@@ -66,15 +64,15 @@ public class InfoViewController {
      * Field where the city will be displayed
      */
     @FXML
-    private TextField citylTextF;
+    private TextField cityTextF;
 
     /**
      * Field where the zip will be displayed
      */
     @FXML
     private TextField zipTextF;
-    
-     @FXML
+
+    @FXML
     private ImageView profileImageView;
 
     @FXML
@@ -89,7 +87,6 @@ public class InfoViewController {
     @FXML
     private MenuItem optionRigby;
 
-
     /**
      * logger to show the steps of the application by console
      */
@@ -100,7 +97,6 @@ public class InfoViewController {
      */
     private Stage stage;
 
-    
     @FXML
     public void logOutButtonActtion(ActionEvent event) {
         try {
@@ -125,7 +121,7 @@ public class InfoViewController {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE,ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
@@ -146,32 +142,29 @@ public class InfoViewController {
         }
     }
 
-    
-    public void handleWindowShowing(WindowEvent event) {
-        User  user=new User();
+    /* public void handleWindowShowing(WindowEvent event, User user) {
         emailTextF.setText(user.getEmail());
         streetTextF.setText(user.getStreet());
         userNameTextF.setText(user.getFullName());
         citylTextF.setText(user.getCity());
         zipTextF.setText(String.valueOf(user.getZip()));
     }
-
-    
+     */
     private void showContextMenu(MouseEvent event) {
         if (event.getButton() == MouseButton.SECONDARY) { // Clic derecho
             contextMenu.show(profileImageView, event.getScreenX(), event.getScreenY());
         }
     }
-    
+
     private void changeProfileImage(String imageFile) {
         Image image = new Image(getClass().getResourceAsStream("/resources/" + imageFile));
         profileImageView.setImage(image);
     }
-    
+
     /**
      * Initializes the controller class.
      */
-    public void initialize(Parent root) {
+    public void initialize(Parent root, User user) {
         logger.info("Initializing InfoView stage.");
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
@@ -180,14 +173,14 @@ public class InfoViewController {
         //set window properties
         stage.setTitle("User info");
         stage.setResizable(false);
-        
-        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
-        
-        
-        
-        
-        
-         Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
+        emailTextF.setText(user.getEmail());
+        streetTextF.setText(user.getStreet());
+        userNameTextF.setText(user.getFullName());
+        cityTextF.setText(Optional.ofNullable(user.getCity()).orElse("City not available"));
+        zipTextF.setText(user.getZip() != null ? String.valueOf(user.getZip()) : "ZIP not available");
+        // stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
+
+        Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
         profileImageView.setImage(rigbyImage);
 
         // Asignar el evento de clic derecho para mostrar el ContextMenu
@@ -197,7 +190,7 @@ public class InfoViewController {
         optionMordecay.setOnAction(event -> changeProfileImage("mordecay.png"));
         optionCj.setOnAction(event -> changeProfileImage("cj.png"));
         optionRigby.setOnAction(event -> changeProfileImage("rigby.png"));
-    
+
         //set window's events handlesrs
         stage.setOnCloseRequest(this::onCloseRequest);
         //show primary window
@@ -207,6 +200,5 @@ public class InfoViewController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-}
 
+}

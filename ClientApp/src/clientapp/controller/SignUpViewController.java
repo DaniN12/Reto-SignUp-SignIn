@@ -274,7 +274,6 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-
                 sign = SocketFactory.getSignable();
                 sign.signUp(user);
                 backButtonAction(event);
@@ -295,7 +294,7 @@ public class SignUpViewController {
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (UserAlreadyExistException ex) {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "This user already exist", ButtonType.OK).showAndWait();
         } catch (ConnectionErrorException ex) {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();

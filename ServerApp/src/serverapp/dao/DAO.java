@@ -94,11 +94,15 @@ public class DAO implements Signable {
                 user.setZip(Integer.parseInt(rs.getString("zip")));
                 user.setActive(rs.getBoolean("active"));
                 user.setCompany_id(rs.getInt("company_id"));
+            } else {
+                return null;
             }
 
         } catch (SQLException e) {
             logger.severe("Error al iniciar sesión: " + e.getMessage());
             throw new ConnectionErrorException("Error de base de datos durante el inicio de sesión.");
+        } catch (UserDoesntExistExeption | ConnectionErrorException e) {
+            alert("Error", e.getMessage());
         } finally {
             // Close connection with the pool
             this.closeConnection();
@@ -156,7 +160,7 @@ public class DAO implements Signable {
             } catch (SQLException rollbackEx) {
                 logger.severe("Error al realizar el rollback: " + rollbackEx.getMessage());
             }
-            throw new ConnectionErrorException("Error durante el proceso de sign up.");
+            throw new ConnectionErrorException("Error during sign up.");
         } finally {
             this.closeConnection();  // Cierra la conexión y la devuelve al pool
         }

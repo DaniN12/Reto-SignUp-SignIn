@@ -43,15 +43,15 @@ public class SignUpViewControllerTest extends ApplicationTest {
         clickOn("#emailTxf");
         write("user@gmail.com");
         clickOn("#fullNameTxf");
-        write("enzo");
+        write("user1");
         clickOn("#passwordPwdf");
         write("abcd*1234");
         clickOn("#repeatPasswordPwdf");
         write("abcd*1234");
         clickOn("#streetTxf");
-        write("enara");
+        write("street1");
         clickOn("#cityTxf");
-        write("Zamudio");
+        write("city1");
         clickOn("#zipTxf");
         write("48170");
         clickOn("#singUpButton");
@@ -59,11 +59,11 @@ public class SignUpViewControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void test_B_SignUpUserDoesntExistError() {
+    public void test_B_SignUpUserAlreadyExistError() {
         clickOn("#emailTxf");
-        write("user@email.org");
+        write("manolo@gmail.com");
         clickOn("#fullNameTxf");
-        write("enzo");
+        write("manoloSantana");
         clickOn("#passwordPwdf");
         write("abcd*1234");
         clickOn("#repeatPasswordPwdf");
@@ -75,9 +75,9 @@ public class SignUpViewControllerTest extends ApplicationTest {
         clickOn("#zipTxf");
         write("48170");
         clickOn("#singUpButton");
-        verifyThat("Ihe email has to have a email format, don't forget the @", isVisible());
+        verifyThat("This user already exist", isVisible());
 
-        clickOn("Aceptar");
+        //clickOn("Aceptar");
     }
 
 }
