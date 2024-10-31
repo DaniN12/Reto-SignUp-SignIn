@@ -138,6 +138,7 @@ public class SignUpViewController {
     @FXML
     private ImageView repeatbuttonImgView;
 
+
     /**
      * Logger to show the steps of the application in the console
      */
@@ -152,7 +153,8 @@ public class SignUpViewController {
 
     private boolean repeatpasswordVisible = false;
 
-    private Signable sign;
+
+     private Signable sign;
 
     private ContextMenu contextMenu = new ContextMenu();
 
@@ -163,6 +165,7 @@ public class SignUpViewController {
     /**
      * Initializes the controller class.
      */
+     
     public void initialize(Parent root) {
 
         splitPane = (SplitPane) root;
@@ -218,10 +221,10 @@ public class SignUpViewController {
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //Context menu
         contextMenu.getItems().addAll(itemResetFields, itemBack);
-
     }
 
-    /**
+
+   /**
      * This method handles the event that occurs when the button signUp is
      * clicked and makes sure that all the conditions to register a user are met
      *
@@ -233,15 +236,6 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            // Set IDs for the fields (this may depend on how you're using them)
-            emailTxf.setId("email");
-            fullNameTxf.setId("fullName");
-            passwordTxf.setId("password");
-            passwordPwdf.setId("password");
-            streetTxf.setId("street");
-            cityTxf.setId("city");
-            zipTxf.setId("zip");
-            checkActive.setId("active");
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
@@ -272,6 +266,32 @@ public class SignUpViewController {
                 backButtonAction(event);
 
             }
+            User user = new User();
+
+            //Create an alert to make sure that the user wants to close the application
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            //set the alert message and title
+            alert.setHeaderText(null);
+            alert.setTitle("Sign Up");
+            alert.setContentText("The new user has been correctly created");
+
+            //create a variable to compare the button type
+            Optional<ButtonType> answer = alert.showAndWait();
+
+            //Condition to close the application
+            if (answer.get() == ButtonType.OK) {
+                //if the answer is ok the app will close
+                emailTxf.setText("");
+                fullNameTxf.setText("");
+                passwordTxf.setText("");
+                passwordPwdf.setText("");
+                retryPasswordTxf.setText("");
+                repeatPasswordPwdf.setText("");
+                streetTxf.setText("");
+                cityTxf.setText("");
+                zipTxf.setText("");
+                event.consume();
+            }
 
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
@@ -294,6 +314,7 @@ public class SignUpViewController {
         }
 
     }
+
 
     /**
      * This method handles the event that occur when the button to go back to
@@ -361,7 +382,6 @@ public class SignUpViewController {
             //else the alert will dispose and the user will continue in the app
             event.consume();
         }
-
     }
 
     public void showPassword(ActionEvent event) {
