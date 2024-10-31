@@ -16,7 +16,23 @@
     <AnchorPane fx:id="anchorPaneTop" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
             <Button fx:id="logOutBtn" layoutX="639.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonActtion" prefHeight="49.0" prefWidth="132.0" styleClass="pink-button" text="Log out" />
-            <ImageView fx:id="profileImage" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="profileImageMordecay" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" onMouseClicked="#showContextMenu" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/mordecay.png" />
+               </image>
+               <clip>
+                  <Circle centerX="60" centerY="60" radius="55" />
+               </clip>
+            </ImageView>
+            <ImageView fx:id="profileImageCj" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" onMouseClicked="#showContextMenu" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/cj.png" />
+               </image>
+               <clip>
+                  <Circle centerX="60" centerY="60" radius="55" />
+               </clip>
+            </ImageView>
+            <ImageView fx:id="profileImageRigby" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" onMouseClicked="#showContextMenu" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../resources/rigby.png" />
                </image>

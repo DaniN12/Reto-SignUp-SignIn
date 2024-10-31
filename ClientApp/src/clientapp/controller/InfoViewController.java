@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clientapp.controller;
 
 import java.io.IOException;
@@ -29,52 +24,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-
-/**
- * FXML Controller class
- *
- * @author ruth
- */
 public class InfoViewController {
-
-    /**
-     * Button used to log out user sesion
-     */
 
     @FXML
     private Button logOutBtn;
 
-    /**
-     * Field where the email will be displayed
-     */
     @FXML
     private TextField emailTextF;
 
-    /**
-     * Field where the street will be displayed
-     */
     @FXML
     private TextField streetTextF;
 
-    /**
-     * Field where the name will be displayed
-     */
     @FXML
     private TextField userNameTextF;
 
-    /**
-     * Field where the city will be displayed
-     */
     @FXML
-    private TextField citylTextF;
+    private TextField cityTextF; // Actualizado para coincidir con FXML
 
-    /**
-     * Field where the zip will be displayed
-     */
     @FXML
     private TextField zipTextF;
-    
-     @FXML
+
+    @FXML
     private ImageView profileImageView;
 
     @FXML
@@ -89,25 +59,48 @@ public class InfoViewController {
     @FXML
     private MenuItem optionRigby;
 
+    @FXML
+    private ImageView profileImageMordecay;
 
-    /**
-     * logger to show the steps of the application by console
-     */
+    @FXML
+    private ImageView profileImageCj;
+
+    @FXML
+    private ImageView profileImageRigby;
+
     private Logger logger = Logger.getLogger(InfoViewController.class.getName());
-
-    /**
-     * stage for the view
-     */
     private Stage stage;
 
-    
+    @FXML
+    private void onOptionMordecay(ActionEvent event) {
+        showImage(profileImageMordecay);
+    }
+
+    @FXML
+    private void onOptionCj(ActionEvent event) {
+        showImage(profileImageCj);
+    }
+
+    @FXML
+    private void onOptionRigby(ActionEvent event) {
+        showImage(profileImageRigby);
+    }
+
+    private void showImage(ImageView selectedImage) {
+        // Oculta todas las imágenes
+        profileImageMordecay.setVisible(false);
+        profileImageCj.setVisible(false);
+        profileImageRigby.setVisible(false);
+
+        // Muestra la imagen seleccionada
+        selectedImage.setVisible(true);
+    }
+
     @FXML
     public void logOutButtonActtion(ActionEvent event) {
         try {
-            // Load DOM form FXML view
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/clientapp/view/SignInView.fxml"));
-            Parent root = (Parent) loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignInView.fxml"));
+            Parent root = loader.load();
 
             SignInController controller = loader.getController();
             if (controller == null) {
@@ -134,79 +127,66 @@ public class InfoViewController {
     public void onCloseRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("EXIT");
-        alert.setContentText("Are you sure you want to close the application?");
+        alert.setTitle("SALIR");
+        alert.setContentText("¿Estás seguro de que quieres cerrar la aplicación?");
 
         Optional<ButtonType> answer = alert.showAndWait();
 
-        if (answer.get() == ButtonType.OK) {
+        if (answer.isPresent() && answer.get() == ButtonType.OK) {
             Platform.exit();
         } else {
             event.consume();
         }
     }
 
-    
     public void handleWindowShowing(WindowEvent event) {
-        User  user=new User();
+        User user = fetchUserData(); // Método para obtener datos reales del usuario
         emailTextF.setText(user.getEmail());
         streetTextF.setText(user.getStreet());
         userNameTextF.setText(user.getFullName());
-        citylTextF.setText(user.getCity());
+        cityTextF.setText(user.getCity()); // Actualizado para coincidir con FXML
         zipTextF.setText(String.valueOf(user.getZip()));
     }
 
-    
+    @FXML
     private void showContextMenu(MouseEvent event) {
-        if (event.getButton() == MouseButton.SECONDARY) { // Clic derecho
+        if (event.getButton() == MouseButton.SECONDARY) {
             contextMenu.show(profileImageView, event.getScreenX(), event.getScreenY());
         }
     }
-    
+
     private void changeProfileImage(String imageFile) {
-        Image image = new Image(getClass().getResourceAsStream("/resources/" + imageFile));
+        Image image = new Image(getClass().getResourceAsStream(imageFile));
         profileImageView.setImage(image);
     }
-    
-    /**
-     * Initializes the controller class.
-     */
+
     public void initialize(Parent root) {
         logger.info("Initializing InfoView stage.");
-        //create a scene associated the node graph root
+
+        profileImageMordecay.setVisible(false);
+        profileImageCj.setVisible(false);
+        profileImageRigby.setVisible(true);
+
+        // Asocia las acciones del menú contextual con los métodos correspondientes
+        optionMordecay.setOnAction(this::onOptionMordecay);
+        optionCj.setOnAction(this::onOptionCj);
+        optionRigby.setOnAction(this::onOptionRigby);
+
         Scene scene = new Scene(root);
-        //Associate scene to primaryStage(Window)
         stage.setScene(scene);
-        //set window properties
-        stage.setTitle("User info");
+        stage.setTitle("Información del usuario");
         stage.setResizable(false);
-        
-        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
-        
-        
-        
-        
-        
-         Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
-        profileImageView.setImage(rigbyImage);
-
-        // Asignar el evento de clic derecho para mostrar el ContextMenu
-        profileImageView.setOnMouseClicked(this::showContextMenu);
-
-        // Asignar eventos de cambio de imagen a cada opción del menú
-        optionMordecay.setOnAction(event -> changeProfileImage("mordecay.png"));
-        optionCj.setOnAction(event -> changeProfileImage("cj.png"));
-        optionRigby.setOnAction(event -> changeProfileImage("rigby.png"));
-    
-        //set window's events handlesrs
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing); // Asegúrate de manejar la ventana al mostrar
         stage.setOnCloseRequest(this::onCloseRequest);
-        //show primary window
         stage.show();
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-}
 
+    private User fetchUserData() {
+        // Implementa la lógica para obtener los datos del usuario, posiblemente de una base de datos o sesión
+        return new User(); // Reemplazar con los datos reales del usuario
+    }
+}
