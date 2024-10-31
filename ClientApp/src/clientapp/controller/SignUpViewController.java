@@ -138,7 +138,6 @@ public class SignUpViewController {
     @FXML
     private ImageView repeatbuttonImgView;
 
-
     /**
      * Logger to show the steps of the application in the console
      */
@@ -153,8 +152,7 @@ public class SignUpViewController {
 
     private boolean repeatpasswordVisible = false;
 
-
-     private Signable sign;
+    private Signable sign;
 
     private ContextMenu contextMenu = new ContextMenu();
 
@@ -165,7 +163,6 @@ public class SignUpViewController {
     /**
      * Initializes the controller class.
      */
-     
     public void initialize(Parent root) {
 
         splitPane = (SplitPane) root;
@@ -181,8 +178,6 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-        //set window's events handlers
-        // stage.setOnShowing(this::handleWindowShowing);
         //set window's events handlers
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
@@ -223,8 +218,7 @@ public class SignUpViewController {
         contextMenu.getItems().addAll(itemResetFields, itemBack);
     }
 
-
-   /**
+    /**
      * This method handles the event that occurs when the button signUp is
      * clicked and makes sure that all the conditions to register a user are met
      *
@@ -266,32 +260,6 @@ public class SignUpViewController {
                 backButtonAction(event);
 
             }
-            User user = new User();
-
-            //Create an alert to make sure that the user wants to close the application
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            //set the alert message and title
-            alert.setHeaderText(null);
-            alert.setTitle("Sign Up");
-            alert.setContentText("The new user has been correctly created");
-
-            //create a variable to compare the button type
-            Optional<ButtonType> answer = alert.showAndWait();
-
-            //Condition to close the application
-            if (answer.get() == ButtonType.OK) {
-                //if the answer is ok the app will close
-                emailTxf.setText("");
-                fullNameTxf.setText("");
-                passwordTxf.setText("");
-                passwordPwdf.setText("");
-                retryPasswordTxf.setText("");
-                repeatPasswordPwdf.setText("");
-                streetTxf.setText("");
-                cityTxf.setText("");
-                zipTxf.setText("");
-                event.consume();
-            }
 
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
@@ -314,7 +282,6 @@ public class SignUpViewController {
         }
 
     }
-
 
     /**
      * This method handles the event that occur when the button to go back to

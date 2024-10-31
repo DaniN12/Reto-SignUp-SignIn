@@ -30,11 +30,11 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.User;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
 import exceptions.UserDoesntExistExeption;
+import javafx.stage.WindowEvent;
 import model.Signable;
 
 /**
@@ -122,7 +122,7 @@ public class SignInController {
     }
 
     @FXML
-    private void handleSignIn(ActionEvent event) {
+    private void handleSignIn(ActionEvent event) throws UserDoesntExistExeption, ConnectionErrorException {
         try {
             String email = txtFieldEmail.getText();
             String password = PasswordField.getText(); // Usando solo PasswordField
@@ -132,15 +132,6 @@ public class SignInController {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
             } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
                 throw new IncorrectPatternException("The email is not well written or is incorrect");
-            } else if (!emailExists(email)) {
-                throw new IncorrectPatternException("The email doesn't exist");
-            } else {
-
-                User user = new User();
-                user.setEmail(email);
-                user.setPassword(password);
-                Signable signable = SocketFactory.getSignable();
-                signable.signUp(user);
             }
 
             User user = new User();
@@ -153,23 +144,19 @@ public class SignInController {
             if (signedInUser != null) {
                 openMainWindow(event, signedInUser);
             } else {
-                showAlert("Error", "User not found or credentials incorrect.", Alert.AlertType.ERROR);
+                throw new ConnectionErrorException("An unexpected error occurred.");
             }
 
         } catch (EmptyFieldException ex) {
             showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         } catch (IncorrectPatternException ex) {
             showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
-            // Logs the error and displays an alert message for empty fields
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
-        } // Logs the error and displays an alert message for non-existent email
-        // Logs the error and displays an alert message for incorrect password
-        catch (Exception ex) {
+        } catch (UserDoesntExistExeption ex) {
             // Manejar otras excepciones que puedan surgir
-            showAlert("Error", "An unexpected error occurred.", Alert.AlertType.ERROR);
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (ConnectionErrorException ex) {
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         }
-
     }
 
     /**
@@ -240,7 +227,7 @@ public class SignInController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
             Parent root = loader.load();
 
-            SignUpViewController controller = loader.getController();
+            SignUpViewController controller = (SignUpViewController) loader.getController();
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignUpController");
             }
@@ -249,9 +236,9 @@ public class SignInController {
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
-
             controller.setStage(stage);  // Asigna el stage antes de inicializar
             controller.initialize(root); // Llama al método initialize con el root cargado
+            controller.handleWindowShowing(new WindowEvent(stage, WindowEvent.WINDOW_SHOWING));
 
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
@@ -289,7 +276,7 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Error loading InfoView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "Exception occurred", ex);
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }

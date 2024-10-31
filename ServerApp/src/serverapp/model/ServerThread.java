@@ -76,9 +76,9 @@ public class ServerThread extends Thread {
                         }
                     } catch (UserDoesntExistExeption e) {
                         msg.setMsg(MessageType.USER_NOT_FOUND_RESPONSE);
-                        LOGGER.log(Level.SEVERE, "User does not exist", e);
+                        LOGGER.log(Level.SEVERE, "User does not exist");
                     } catch (ConnectionErrorException ex) {
-                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE,ex.getLocalizedMessage());
                     }
                     break;
 

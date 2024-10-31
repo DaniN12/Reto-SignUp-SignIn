@@ -150,19 +150,6 @@ public class InfoViewController {
         }
     }
 
-    /* public void handleWindowShowing(WindowEvent event, User user) {
-=======
-    public void handleWindowShowing(WindowEvent event) {
-        User user = fetchUserData(); // Método para obtener datos reales del usuario
->>>>>>> cbc86f9e053d5303f87e95760ab1c98895dfd7a9
-        emailTextF.setText(user.getEmail());
-        streetTextF.setText(user.getStreet());
-        userNameTextF.setText(user.getFullName());
-        cityTextF.setText(user.getCity()); // Actualizado para coincidir con FXML
-        zipTextF.setText(String.valueOf(user.getZip()));
-    }
-<<<<<<< HEAD
-     */
     @FXML
     private void showContextMenu(MouseEvent event) {
         if (event.getButton() == MouseButton.SECONDARY) {
@@ -181,15 +168,6 @@ public class InfoViewController {
     public void initialize(Parent root, User user) {
         logger.info("Initializing InfoView stage.");
 
-        profileImageMordecay.setVisible(false);
-        profileImageCj.setVisible(false);
-        profileImageRigby.setVisible(true);
-
-        // Asocia las acciones del menú contextual con los métodos correspondientes
-        optionMordecay.setOnAction(this::onOptionMordecay);
-        optionCj.setOnAction(this::onOptionCj);
-        optionRigby.setOnAction(this::onOptionRigby);
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Información del usuario");
@@ -199,10 +177,16 @@ public class InfoViewController {
         userNameTextF.setText(user.getFullName());
         cityTextF.setText(Optional.ofNullable(user.getCity()).orElse("City not available"));
         zipTextF.setText(user.getZip() != null ? String.valueOf(user.getZip()) : "ZIP not available");
-        // stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
 
+        profileImageMordecay.setVisible(false);
+        profileImageCj.setVisible(false);
+        profileImageRigby.setVisible(true);
+
+        // Asocia las acciones del menú contextual con los métodos correspondientes
+        optionMordecay.setOnAction(this::onOptionMordecay);
+        optionCj.setOnAction(this::onOptionCj);
+        optionRigby.setOnAction(this::onOptionRigby);
         Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
-        profileImageView.setImage(rigbyImage);
 
         // Asignar el evento de clic derecho para mostrar el ContextMenu
         profileImageView.setOnMouseClicked(this::showContextMenu);
