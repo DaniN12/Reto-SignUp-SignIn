@@ -25,6 +25,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -93,6 +94,11 @@ public class SignInController {
     public void initialize(Parent root) {
 
         logger.info("Initializing SignIn stage.");
+        SplitPane splitPane = (SplitPane) root;
+        splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
+                -> divider.setPosition(0.15) // Vuelve a fijar la posición si se intenta mover
+        ));
+        
         //create a scene associated the node graph root
         Scene scene = new Scene(root);
         //Associate scene to primaryStage(Window)

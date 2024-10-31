@@ -11,28 +11,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
-<SplitPane fx:id="panel" dividerPositions="0.271356783919598" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.InfoViewController">
+<SplitPane fx:id="infoViewpanel" dividerPositions="0.271356783919598" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientapp.controller.InfoViewController">
   <items>
     <AnchorPane fx:id="anchorPaneTop" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button fx:id="logOutBtn" layoutX="639.0" layoutY="16.0" mnemonicParsing="false" onAction="#backButtonAction" prefHeight="49.0" prefWidth="132.0" styleClass="pink-button" text="Log out" />
-            <ImageView fx:id="imageMordecay" disable="true" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../resources/mordecay.png" />
-               </image>
-               <clip>
-                  <Circle centerX="60" centerY="60" radius="55" />
-               </clip>
-            </ImageView>
-            <ImageView fx:id="imageCj" disable="true" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../resources/cj.png" />
-               </image>
-               <clip>
-                  <Circle centerX="60" centerY="60" radius="55" />
-               </clip>
-            </ImageView>
-            <ImageView fx:id="imageRigby" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="logOutBtn" layoutX="639.0" layoutY="16.0" mnemonicParsing="false" onAction="#logOutButtonActtion" prefHeight="49.0" prefWidth="132.0" styleClass="pink-button" text="Log out" />
+            <ImageView fx:id="profileImage" fitHeight="115.0" fitWidth="132.0" layoutX="43.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../resources/rigby.png" />
                </image>
@@ -56,11 +40,11 @@
          </children></AnchorPane>
   </items>
    <contextMenu>
-      <ContextMenu>
+      <ContextMenu fx:id="contextMenu">
         <items>
-          <MenuItem fx:id="optionMordecay" mnemonicParsing="false" text="Change photo to Mordecay" />
-            <MenuItem fx:id="optionCj" mnemonicParsing="false" text="Change photo to Cj" />
-            <MenuItem fx:id="optionRigby" mnemonicParsing="false" text="Change photo to Rigby" />
+          <MenuItem fx:id="optionMordecay" mnemonicParsing="false" text="Change profile photo to Mordecay" />
+            <MenuItem fx:id="optionCj" mnemonicParsing="false" text="Change profile  photo to Cj" />
+            <MenuItem fx:id="optionRigby" mnemonicParsing="false" text="Change profile  photo to Rigby" />
         </items>
       </ContextMenu>
    </contextMenu>

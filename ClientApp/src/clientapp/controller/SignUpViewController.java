@@ -35,10 +35,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import model.Signable;
 import model.User;
 
@@ -170,6 +166,10 @@ public class SignUpViewController {
     public void initialize(Parent root) {
 
         splitPane = (SplitPane) root;
+        //stage = new Stage();
+        splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
+                -> divider.setPosition(0.25) // Vuelve a fijar la posición si se intenta mover
+        ));
 
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
