@@ -35,7 +35,8 @@ public class SignInControllerTest extends ApplicationTest{
         write("test@gmail.com");
         clickOn("#PasswordField");
         write("abcd*1234");
-        /*verifyThat("#logOutBtn", isVisible());*/
+        clickOn("#btnSignIn");
+        verifyThat("#panel", isVisible());
     }
     
     @Test

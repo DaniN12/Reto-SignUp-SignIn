@@ -10,9 +10,6 @@ import clientapp.exceptions.EmptyFieldException;
 import java.util.Optional;
 
 import clientapp.exceptions.IncorrectPatternException;
-import clientapp.model.SocketFactory;
-import exceptions.ConnectionErrorException;
-import exceptions.UserDoesntExistExeption;
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -33,7 +30,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.Signable;
 import model.User;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
@@ -168,7 +164,7 @@ private boolean emailExists(String email) {
     // Lógica para verificar si el email existe en la base de datos o sistema
     // Esto puede ser una consulta a la base de datos o una llamada a un servicio
     // Por ahora se devuelve false para demostrar el funcionamiento
-    return false; // Cambia esto con la lógica real
+    return false;
 }
 
     public Stage getStage() {
