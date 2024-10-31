@@ -31,6 +31,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.input.ContextMenuEvent;
 import model.Signable;
 import model.User;
 
@@ -40,6 +44,9 @@ import model.User;
  * @author Kelian and Enzo
  */
 public class SignUpViewController {
+
+    @FXML
+    private SplitPane splitPane;
 
     /**
      * TextField for email
@@ -149,11 +156,19 @@ public class SignUpViewController {
 
      private Signable sign;
 
+    private ContextMenu contextMenu = new ContextMenu();
+
+    private MenuItem itemResetFields = new MenuItem("Reset fields");
+
+    private MenuItem itemBack = new MenuItem("Go back");
+
     /**
      * Initializes the controller class.
      */
      
     public void initialize(Parent root) {
+
+        splitPane = (SplitPane) root;
 
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
@@ -163,24 +178,22 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-        passwordTxf.setVisible(false);
-        passwordTxf.setManaged(false);
-        retryPasswordTxf.setVisible(false);
-        retryPasswordTxf.setManaged(false);
-        passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
-        retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
-        //put the images in the imageviews
-        buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlers
-        //on showing doesn't work (stage.setOnShowing(this::handleWindowShowing);)
+        stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         buttonEye.setOnAction(this::showPassword);
         retryButtonEye.setOnAction(this::retryShowPassword);
+        itemResetFields.setOnAction(this::resetFields);
+        itemBack.setOnAction(this::backButtonAction);
+        root.setOnContextMenuRequested(this::manejarContextMenu);
         //show primary window
         stage.show();
     }
 
+    private void manejarContextMenu(ContextMenuEvent event) {
+        logger.info("hola");
+        contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
+    }
 
     /**
      * Method that handles the events that occur before the window opens
@@ -201,6 +214,8 @@ public class SignUpViewController {
         //put the images in the imageviews
         buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        //Context menu
+        contextMenu.getItems().addAll(itemResetFields, itemBack);
     }
 
 
@@ -255,15 +270,15 @@ public class SignUpViewController {
                 //create a variable to compare the button type
                 Optional<ButtonType> answer = alert.showAndWait();
                 if (answer.get() == ButtonType.OK) {
-                    emailTxf.setText("");
-                    fullNameTxf.setText("");
-                    passwordTxf.setText("");
-                    passwordPwdf.setText("");
-                    retryPasswordTxf.setText("");
-                    repeatPasswordPwdf.setText("");
-                    streetTxf.setText("");
-                    cityTxf.setText("");
-                    zipTxf.setText("");
+                    emailTxf.clear();
+                    fullNameTxf.clear();
+                    passwordTxf.clear();
+                    passwordPwdf.clear();
+                    retryPasswordTxf.clear();
+                    repeatPasswordPwdf.clear();
+                    streetTxf.clear();
+                    cityTxf.clear();
+                    zipTxf.clear();
                     event.consume();
                 }
             }
@@ -341,11 +356,11 @@ public class SignUpViewController {
 
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
     }
@@ -378,6 +393,7 @@ public class SignUpViewController {
             event.consume();
         }
     }
+
     public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -395,7 +411,7 @@ public class SignUpViewController {
             passwordVisible = false;
         }
     }
-    
+
     public void retryShowPassword(ActionEvent event) {
         if (!repeatpasswordVisible) {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -412,6 +428,19 @@ public class SignUpViewController {
             repeatPasswordPwdf.setManaged(true);
             repeatpasswordVisible = false;  // Aquí cambias la variable correcta
         }
+    }
+
+    public void resetFields(ActionEvent event) {
+        // Limpiar los campos de texto
+        emailTxf.clear();
+        fullNameTxf.clear();
+        passwordTxf.clear();
+        passwordPwdf.clear();
+        retryPasswordTxf.clear();
+        repeatPasswordPwdf.clear();
+        streetTxf.clear();
+        cityTxf.clear();
+        zipTxf.clear();
     }
 
     public Stage getStage() {

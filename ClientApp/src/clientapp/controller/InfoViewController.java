@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clientapp.controller;
 
 import java.io.IOException;
@@ -18,74 +13,94 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import model.User;
+import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
-
-/**
- * FXML Controller class
- *
- * @author ruth
- */
 public class InfoViewController {
-
-    /**
-     * Button used to log out user sesion
-     */
 
     @FXML
     private Button logOutBtn;
 
-    /**
-     * Field where the email will be displayed
-     */
     @FXML
     private TextField emailTextF;
 
-    /**
-     * Field where the street will be displayed
-     */
     @FXML
     private TextField streetTextF;
 
-    /**
-     * Field where the name will be displayed
-     */
     @FXML
     private TextField userNameTextF;
 
-    /**
-     * Field where the city will be displayed
-     */
     @FXML
-    private TextField citylTextF;
+    private TextField cityTextF; // Actualizado para coincidir con FXML
 
-    /**
-     * Field where the zip will be displayed
-     */
     @FXML
     private TextField zipTextF;
 
-    /**
-     * logger to show the steps of the application by console
-     */
-    private Logger logger = Logger.getLogger(InfoViewController.class.getName());
+    @FXML
+    private ImageView profileImageView;
 
-    /**
-     * stage for the view
-     */
+    @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem optionMordecay;
+
+    @FXML
+    private MenuItem optionCj;
+
+    @FXML
+    private MenuItem optionRigby;
+
+    @FXML
+    private ImageView profileImageMordecay;
+
+    @FXML
+    private ImageView profileImageCj;
+
+    @FXML
+    private ImageView profileImageRigby;
+
+    private Logger logger = Logger.getLogger(InfoViewController.class.getName());
     private Stage stage;
 
-    
     @FXML
-    public void backButtonAction(ActionEvent event) {
+    private void onOptionMordecay(ActionEvent event) {
+        showImage(profileImageMordecay);
+    }
+
+    @FXML
+    private void onOptionCj(ActionEvent event) {
+        showImage(profileImageCj);
+    }
+
+    @FXML
+    private void onOptionRigby(ActionEvent event) {
+        showImage(profileImageRigby);
+    }
+
+    private void showImage(ImageView selectedImage) {
+        // Oculta todas las imágenes
+        profileImageMordecay.setVisible(false);
+        profileImageCj.setVisible(false);
+        profileImageRigby.setVisible(false);
+
+        // Muestra la imagen seleccionada
+        selectedImage.setVisible(true);
+    }
+
+    @FXML
+    public void logOutButtonActtion(ActionEvent event) {
         try {
-            // Load DOM form FXML view
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/clientapp/view/SignInView.fxml"));
-            Parent root = (Parent) loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignInView.fxml"));
+            Parent root = loader.load();
 
             SignInController controller = loader.getController();
             if (controller == null) {
@@ -112,49 +127,66 @@ public class InfoViewController {
     public void onCloseRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("EXIT");
-        alert.setContentText("Are you sure you want to close the application?");
+        alert.setTitle("SALIR");
+        alert.setContentText("¿Estás seguro de que quieres cerrar la aplicación?");
 
         Optional<ButtonType> answer = alert.showAndWait();
 
-        if (answer.get() == ButtonType.OK) {
+        if (answer.isPresent() && answer.get() == ButtonType.OK) {
             Platform.exit();
         } else {
             event.consume();
         }
     }
 
-    
     public void handleWindowShowing(WindowEvent event) {
-        User  user=new User();
+        User user = fetchUserData(); // Método para obtener datos reales del usuario
         emailTextF.setText(user.getEmail());
         streetTextF.setText(user.getStreet());
         userNameTextF.setText(user.getFullName());
-        citylTextF.setText(user.getCity());
+        cityTextF.setText(user.getCity()); // Actualizado para coincidir con FXML
         zipTextF.setText(String.valueOf(user.getZip()));
     }
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private void showContextMenu(MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY) {
+            contextMenu.show(profileImageView, event.getScreenX(), event.getScreenY());
+        }
+    }
+
+    private void changeProfileImage(String imageFile) {
+        Image image = new Image(getClass().getResourceAsStream(imageFile));
+        profileImageView.setImage(image);
+    }
+
     public void initialize(Parent root) {
         logger.info("Initializing InfoView stage.");
-        //create a scene associated the node graph root
+
+        profileImageMordecay.setVisible(false);
+        profileImageCj.setVisible(false);
+        profileImageRigby.setVisible(true);
+
+        // Asocia las acciones del menú contextual con los métodos correspondientes
+        optionMordecay.setOnAction(this::onOptionMordecay);
+        optionCj.setOnAction(this::onOptionCj);
+        optionRigby.setOnAction(this::onOptionRigby);
+
         Scene scene = new Scene(root);
-        //Associate scene to primaryStage(Window)
         stage.setScene(scene);
-        //set window properties
-        stage.setTitle("User info");
+        stage.setTitle("Información del usuario");
         stage.setResizable(false);
-        //set window's events handlesrs
+        stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing); // Asegúrate de manejar la ventana al mostrar
         stage.setOnCloseRequest(this::onCloseRequest);
-        //show primary window
         stage.show();
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-}
 
+    private User fetchUserData() {
+        // Implementa la lógica para obtener los datos del usuario, posiblemente de una base de datos o sesión
+        return new User(); // Reemplazar con los datos reales del usuario
+    }
+}

@@ -57,7 +57,7 @@ public class DAO implements Signable {
         try {
             //Open connection with pool
             this.openConnection();
-
+            
             // Variable to get the partner id
             Integer id_partner = getPartnerId();
             // Statement to get the user's data from the res_users table
