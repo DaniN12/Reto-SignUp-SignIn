@@ -25,6 +25,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -86,11 +87,18 @@ public class SignInController {
     private Stage stage;
 
     private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+    
+    @FXML
+    private SplitPane splitPane;
 
     public void initialize(Parent root) {
 
         logger.info("Initializing SignIn stage.");
         //create a scene associated the node graph root
+         splitPane = (SplitPane) root;
+        splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
+                -> divider.setPosition(0.15) // Vuelve a fijar la posición si se intenta mover
+        ));
         Scene scene = new Scene(root);
         //Associate scene to primaryStage(Window)
         stage.setScene(scene);
@@ -170,37 +178,30 @@ public class SignInController {
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
-
         try {
-            // Load DOM form FXML view
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/clientapp/view/SignUpView.fxml"));
-            Parent root = (Parent) loader.load();
-            // Retrieve the controller associated with the view
-            SignUpViewController controller = (SignUpViewController) loader.getController();
-            //Check if there is a RuntimeException while opening the view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
+            Parent root = loader.load();
+
+            SignUpViewController controller = loader.getController();
             if (controller == null) {
                 throw new RuntimeException("Failed to load SignUpController");
             }
 
+            // Asegúrate de que `stage` no es nulo antes de pasarla al controlador
             if (stage == null) {
                 throw new RuntimeException("Stage is not initialized");
             }
-            controller.setStage(stage);
 
-            //Initializes the controller with the loaded view
-            controller.initialize(root);
+            controller.setStage(stage);  // Asigna el stage antes de inicializar
+            controller.initialize(root); // Llama al método initialize con el root cargado
 
         } catch (IOException ex) {
-            // Logs the error and displays an alert messsage
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "Error loading SignUpView.fxml", ButtonType.OK).showAndWait();
         } catch (RuntimeException ex) {
-            // Logs the error and displays an alert messsage
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
-
     }
 
     @FXML

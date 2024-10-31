@@ -166,6 +166,9 @@ public class SignUpViewController {
     public void initialize(Parent root) {
 
         splitPane = (SplitPane) root;
+        splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
+                -> divider.setPosition(0.25) // Vuelve a fijar la posición si se intenta mover
+        ));
 
         logger.info("Initializing SignUp stage.");
         //create a scene associated the node graph root
@@ -175,18 +178,8 @@ public class SignUpViewController {
         //set window properties
         stage.setTitle("Sign Up");
         stage.setResizable(false);
-        passwordTxf.setVisible(false);
-        passwordTxf.setManaged(false);
-        retryPasswordTxf.setVisible(false);
-        retryPasswordTxf.setManaged(false);
-        // to write in both passwordFields and textFields at the same time
-        passwordTxf.textProperty().bindBidirectional(passwordPwdf.textProperty());
-        retryPasswordTxf.textProperty().bindBidirectional(repeatPasswordPwdf.textProperty());
-        //put the images in the imageviews
-        buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //set window's events handlers
-       // stage.setOnShowing(this::handleWindowShowing);
+        // stage.setOnShowing(this::handleWindowShowing);
         //set window's events handlers
         stage.setOnShowing(this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
@@ -277,7 +270,7 @@ public class SignUpViewController {
                 sign = SocketFactory.getSignable();
                 sign.signUp(user);
                 backButtonAction(event);
-               
+
             }
 
         } catch (IncorrectPasswordException ex) {
