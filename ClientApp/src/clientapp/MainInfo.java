@@ -6,7 +6,8 @@
 package clientapp;
 
 import clientapp.controller.InfoViewController;
-import javafx.application.Application;
+import clientapp.controller.SignInController;
+import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -15,20 +16,13 @@ import javafx.stage.Stage;
  *
  * @author 2dam
  */
-public class MainInfo extends Application {
-
-    /**
-     * Method to open the main window, in this case the signIn window
-     *
-     * @param stage the main window
-     * @throws Exception when the view cannot be found
-     */
-    @Override
+public class MainInfo {
+    
     public void start(Stage stage) throws Exception {
 
         // Load DOM form FXML view
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/InfoView.fxml"));
+                getClass().getResource("/clientapp/view/InfoViewView.fxml"));
         Parent root = (Parent) loader.load();
         // Retrieve the controller associated with the view
         InfoViewController controller = (InfoViewController) loader.getController();

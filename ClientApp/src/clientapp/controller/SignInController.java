@@ -6,16 +6,17 @@
 package clientapp.controller;
 
 import clientapp.exceptions.EmptyFieldException;
+
+import java.util.Optional;
+
 import clientapp.exceptions.IncorrectPatternException;
-import clientapp.model.SocketFactory;
-import exceptions.ConnectionErrorException;
-import exceptions.UserDoesntExistExeption;
 import javafx.scene.image.Image;
 import java.io.IOException;
 import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -28,8 +29,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.Signable;
+import javafx.stage.WindowEvent;
 import model.User;
+import clientapp.model.SocketFactory;
+import exceptions.ConnectionErrorException;
+import exceptions.UserDoesntExistExeption;
+import model.Signable;
 
 /**
  *
@@ -86,9 +91,11 @@ public class SignInController {
     @FXML
     private Label errorLabel;
 
+    private Signable signable;
+
     private Stage stage;
 
-    private Logger logger = Logger.getLogger(SignUpViewController.class.getName());
+    private Logger logger = Logger.getLogger(SignInController.class.getName());
 
     public void initialize(Parent root) {
 
@@ -109,7 +116,6 @@ public class SignInController {
         stage.show();
     }
 
-    // Método que se ejecuta cuando el botón "Sign In" es presionado
     @FXML
     protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
         String email = txtFieldEmail.getText();
@@ -122,8 +128,8 @@ public class SignInController {
             // Verificar si los campos están vacíos
             if (email.isEmpty() || password.isEmpty() || passwordField.getText().isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-            } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-                throw new IncorrectPatternException("The email is not well written or is incorrect");
+            } else if (!emailExists(email)) {
+                throw new IncorrectPatternException("The email doesn't exist");
             } else {
 
                 SocketFactory socket = new SocketFactory();
@@ -139,15 +145,27 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
         } // Logs the error and displays an alert message for incorrect password
         catch (IncorrectPatternException ex) {
-            // Logs the error and displays an alert message for incorrect email format
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Invalid email format. Please enter a valid Gmail address.", ButtonType.OK).showAndWait();
+           // Logs the error and displays an alert message for non-existent email
+        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        new Alert(Alert.AlertType.ERROR, "The email does not exist. Please check your information or sign up.", ButtonType.OK).showAndWait();
         } catch (Exception ex) {
             // Logs any unexpected error and displays a generic alert message
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
             new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
         }
+
     }
+    /**
+ * Método que verifica si el correo electrónico existe.
+ * @param email El email a verificar
+ * @return true si el email existe, false si no
+ */
+private boolean emailExists(String email) {
+    // Lógica para verificar si el email existe en la base de datos o sistema
+    // Esto puede ser una consulta a la base de datos o una llamada a un servicio
+    // Por ahora se devuelve false para demostrar el funcionamiento
+    return false;
+}
 
     public Stage getStage() {
         return stage;
@@ -172,10 +190,34 @@ public class SignInController {
         alert.showAndWait();
     }
 
+    @FXML
+    public void onCloseRequest(WindowEvent event) {
+
+        //Create an alert to make sure that the user wants to close the application
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        //set the alert message and title
+        alert.setHeaderText(null);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+
+        //create a variable to compare the button type
+        Optional<ButtonType> answer = alert.showAndWait();
+
+        //Condition to close the application
+        if (answer.get() == ButtonType.OK) {
+            //if the answer is ok the app will close
+            Platform.exit();
+        } else {
+            //else the alert will dispose and the user will continue in the app
+            event.consume();
+
+        }
+
+    }
+
 // Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
-
         try {
             // Load DOM form FXML view
             FXMLLoader loader = new FXMLLoader(
@@ -205,7 +247,6 @@ public class SignInController {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
         }
-
     }
 
     public void showPassword(ActionEvent event) {
