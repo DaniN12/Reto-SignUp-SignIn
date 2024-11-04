@@ -62,4 +62,7 @@
     -fx-cursor: hand;                   /* Cursor de mano */
 }
 
-
+.split-pane *.split-pane-divider {
+    -fx-padding: 0; /* Sin margen para que no ocupe espacio */
+    -fx-background-color: transparent; /* Color transparente */
+}
