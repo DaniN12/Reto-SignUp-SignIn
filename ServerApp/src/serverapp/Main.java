@@ -25,7 +25,7 @@ import serverapp.model.ServerThread;
 public class Main {
 
     private static final ResourceBundle archivo = ResourceBundle.getBundle("resources.Config");
-    private static final int MAX_USERS = 7;
+    private static final int MAX_USERS = Integer.parseInt(archivo.getString("MAX_USERS"));
     private static final int PORT = Integer.parseInt(archivo.getString("PORT"));
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
