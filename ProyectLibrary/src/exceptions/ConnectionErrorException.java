@@ -6,11 +6,18 @@
 package exceptions;
 
 /**
+ * Exception thrown when there is a connection error.
  *
  * @author 2dam
  */
 public class ConnectionErrorException extends Exception {
 
+    /**
+     * Constructs a new ConnectionErrorException with the specified detail message.
+     *
+     *
+     * @param msg the detail message to be saved with the exception
+     */
     public ConnectionErrorException(String msg) {
         super(msg);
     }

@@ -6,11 +6,17 @@
 package clientapp.exceptions;
 
 /**
+ * Exception thrown when a required field is left empty.
  *
  * @author Enzo
  */
 public class EmptyFieldException extends Exception {
 
+    /**
+     * Constructs a new EmptyFieldException with the specified detail message.
+     *
+     * @param msg The detail message to display when the exception is thrown.
+     */
     public EmptyFieldException(String msg) {
         super(msg);
     }

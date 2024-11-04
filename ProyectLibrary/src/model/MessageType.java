@@ -7,7 +7,9 @@ package model;
 
 import java.io.Serializable;
 
+
 /**
+ * Represents the various types of messages that can be sent in the application.
  *
  * @author kbilb
  */

@@ -1,8 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controller class for the SignIn view, managing user sign-in functionality.
+ * It handles user input, displays errors, and initiates the sign-in process.
+ * 
+ * <p>
+ * It verifies user input for the email and password fields, handles errors, and
+ * connects to the server to validate the sign-in. Additionally, it includes
+ * functionality to toggle password visibility and handles window events, 
+ * such as confirmation before exiting the application.
+ * </p>
+ * 
+ * @author Dani
  */
+
+
 package clientapp.controller;
 
 import clientapp.exceptions.EmptyFieldException;
@@ -36,10 +46,6 @@ import exceptions.ConnectionErrorException;
 import exceptions.UserDoesntExistExeption;
 import model.Signable;
 
-/**
- *
- * @author Dani and Ruth
- */
 public class SignInController {
 
     @FXML
@@ -97,25 +103,33 @@ public class SignInController {
 
     private Logger logger = Logger.getLogger(SignInController.class.getName());
 
+    /**
+     * Initializes the SignIn view by setting up the stage and its properties.
+     *
+     * @param root The root node of the scene graph.
+     */
     public void initialize(Parent root) {
-
         logger.info("Initializing SignIn stage.");
-        //create a scene associated the node graph root
         Scene scene = new Scene(root);
-        //Associate scene to primaryStage(Window)
         stage.setScene(scene);
-        //set window properties
         stage.setTitle("Sign In");
         stage.setResizable(false);
+
         txtFieldPassword.setVisible(false);
         txtFieldPassword.textProperty().bindBidirectional(PasswordField.textProperty());
+
         ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        //set window's events handlesrs
-        //stage.setOnShowing(this::handleWindowShowing);
-        //show primary window
+
         stage.show();
     }
 
+    /**
+     * Handles the sign-in process when the sign-in button is clicked.
+     *
+     * @param event The action event triggered by clicking the sign-in button.
+     * @throws ConnectionErrorException   If there is a connection error.
+     * @throws UserDoesntExistExeption    If the user does not exist.
+     */
     @FXML
     protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
         String email = txtFieldEmail.getText();
@@ -125,62 +139,63 @@ public class SignInController {
         user.setPassword(password);
 
         try {
-            // Verificar si los campos están vacíos
             if (email.isEmpty() || password.isEmpty() || passwordField.getText().isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
             } else if (!emailExists(email)) {
                 throw new IncorrectPatternException("The email doesn't exist");
             } else {
-
                 SocketFactory socket = new SocketFactory();
                 Signable signable = socket.getSignable();
                 signable.signUp(user);
-
             }
-
-            // Aquí puedes continuar con la lógica para iniciar sesión...
         } catch (EmptyFieldException ex) {
-            // Logs the error and displays an alert message for empty fields
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Please fill in all fields.", ButtonType.OK).showAndWait();
-        } // Logs the error and displays an alert message for incorrect password
-        catch (IncorrectPatternException ex) {
-           // Logs the error and displays an alert message for non-existent email
-        Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-        new Alert(Alert.AlertType.ERROR, "The email does not exist. Please check your information or sign up.", ButtonType.OK).showAndWait();
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+        } catch (IncorrectPatternException ex) {
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "The email does not exist. Please check your information or sign up.", Alert.AlertType.ERROR);
         } catch (Exception ex) {
-            // Logs any unexpected error and displays a generic alert message
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, "An unexpected error occurred.", ex);
-            new Alert(Alert.AlertType.ERROR, "An unexpected error occurred. Please try again.", ButtonType.OK).showAndWait();
+            logger.log(Level.SEVERE, "An unexpected error occurred.", ex);
+            showAlert("Error", "An unexpected error occurred. Please try again.", Alert.AlertType.ERROR);
         }
-
     }
-    /**
- * Método que verifica si el correo electrónico existe.
- * @param email El email a verificar
- * @return true si el email existe, false si no
- */
-private boolean emailExists(String email) {
-    // Lógica para verificar si el email existe en la base de datos o sistema
-    // Esto puede ser una consulta a la base de datos o una llamada a un servicio
-    // Por ahora se devuelve false para demostrar el funcionamiento
-    return false;
-}
 
+    /**
+     * Checks if an email exists in the database or system.
+     *
+     * @param email The email to verify.
+     * @return true if the email exists, false otherwise.
+     */
+    private boolean emailExists(String email) {
+        // Logic to check if the email exists in the database or system.
+        // This could involve a database query or a service call.
+        return false;
+    }
+
+    /**
+     * Gets the stage associated with this controller.
+     *
+     * @return The stage.
+     */
     public Stage getStage() {
         return stage;
     }
 
+    /**
+     * Sets the stage for this controller.
+     *
+     * @param stage The stage to set.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     /**
-     * Método que muestra una alerta al usuario.
+     * Displays an alert to the user with the specified title, message, and alert type.
      *
-     * @param title El título de la alerta.
-     * @param message El mensaje de la alerta.
-     * @param alertType El tipo de alerta (ERROR, INFORMATION, etc.).
+     * @param title     The title of the alert.
+     * @param message   The message to display in the alert.
+     * @param alertType The type of alert (ERROR, INFORMATION, etc.).
      */
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
@@ -190,80 +205,67 @@ private boolean emailExists(String email) {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the window close request event, displaying a confirmation dialog.
+     *
+     * @param event The window event.
+     */
     @FXML
     public void onCloseRequest(WindowEvent event) {
-
-        //Create an alert to make sure that the user wants to close the application
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //set the alert message and title
-        alert.setHeaderText(null);
         alert.setTitle("EXIT");
         alert.setContentText("Are you sure you want to close the application?");
-
-        //create a variable to compare the button type
         Optional<ButtonType> answer = alert.showAndWait();
 
-        //Condition to close the application
         if (answer.get() == ButtonType.OK) {
-            //if the answer is ok the app will close
             Platform.exit();
         } else {
-            //else the alert will dispose and the user will continue in the app
             event.consume();
-
         }
-
     }
 
-// Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
+    /**
+     * Opens the SignUpView window when the Hyperlink is clicked.
+     *
+     * @param event The action event triggered by clicking the hyperlink.
+     */
     @FXML
     private void handleHyperLinkAction(ActionEvent event) {
         try {
-            // Load DOM form FXML view
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/clientapp/view/SignUpView.fxml"));
-            Parent root = (Parent) loader.load();
-            // Retrieve the controller associated with the view
-            SignUpViewController controller = (SignUpViewController) loader.getController();
-            //Check if there is a RuntimeException while opening the view
-            if (controller == null) {
-                throw new RuntimeException("Failed to load SignUpController");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
+            Parent root = loader.load();
+
+            SignUpViewController controller = loader.getController();
+            if (controller == null || stage == null) {
+                throw new RuntimeException("Failed to load SignUpController or stage not initialized.");
             }
 
-            if (stage == null) {
-                throw new RuntimeException("Stage is not initialized");
-            }
             controller.setStage(stage);
-
-            //Initializes the controller with the loaded view
             controller.initialize(root);
-
         } catch (IOException ex) {
-            // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, "Error loading SignInView.fxml", ButtonType.OK).showAndWait();
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "Error loading SignInView.fxml", Alert.AlertType.ERROR);
         } catch (RuntimeException ex) {
-            // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
+    /**
+     * Toggles the password visibility when the show password button is clicked.
+     *
+     * @param event The action event triggered by clicking the show password button.
+     */
     public void showPassword(ActionEvent event) {
-
         if (!passwordVisible) {
             ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             PasswordField.setVisible(false);
-            PasswordField.setManaged(false);
             txtFieldPassword.setVisible(true);
-            txtFieldPassword.setManaged(true);
             passwordVisible = true;
         } else {
             ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             txtFieldPassword.setVisible(false);
-            txtFieldPassword.setManaged(false);
             PasswordField.setVisible(true);
-            PasswordField.setManaged(true);
             passwordVisible = false;
         }
     }

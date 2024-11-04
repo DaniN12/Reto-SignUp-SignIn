@@ -21,6 +21,7 @@ import model.Signable;
 import model.User;
 
 /**
+ * Handles client-side operations for signing in and signing up a user.
  *
  * @author 2dam
  */
@@ -33,6 +34,15 @@ public class Client implements Signable {
     private Message msg;
     // private User user;
 
+    
+    /**
+     * Attempts to sign in a user by sending a sign-in request to the server.
+     *
+     * @param user The {@link User} object containing the user's login credentials.
+     * @return The updated {@link User} object if the sign-in is successful.
+     * @throws UserDoesntExistExeption if the user does not exist on the server.
+     * @throws ConnectionErrorException if there is an error connecting to the server.
+     */
     @Override
     public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException {
 
@@ -77,6 +87,15 @@ public class Client implements Signable {
         return user;
     }
 
+    
+     /**
+     * Attempts to register a new user by sending a sign-up request to the server.
+     *
+     * @param user The {@link User} object containing the user's registration details.
+     * @return The updated {@link User} object if the sign-up is successful.
+     * @throws UserAlreadyExistException if the user already exists on the server.
+     * @throws ConnectionErrorException if there is an error connecting to the server.
+     */
     @Override
     public User signUp(User user) throws UserAlreadyExistException, ConnectionErrorException {
         ObjectOutputStream oos = null;
