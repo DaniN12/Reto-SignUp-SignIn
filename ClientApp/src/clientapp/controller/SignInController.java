@@ -29,6 +29,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Signable;
 import model.User;
 
@@ -81,7 +82,6 @@ public class SignInController {
     private TextField usernameField;
 
     @FXML
-
     private PasswordField passwordField;
 
     @FXML
@@ -109,8 +109,8 @@ public class SignInController {
         txtFieldPassword.setVisible(false);
         txtFieldPassword.textProperty().bindBidirectional(PasswordField.textProperty());
         ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        //set window's events handlesrs
-        //stage.setOnShowing(this::handleWindowShowing);
+        //set window's events handlers
+        HyperLinkRegistered.setOnAction(this::handleHyperLinkAction);
         //show primary window
         stage.show();
     }
@@ -201,6 +201,9 @@ public class SignInController {
 
             //Initializes the controller with the loaded view
             controller.initialize(root);
+            
+            // Invoca manualmente el método handleWindowShowing al cargar la nueva vista
+            controller.handleWindowShowing(new WindowEvent(stage, WindowEvent.WINDOW_SHOWING));
 
         } catch (IOException ex) {
             // Logs the error and displays an alert messsage

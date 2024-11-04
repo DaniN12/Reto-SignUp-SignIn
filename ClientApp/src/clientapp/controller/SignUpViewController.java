@@ -189,6 +189,7 @@ public class SignUpViewController {
         root.setOnContextMenuRequested(this::manejarContextMenu);
         //show primary window
         stage.show();
+        
     }
 
     private void manejarContextMenu(ContextMenuEvent event) {
