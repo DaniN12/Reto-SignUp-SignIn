@@ -23,6 +23,7 @@ import clientapp.exceptions.EmptyFieldException;
 import clientapp.exceptions.IncorrectPasswordException;
 import clientapp.exceptions.IncorrectPatternException;
 import exceptions.ConnectionErrorException;
+import exceptions.MaxUsersException;
 import exceptions.UserAlreadyExistException;
 import java.io.IOException;
 import java.util.Optional;
@@ -253,7 +254,7 @@ public class SignUpViewController {
      * connecting with the server
      */
     @FXML
-    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
+    public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException, MaxUsersException {
         try {
 
             // Check if the fields are empty and throws an exception if they are
@@ -318,6 +319,9 @@ public class SignUpViewController {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "This user already exist", ButtonType.OK).showAndWait();
         } catch (ConnectionErrorException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (MaxUsersException ex) {
             Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }

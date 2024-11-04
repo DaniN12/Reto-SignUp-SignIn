@@ -6,8 +6,11 @@
 package clientapp.model;
 
 import exceptions.ConnectionErrorException;
+import exceptions.IncorrectCredentialsException;
+import exceptions.MaxUsersException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
+import exceptions.UserNotActiveException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,7 +34,7 @@ public class Client implements Signable {
     private Logger logger = Logger.getLogger(Client.class.getName());
 
     @Override
-    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException {
+    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException, UserNotActiveException, IncorrectCredentialsException, MaxUsersException {
         Message msg = new Message();
         try (Socket socket = new Socket(host, port);
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -50,16 +53,26 @@ public class Client implements Signable {
                     throw new UserDoesntExistExeption("This user doesn't exist");
                 case CONNECTION_ERROR_RESPONSE:
                     throw new ConnectionErrorException("A problem occurred trying to connect with the server");
+
+                case INCORRECT_CREDENTIALS_RESPONSE:
+                    throw new IncorrectCredentialsException("The email and password do not match");
+
+                case MAX_THREAD_USER:
+                    throw new MaxUsersException("The server is already full, try again later");
             }
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
             throw new ConnectionErrorException("Connection issue: " + e.getMessage());
+        } catch (IncorrectCredentialsException e) {
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
+        } catch (MaxUsersException e) {
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
         }
         return null;
     }
 
     @Override
-    public User signUp(User user) throws UserAlreadyExistException, ConnectionErrorException {
+    public User signUp(User user) throws UserAlreadyExistException, ConnectionErrorException, MaxUsersException {
         Message msg = new Message();
         try (Socket socket = new Socket(host, port);
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -78,10 +91,13 @@ public class Client implements Signable {
                     throw new UserAlreadyExistException("This user already exists");
                 case CONNECTION_ERROR_RESPONSE:
                     throw new ConnectionErrorException("A problem occurred trying to connect with the server");
+                case MAX_THREAD_USER:
+                    throw new MaxUsersException("The server is already full, try again later");
             }
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
-            
+        } catch (MaxUsersException e) {
+            logger.log(Level.SEVERE, e.getLocalizedMessage());
         }
         return null;
     }

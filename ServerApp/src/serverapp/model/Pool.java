@@ -17,10 +17,10 @@ public class Pool {
     public static BasicDataSource getDataSource() {
         if (ds == null) {
             ds = new BasicDataSource();
-             ds.setDriverClassName("org.postgresql.Driver");
+            ds.setDriverClassName("org.postgresql.Driver");
             ds.setUsername("odoo");
             ds.setPassword("abcd*1234");
-            ds.setUrl("jdbc:postgresql://192.168.21.108:5432/flutter");
+            ds.setUrl("jdbc:postgresql://192.168.20.183:5432/flutter");
             ds.setInitialSize(50); // 50 conexiones iniciales
             ds.setMaxIdle(10);
             ds.setMaxTotal(20);

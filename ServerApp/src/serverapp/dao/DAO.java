@@ -3,6 +3,7 @@ package serverapp.dao;
 import exceptions.ConnectionErrorException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
+import exceptions.UserNotActiveException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,7 +86,7 @@ public class DAO implements Signable {
      * exist in the database
      */
     @Override
-    public User signIn(User user) throws ConnectionErrorException, UserDoesntExistExeption {
+    public User signIn(User user) throws ConnectionErrorException, UserDoesntExistExeption, UserNotActiveException {
         try {
             //Open connection with pool
             this.openConnection();
@@ -109,7 +110,7 @@ public class DAO implements Signable {
                 // if the user doesn't exist throw exception
                 throw new UserDoesntExistExeption("User doesn't exist");
             }
-
+            
             // Statement to get the user's data from the res_partner table
             ps = con.prepareStatement(GET_USERNAME);
             ps.setInt(1, id_partner);
@@ -121,16 +122,21 @@ public class DAO implements Signable {
                 user.setStreet(rs.getString("street"));
                 user.setCity(rs.getString("city"));
                 user.setZip(Integer.parseInt(rs.getString("zip")));
-                user.setActive(rs.getBoolean("active"));
                 user.setCompany_id(rs.getInt("company_id"));
             } else {
                 return null;
+            }
+
+            if (user.getActive() != true) {
+                throw new UserNotActiveException("This user is not active");
             }
 
         } catch (SQLException e) {
             logger.severe("Error al iniciar sesión: " + e.getMessage());
             throw new ConnectionErrorException("Error de base de datos durante el inicio de sesión.");
         } catch (UserDoesntExistExeption | ConnectionErrorException e) {
+            logger.severe("Error: " + e.getMessage());
+        } catch (UserNotActiveException e) {
             logger.severe("Error: " + e.getMessage());
         } finally {
             // Close connection with the pool
@@ -292,7 +298,6 @@ public class DAO implements Signable {
         Integer id = 0;
 
         try {
-            // Open connection with the pool
             this.openConnection();
             PreparedStatement ps = con.prepareStatement(GET_PARTNER_ID);
 
@@ -309,8 +314,6 @@ public class DAO implements Signable {
         } catch (ConnectionErrorException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // Close connection with the pool
-        this.closeConnection();
 
         // returns the users partner id
         return id;

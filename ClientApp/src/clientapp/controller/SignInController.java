@@ -33,7 +33,10 @@ import javafx.stage.Stage;
 import model.User;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
+import exceptions.IncorrectCredentialsException;
+import exceptions.MaxUsersException;
 import exceptions.UserDoesntExistExeption;
+import exceptions.UserNotActiveException;
 import javafx.stage.WindowEvent;
 import model.Signable;
 
@@ -122,7 +125,7 @@ public class SignInController {
     }
 
     @FXML
-    private void handleSignIn(ActionEvent event) throws UserDoesntExistExeption, ConnectionErrorException {
+    private void handleSignIn(ActionEvent event) throws UserDoesntExistExeption, ConnectionErrorException, UserNotActiveException, IncorrectCredentialsException, MaxUsersException {
         try {
             String email = txtFieldEmail.getText();
             String password = PasswordField.getText(); // Usando solo PasswordField
@@ -141,10 +144,12 @@ public class SignInController {
             Signable signable = SocketFactory.getSignable();
             User signedInUser = signable.signIn(user);
 
-            if (signedInUser != null) {
+            if (!signedInUser.getPassword().equals(PasswordField.getText())) {
+                throw new IncorrectCredentialsException("The email and password do not match");
+            } else if (signedInUser != null && signedInUser.getActive() != false) {
                 openMainWindow(event, signedInUser);
             } else {
-                throw new ConnectionErrorException("An unexpected error occurred.");
+                throw new UserNotActiveException("The user is not active");
             }
 
         } catch (EmptyFieldException ex) {
@@ -155,6 +160,12 @@ public class SignInController {
             // Manejar otras excepciones que puedan surgir
             showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         } catch (ConnectionErrorException ex) {
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (UserNotActiveException ex) {
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (IncorrectCredentialsException ex) {
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (MaxUsersException ex) {
             showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         }
     }
