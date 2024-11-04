@@ -166,7 +166,6 @@ public class SignUpViewController {
     public void initialize(Parent root) {
 
         splitPane = (SplitPane) root;
-        //stage = new Stage();
         splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
                 -> divider.setPosition(0.25) // Vuelve a fijar la posición si se intenta mover
         ));
@@ -204,7 +203,7 @@ public class SignUpViewController {
      */
     public void handleWindowShowing(WindowEvent event) {
 
-        logger.info("Beginning SignUpViewController::handleWindowShowing");
+        logger.info("Beginning event handler::handleWindowShowing");
         // hide the password textfields
         passwordTxf.setVisible(false);
         passwordTxf.setManaged(false);
@@ -218,7 +217,6 @@ public class SignUpViewController {
         repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
         //Context menu
         contextMenu.getItems().addAll(itemResetFields, itemBack);
-
     }
 
     /**
@@ -233,15 +231,6 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-            // Set IDs for the fields (this may depend on how you're using them)
-            emailTxf.setId("email");
-            fullNameTxf.setId("fullName");
-            passwordTxf.setId("password");
-            passwordPwdf.setId("password");
-            streetTxf.setId("street");
-            cityTxf.setId("city");
-            zipTxf.setId("zip");
-            checkActive.setId("active");
 
             if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
@@ -267,44 +256,29 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-
-                SocketFactory socket = new SocketFactory();
-                sign = socket.getSignable();
+                sign = SocketFactory.getSignable();
                 sign.signUp(user);
-                //Create an alert to make sure that the user wants to close the application
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                //set the alert message and title
-                alert.setHeaderText(null);
-                alert.setTitle("Sign Up");
-                alert.setContentText("The new user has been correctly created");
+                backButtonAction(event);
 
-                //create a variable to compare the button type
-                Optional<ButtonType> answer = alert.showAndWait();
-                if (answer.get() == ButtonType.OK) {
-                    emailTxf.clear();
-                    fullNameTxf.clear();
-                    passwordTxf.clear();
-                    passwordPwdf.clear();
-                    retryPasswordTxf.clear();
-                    repeatPasswordPwdf.clear();
-                    streetTxf.clear();
-                    cityTxf.clear();
-                    zipTxf.clear();
-                    event.consume();
-                }
             }
 
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (IncorrectPatternException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (EmptyFieldException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
+        } catch (UserAlreadyExistException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, "This user already exist", ButtonType.OK).showAndWait();
+        } catch (ConnectionErrorException ex) {
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
 
@@ -376,7 +350,6 @@ public class SignUpViewController {
             //else the alert will dispose and the user will continue in the app
             event.consume();
         }
-
     }
 
     public void showPassword(ActionEvent event) {
@@ -404,14 +377,14 @@ public class SignUpViewController {
             repeatPasswordPwdf.setManaged(false);
             retryPasswordTxf.setVisible(true);
             retryPasswordTxf.setManaged(true);
-            repeatpasswordVisible = true;  // Aquí cambias la variable correcta
+            repeatpasswordVisible = true;
         } else {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             retryPasswordTxf.setVisible(false);
             retryPasswordTxf.setManaged(false);
             repeatPasswordPwdf.setVisible(true);
             repeatPasswordPwdf.setManaged(true);
-            repeatpasswordVisible = false;  // Aquí cambias la variable correcta
+            repeatpasswordVisible = false;
         }
     }
 

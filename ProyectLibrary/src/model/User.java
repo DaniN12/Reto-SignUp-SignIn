@@ -21,7 +21,7 @@ public class User implements Serializable {
     private Integer zip;
     private Integer company_id;
     private Boolean active;
-
+    
     public User() {
 
     }

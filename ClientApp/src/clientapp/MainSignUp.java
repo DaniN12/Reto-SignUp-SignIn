@@ -5,18 +5,20 @@
  */
 package clientapp;
 
-import clientapp.controller.InfoViewController;
+import clientapp.controller.SignInController;
+import clientapp.controller.SignUpViewController;
+
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import model.User;
 
 /**
  *
  * @author 2dam
  */
-public class MainInfo extends Application {
+public class MainSignUp extends Application {
 
     /**
      * Method to open the main window, in this case the signIn window
@@ -27,16 +29,15 @@ public class MainInfo extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        User user = new User();
         // Load DOM form FXML view
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/clientapp/view/InfoView.fxml"));
+                getClass().getResource("/clientapp/view/SignUpView.fxml"));
         Parent root = (Parent) loader.load();
         // Retrieve the controller associated with the view
-        InfoViewController controller = (InfoViewController) loader.getController();
+        SignUpViewController controller = (SignUpViewController) loader.getController();
         controller.setStage(stage);
         //Initializes the controller with the loaded view
-        controller.initialize(root, user);
+        controller.initialize(root);
 
     }
 

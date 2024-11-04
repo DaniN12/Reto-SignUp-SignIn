@@ -7,9 +7,15 @@
     <offline-allowed/>
   </information>
   <resources>
+<<<<<<< HEAD
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="ClientApp.jar" size="1144590" download="eager" />
     <jar href="lib\ProyectLibrary.jar" size="8430" download="eager" />
+=======
+    <j2se version="1.6+" java-vm-args="-Xms256m -Xmx1024m "  href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="ClientApp.jar" size="1146176" download="eager" />
+    <jar href="lib\ProyectLibrary.jar" size="8595" download="eager" />
+>>>>>>> e5a5e2a0dc7e48ed5865cf8c7f347be47891ac83
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ClientApp" >
     <param name="requiredFXVersion" value="8.0+"/>
