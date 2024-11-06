@@ -53,7 +53,7 @@ public class InfoViewController {
     private TextField zipTextF;
 
     @FXML
-    private ImageView profileImageView;
+    private ImageView profileImageView = new ImageView();
 
     @FXML
     private ContextMenu contextMenu;
