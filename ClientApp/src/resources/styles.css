@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'Cheri';
+    src: url('/resources/CHERI___.TTF'); /* Ajusta esta ruta si es necesario */
+}
+
+/* Aplicar la fuente Cheri a los Labels específicos */
+#lblEmail, #lblPassword, #lblError, #emailLabel, #usernameLabel, #streetLabel, #passwordLabel, #repeatPasswdLabel, #cityLabel, #zipLabel, #userNameLbl, #emailLbl, #streetLbl, #cityLbl, #zipLbl  {
+    -fx-font-family: 'Cheri';   /* Cambiar la fuente a Cheri */
+    -fx-font-size: 18px;        /* Tamaño de fuente (ajústalo según prefieras) */
+    -fx-text-fill: black;       /* Color del texto */
+}
+
 /* Estilos para los campos de texto */
 .text-field {
     -fx-background-color: transparent; /* Hacer el fondo transparente */
@@ -65,4 +77,25 @@
 .split-pane *.split-pane-divider {
     -fx-padding: 0; /* Sin margen para que no ocupe espacio */
     -fx-background-color: transparent; /* Color transparente */
+}
+
+#signInpane  {
+    -fx-background-image: url("/resources/LogIn.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
+}
+
+#splitPane  {
+    -fx-background-image: url("/resources/SignUp.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
+}
+
+#infoViewpanel {
+    -fx-background-image: url("/resources/Info.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
 }

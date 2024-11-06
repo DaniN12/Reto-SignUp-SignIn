@@ -2,12 +2,6 @@
  * Controller class for the SignIn view, managing user sign-in functionality.
  * It handles user input, displays errors, and initiates the sign-in process.
  * 
- * <p>
- * It verifies user input for the email and password fields, handles errors, and
- * connects to the server to validate the sign-in. Additionally, it includes
- * functionality to toggle password visibility and handles window events, 
- * such as confirmation before exiting the application.
- * </p>
  * 
  * @author Dani
  */
@@ -119,6 +113,8 @@ public class SignInController {
         txtFieldPassword.textProperty().bindBidirectional(PasswordField.textProperty());
 
         ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
+        
+        HyperLinkRegistered.setOnAction(this::handleHyperLinkAction);
 
         stage.show();
     }
@@ -242,6 +238,7 @@ public class SignInController {
 
             controller.setStage(stage);
             controller.initialize(root);
+            controller.handleWindowShowing(new WindowEvent(stage, WindowEvent.WINDOW_SHOWING));
         } catch (IOException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             showAlert("Error", "Error loading SignInView.fxml", Alert.AlertType.ERROR);

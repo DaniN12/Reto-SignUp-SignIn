@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/package-info.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/InfoViewController.java</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/MainSignUp.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignInController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/Main.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/SignUpView.fxml</file>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/Client.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/InfoView.fxml</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/MainInfo.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/SignInView.fxml</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/resources/styles.css</file>
         </group>
     </open-files>

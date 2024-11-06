@@ -103,16 +103,30 @@ public class Main {
             }
         }
     }
-
-    // Synchronized methods to manage the client connection counter
+    
+    /**
+     * Adds a client to the server's active user count.
+     * 
+     * @param signerT The {@link ServerThread} instance representing the client to be added.
+     */
     public static synchronized void añadirCliente(ServerThread signerT) {
         i++;
     }
 
+    /**
+     * Removes a client from the server's active user count.
+     * 
+     * @param signerT The {@link ServerThread} instance representing the client to be removed.
+     */
     public static synchronized void borrarCliente(ServerThread signerT) {
         i--;
     }
 
+    /**
+     * Main method to start the server application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Main();
     }
