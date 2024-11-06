@@ -6,6 +6,7 @@
 package clientapp;
 
 import clientapp.controller.SignInController;
+
 import clientapp.controller.SignUpViewController;
 
 import javafx.application.Application;
@@ -49,4 +50,7 @@ public class MainSignUp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
+
+

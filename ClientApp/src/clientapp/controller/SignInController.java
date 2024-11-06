@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controller class for the SignIn view, managing user sign-in functionality.
+ * It handles user input, displays errors, and initiates the sign-in process.
+ *
+ *
+ * @author Dani
  */
 package clientapp.controller;
 
@@ -26,21 +28,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.User;
 import clientapp.model.SocketFactory;
 import exceptions.ConnectionErrorException;
+import exceptions.IncorrectCredentialsException;
 import exceptions.UserDoesntExistExeption;
-import javafx.stage.WindowEvent;
+import exceptions.UserNotActiveException;
 import model.Signable;
 
-/**
- *
- * @author Dani and Ruth
- */
 public class SignInController {
 
     @FXML
@@ -80,6 +79,9 @@ public class SignInController {
     private ImageView ImageViewEye = new ImageView();
 
     @FXML
+    private Button btnSigIn;
+
+    @FXML
     private TextField usernameField;
 
     @FXML
@@ -91,161 +93,77 @@ public class SignInController {
 
     private Signable signable;
 
+    private Image icon = new Image(getClass().getResourceAsStream("/resources/icon.png"));
+
     private Stage stage;
+
     private Logger logger = Logger.getLogger(SignInController.class.getName());
 
-    @FXML
-    private SplitPane splitPane;
-
+    /**
+     * Initializes the SignIn view by setting up the stage and its properties.
+     *
+     * @param root The root node of the scene graph.
+     */
     public void initialize(Parent root) {
-
         logger.info("Initializing SignIn stage.");
-        //create a scene associated the node graph root
-        splitPane = (SplitPane) root;
-        splitPane.getDividers().forEach(divider -> divider.positionProperty().addListener((obs, oldPos, newPos)
-                -> divider.setPosition(0.15) // Vuelve a fijar la posición si se intenta mover
-        ));
         Scene scene = new Scene(root);
-        //Associate scene to primaryStage(Window)
         stage.setScene(scene);
-        //set window properties
         stage.setTitle("Sign In");
+        stage.getIcons().add(icon);
         stage.setResizable(false);
+
         txtFieldPassword.setVisible(false);
         txtFieldPassword.textProperty().bindBidirectional(PasswordField.textProperty());
+
         ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
-        //set window's events handlesrs
-        //stage.setOnShowing(this::handleWindowShowing);
+
         HyperLinkRegistered.setOnAction(this::handleHyperLinkAction);
-        //show primary window
+
         stage.show();
     }
 
+    /**
+     * Handles the sign-in process when the sign-in button is clicked.
+     *
+     * @param event The action event triggered by clicking the sign-in button.
+     * @throws ConnectionErrorException If there is a connection error.
+     * @throws UserDoesntExistExeption If the user does not exist.
+     */
     @FXML
-    private void handleSignIn(ActionEvent event) throws UserDoesntExistExeption, ConnectionErrorException {
-        try {
-            String email = txtFieldEmail.getText();
-            String password = PasswordField.getText(); // Usando solo PasswordField
+    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
+        String email = txtFieldEmail.getText();
+        String password = txtFieldPassword.getText();
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
 
-            // Verificar si los campos están vacíos
-            if (email.isEmpty() || password.isEmpty()) {
+        try {
+            if (email.isEmpty() || password.isEmpty() || txtFieldPassword.getText().isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
             } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
                 throw new IncorrectPatternException("The email is not well written or is incorrect");
-            }
-
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(password);
-
-            Signable signable = SocketFactory.getSignable();
-            User signedInUser = signable.signIn(user);
-
-            if (signedInUser != null) {
-                openMainWindow(event, signedInUser);
             } else {
-                throw new ConnectionErrorException("An unexpected error occurred.");
-            }
+                SocketFactory socket = new SocketFactory();
+                Signable signable = socket.getSignable();
+                User signedInUser = signable.signIn(user);
 
+                if (!signedInUser.getPassword().equals(PasswordField.getText())) {
+                    throw new IncorrectCredentialsException("The email and password do not match");
+                } else if (signedInUser != null) {
+                    openMainWindow(event, signedInUser);
+                } else {
+                    throw new UserNotActiveException("The user is not active");
+                }
+            }
         } catch (EmptyFieldException ex) {
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
         } catch (IncorrectPatternException ex) {
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
-        } catch (UserDoesntExistExeption ex) {
-            // Manejar otras excepciones que puedan surgir
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
-        } catch (ConnectionErrorException ex) {
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    /**
-     * Método que verifica si el correo electrónico existe.
-     *
-     * @param email El email a verificar
-     * @return true si el email existe, false si no
-     */
-    private boolean emailExists(String email) {
-        // Lógica para verificar si el email existe en la base de datos o sistema
-        // Esto puede ser una consulta a la base de datos o una llamada a un servicio
-        // Por ahora se devuelve false para demostrar el funcionamiento
-        return false;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    /**
-     * Método que muestra una alerta al usuario.
-     *
-     * @param title El título de la alerta.
-     * @param message El mensaje de la alerta.
-     * @param alertType El tipo de alerta (ERROR, INFORMATION, etc.).
-     */
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    @FXML
-    public void onCloseRequest(WindowEvent event) {
-
-        //Create an alert to make sure that the user wants to close the application
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        //set the alert message and title
-        alert.setHeaderText(null);
-        alert.setTitle("EXIT");
-        alert.setContentText("Are you sure you want to close the application?");
-
-        //create a variable to compare the button type
-        Optional<ButtonType> answer = alert.showAndWait();
-
-        //Condition to close the application
-        if (answer.get() == ButtonType.OK) {
-            //if the answer is ok the app will close
-            Platform.exit();
-        } else {
-            //else the alert will dispose and the user will continue in the app
-            event.consume();
-
-        }
-
-    }
-
-// Método para abrir la ventana de SignUpView al hacer clic en el Hyperlink
-    @FXML
-    private void handleHyperLinkAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
-            Parent root = loader.load();
-
-            SignUpViewController controller = (SignUpViewController) loader.getController();
-            if (controller == null) {
-                throw new RuntimeException("Failed to load SignUpController");
-            }
-
-            // Asegúrate de que `stage` no es nulo antes de pasarla al controlador
-            if (stage == null) {
-                throw new RuntimeException("Stage is not initialized");
-            }
-            controller.setStage(stage);  // Asigna el stage antes de inicializar
-            controller.initialize(root); // Llama al método initialize con el root cargado
-            controller.handleWindowShowing(new WindowEvent(stage, WindowEvent.WINDOW_SHOWING));
-
-        } catch (IOException ex) {
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, "Error loading SignUpView.fxml", ButtonType.OK).showAndWait();
-        } catch (RuntimeException ex) {
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, ex.getMessage(), ButtonType.OK).showAndWait();
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "The email does not exist. Please check your information or sign up.", Alert.AlertType.ERROR);
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "An unexpected error occurred.", ex);
+            showAlert("Error", "An unexpected error occurred. Please try again.", Alert.AlertType.ERROR);
         }
     }
 
@@ -281,21 +199,103 @@ public class SignInController {
         }
     }
 
-    public void showPassword(ActionEvent event) {
+    /**
+     * Gets the stage associated with this controller.
+     *
+     * @return The stage.
+     */
+    public Stage getStage() {
+        return stage;
+    }
 
+    /**
+     * Sets the stage for this controller.
+     *
+     * @param stage The stage to set.
+     */
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Displays an alert to the user with the specified title, message, and
+     * alert type.
+     *
+     * @param title The title of the alert.
+     * @param message The message to display in the alert.
+     * @param alertType The type of alert (ERROR, INFORMATION, etc.).
+     */
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Handles the window close request event, displaying a confirmation dialog.
+     *
+     * @param event The window event.
+     */
+    @FXML
+    public void onCloseRequest(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
+        Optional<ButtonType> answer = alert.showAndWait();
+
+        if (answer.get() == ButtonType.OK) {
+            Platform.exit();
+        } else {
+            event.consume();
+        }
+    }
+
+    /**
+     * Opens the SignUpView window when the Hyperlink is clicked.
+     *
+     * @param event The action event triggered by clicking the hyperlink.
+     */
+    @FXML
+    private void handleHyperLinkAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/clientapp/view/SignUpView.fxml"));
+            Parent root = loader.load();
+
+            SignUpViewController controller = loader.getController();
+            if (controller == null || stage == null) {
+                throw new RuntimeException("Failed to load SignUpController or stage not initialized.");
+            }
+
+            controller.setStage(stage);
+            controller.initialize(root);
+            controller.handleWindowShowing(new WindowEvent(stage, WindowEvent.WINDOW_SHOWING));
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "Error loading SignInView.fxml", Alert.AlertType.ERROR);
+        } catch (RuntimeException ex) {
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    /**
+     * Toggles the password visibility when the show password button is clicked.
+     *
+     * @param event The action event triggered by clicking the show password
+     * button.
+     */
+    public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
             PasswordField.setVisible(false);
-            PasswordField.setManaged(false);
             txtFieldPassword.setVisible(true);
-            txtFieldPassword.setManaged(true);
             passwordVisible = true;
         } else {
             ImageViewEye.setImage(new Image(getClass().getResourceAsStream("/resources/SinVerContraseña.png")));
             txtFieldPassword.setVisible(false);
-            txtFieldPassword.setManaged(false);
             PasswordField.setVisible(true);
-            PasswordField.setManaged(true);
             passwordVisible = false;
         }
     }

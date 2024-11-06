@@ -1,9 +1,23 @@
+@font-face {
+    font-family: 'Cheri';
+    src: url('/resources/CHERI___.TTF'); /* Ajusta esta ruta si es necesario */
+}
+
+/* Aplicar la fuente Cheri a los Labels específicos */
+#lblEmail, #lblPassword, #lblError, #emailLabel, #usernameLabel, #streetLabel, #passwordLabel, #repeatPasswdLabel, #cityLabel, #zipLabel, #userNameLbl, #emailLbl, #streetLbl, #cityLbl, #zipLbl  {
+    -fx-font-family: 'Cheri';   /* Cambiar la fuente a Cheri */
+    -fx-font-size: 18px;        /* Tamaño de fuente (ajústalo según prefieras) */
+    -fx-text-fill: black;       /* Color del texto */
+}
+
 /* Estilos para los campos de texto */
 .text-field {
     -fx-background-color: transparent; /* Hacer el fondo transparente */
     -fx-border-color: transparent transparent grey transparent; /* Eliminar el borde */
     -fx-padding: 0; /* Eliminar el padding */
     -fx-font-size: 14px; /* Cambiar el tamaño de la fuente si es necesario */
+    -fx-text-fill: #34dede;  
+    -fx-font-weight: bold;
     -fx-border-width: 0 0 1px 0;
 }
 
@@ -20,8 +34,10 @@
 
 /* Estilo minimalista para el botón de inicio de sesión */
 .minimal-button {
-    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-background-color: #34dede; /* Fondo transparente */
     -fx-border-color: black; /* Borde negro minimalista */
+    -fx-font-weight: bold;
+    -fx-font-family: 'Cheri';
     -fx-border-width: 1px; /* Grosor del borde */
     -fx-text-fill: black; /* Color del texto */
     -fx-font-size: 14px; /* Tamaño de la fuente */
@@ -62,4 +78,67 @@
     -fx-cursor: hand;                   /* Cursor de mano */
 }
 
+.split-pane *.split-pane-divider {
+    -fx-padding: 0; /* Sin margen para que no ocupe espacio */
+    -fx-background-color: transparent; /* Color transparente */
+}
 
+#signInpane  {
+    -fx-background-image: url("/resources/LogIn.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
+}
+
+#splitPane  {
+    -fx-background-image: url("/resources/SignUp.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
+}
+
+#infoViewpanel {
+    -fx-background-image: url("/resources/Info.png");
+    -fx-background-size: 140% auto; /* Ajustar ancho al 70% del contenedor y altura proporcional */
+    -fx-background-position: center; /* Centrar la imagen en el contenedor */
+    -fx-background-repeat: no-repeat; /* No repetir la imagen */
+}
+
+@font-face {
+    font-family: 'Cheri';
+    src: url('/resources/CHERI___.TTF'); /* Ajusta esta ruta si es necesario */
+}
+
+/* Aplicar la fuente Cheri y estilos a Labels específicos en infoView */
+#infoViewpanel #lblEmail, #infoViewpanel #lblPassword, #infoViewpanel #lblError,
+#infoViewpanel #emailLabel, #infoViewpanel #usernameLabel, #infoViewpanel #streetLabel,
+#infoViewpanel #passwordLabel, #infoViewpanel #repeatPasswdLabel, #infoViewpanel #cityLabel,
+#infoViewpanel #zipLabel, #infoViewpanel #userNameLbl, #infoViewpanel #emailLbl,
+#infoViewpanel #streetLbl, #infoViewpanel #cityLbl, #infoViewpanel #zipLbl {
+    -fx-font-family: 'Cheri';
+    -fx-font-size: 22px;       /* Aumentar el tamaño solo en info view */
+    -fx-text-fill: black;
+    -fx-alignment: center;
+}
+
+/* Estilos para los TextField en infoView */
+#infoViewpanel .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent grey transparent;
+    -fx-padding: 5; /* Aumentar padding para agrandar */
+    -fx-font-size: 18px; /* Aumentar tamaño de la fuente solo en info view */
+    -fx-text-fill: #34dede;
+    -fx-font-weight: bold;
+    -fx-border-width: 0 0 1px 0;
+    -fx-alignment: center;
+}
+
+/* Estilos para el botón minimalista solo en infoView */
+#infoViewpanel .minimal-button {
+    -fx-font-size: 18px; /* Tamaño de la fuente aumentado */
+    -fx-padding: 10 20; /* Ajuste del padding para agrandar el botón */
+}
+
+#infoViewpanel #usernameLabel {
+    -fx-min-width: 150px; /* Ajusta el valor según sea necesario */
+}

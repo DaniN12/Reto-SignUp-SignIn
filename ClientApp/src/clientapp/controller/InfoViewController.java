@@ -79,7 +79,10 @@ public class InfoViewController {
     @FXML
     private ImageView profileImageRigby;
 
+    private Image icon = new Image(getClass().getResourceAsStream("/resources/icon.png"));
+
     private Logger logger = Logger.getLogger(InfoViewController.class.getName());
+
     private Stage stage;
 
     @FXML
@@ -138,8 +141,8 @@ public class InfoViewController {
     public void onCloseRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("SALIR");
-        alert.setContentText("¿Estás seguro de que quieres cerrar la aplicación?");
+        alert.setTitle("EXIT");
+        alert.setContentText("Are you sure you want to close the application?");
 
         Optional<ButtonType> answer = alert.showAndWait();
 
@@ -170,7 +173,8 @@ public class InfoViewController {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Información del usuario");
+        stage.setTitle("User info");
+        stage.getIcons().add(icon);
         stage.setResizable(false);
         emailTextF.setText(user.getEmail());
         streetTextF.setText(user.getStreet());
@@ -192,9 +196,9 @@ public class InfoViewController {
         profileImageView.setOnMouseClicked(this::showContextMenu);
 
         // Asignar eventos de cambio de imagen a cada opción del menú
-        optionMordecay.setOnAction(event -> changeProfileImage("mordecay.png"));
-        optionCj.setOnAction(event -> changeProfileImage("cj.png"));
-        optionRigby.setOnAction(event -> changeProfileImage("rigby.png"));
+        optionMordecay.setOnAction(event -> changeProfileImage("/resources/mordecay.png"));
+        optionCj.setOnAction(event -> changeProfileImage("/resources/cj.png"));
+        optionRigby.setOnAction(event -> changeProfileImage("/resources/rigby.png"));
 
         //set window's events handlesrs
         //stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing); // Asegúrate de manejar la ventana al mostrar
