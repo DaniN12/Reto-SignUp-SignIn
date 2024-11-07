@@ -14,6 +14,11 @@ import serverapp.dao.DAO;
  */
 public class DAOFactory{
  
+    /**
+     * Retrieves a new instance of a class implementing the interface.
+     * 
+     * @return an instance
+     */
     public Signable getDAO(){
         
         Signable sign;

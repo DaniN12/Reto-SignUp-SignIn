@@ -33,21 +33,28 @@ public class DAO implements Signable {
     final String GET_USERNAME = "select * from res_partner where id = ?";
     final String USER_EXIST = "select * from res_users where login=?";
 
-    // Método para abrir conexión desde el pool
+    /**
+     * Opens a connection to the database using a connection pool.
+     *
+     * @throws ConnectionErrorException if there is an error while connecting to
+     * the database.
+     */
     private void openConnection() throws ConnectionErrorException {
         try {
-            con = Pool.getConexion();  // Obtener la conexión desde el pool
+            con = Pool.getConexion();
         } catch (SQLException e) {
             logger.severe("Error opening the connection: " + e.getMessage());
             throw new ConnectionErrorException("Error connectiong to the database.");
         }
     }
 
-    // Método para cerrar la conexión y devolverla al pool
+    /**
+     *Closes the current database connection if it is open.
+     */
     private void closeConnection() {
         try {
             if (con != null && !con.isClosed()) {
-                Pool.closeConexion(); // Cerrar la conexión asociada al hilo
+                Pool.closeConexion();
             }
         } catch (SQLException e) {
             logger.severe("Error closing conection: " + e.getMessage());
@@ -55,15 +62,20 @@ public class DAO implements Signable {
         }
     }
 
+   /**
+     * Attempts to sign in a user by validating their credentials.
+     *
+     * @param user object containing the credentials
+     * @return an object populated with the user's details if sign-in is successful
+     * @throws UserDoesNotExistException if the provided credentials do not match any user in the database.
+     * @throws ConnectionErrorException if a database connection issue occurs while attempting to sign in.
+     */
     @Override
     public User signIn(User user) throws ConnectionErrorException, UserDoesntExistExeption {
         try {
-            //Open connection with pool
             this.openConnection();
 
-            // Variable to get the partner id
             Integer id_partner = getPartnerId();
-            // Statement to get the user's data from the res_users table
             PreparedStatement ps = con.prepareStatement(GET_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -71,23 +83,19 @@ public class DAO implements Signable {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                // Set the data from the res_users table
                 user.setActive(rs.getBoolean("active"));
                 user.setEmail(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
 
             } else {
-                // if the user doesn't exist throw exception
                 throw new UserDoesntExistExeption("User doesn't exist");
             }
 
-            // Statement to get the user's data from the res_partner table
             ps = con.prepareStatement(GET_USERNAME);
             ps.setInt(1, id_partner);
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                // Set the data from the res_partner table
                 user.setFullName(rs.getString("name"));
                 user.setStreet(rs.getString("street"));
                 user.setCity(rs.getString("city"));
@@ -104,38 +112,41 @@ public class DAO implements Signable {
         } catch (UserDoesntExistExeption | ConnectionErrorException e) {
             alert("Error", e.getMessage());
         } finally {
-            // Close connection with the pool
             this.closeConnection();
         }
 
-        // return the user with all the data from the database
         return user;
     }
 
+    /**
+     * Registers a new user in the system.
+     * 
+     * @param user  object containing the details to be registered
+     * @return user object that was successfully signed up.
+     * @throws UserAlreadyExistException If a user with the same email already exists in the system.
+     * @throws ConnectionErrorException If there is an error while connecting to the database or executing the SQL operations.
+     */
     @Override
     public User signUp(User user) throws UserAlreadyExistException, ConnectionErrorException {
         try {
             this.openConnection();
-            con.setAutoCommit(false); // Desactiva auto-commit
+            con.setAutoCommit(false);
             logger.info("Abriendo conexión y desactivando auto-commit.");
 
-            // Comprobar si el usuario ya existe
             if (userExists(user.getEmail())) {
                 logger.warning("El usuario ya existe: " + user.getEmail());
                 throw new UserAlreadyExistException("User already exists.");
             }
 
-            // Insertar usuario en la tabla res_partners
             PreparedStatement ps = con.prepareStatement(INSERT_USER_DATA);
             ps.setInt(1, 1);
             ps.setString(2, user.getFullName());
             ps.setInt(3, user.getZip());
             ps.setString(4, user.getCity());
             ps.setString(5, user.getStreet());
-            int rowsInserted = ps.executeUpdate(); // Cambié de executeQuery a executeUpdate
+            int rowsInserted = ps.executeUpdate();
             logger.info("Filas insertadas en res_partners: " + rowsInserted);
 
-            // Insertar usuario en la tabla res_users
             ps = con.prepareStatement(INSERT_USER);
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
@@ -143,10 +154,9 @@ public class DAO implements Signable {
             ps.setInt(4, getPartnerId());
             ps.setBoolean(5, user.getActive());
 
-            rowsInserted = ps.executeUpdate(); // Cambié de executeQuery a executeUpdate
+            rowsInserted = ps.executeUpdate(); 
             logger.info("Filas insertadas en res_users: " + rowsInserted);
 
-            // Si todo fue bien, confirmamos la transacción
             con.commit();
             logger.info("Transacción confirmada.");
 
@@ -154,7 +164,7 @@ public class DAO implements Signable {
             logger.severe("Error durante el signUp: " + e.getMessage());
             try {
                 if (con != null) {
-                    con.rollback(); // Deshace los cambios si hay un error
+                    con.rollback(); 
                     logger.info("Rollback realizado.");
                 }
             } catch (SQLException rollbackEx) {
@@ -162,14 +172,16 @@ public class DAO implements Signable {
             }
             throw new ConnectionErrorException("Error during sign up.");
         } finally {
-            this.closeConnection();  // Cierra la conexión y la devuelve al pool
+            this.closeConnection();
         }
-
         return user;
     }
-
+/**
+ * Retrieves the user ID from the database.
+ * 
+ * @return the user ID as an Integer.
+ */
     public Integer getUserId() {
-
         int id_usuario = 0;
         try {
             this.openConnection();
@@ -189,13 +201,16 @@ public class DAO implements Signable {
         } catch (SQLException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
         }
-
         return id_usuario;
-
     }
 
+    /**
+     * Checks if a user with the given email already exists in the database.
+     * 
+     * @param email address of the user to check for existence in the database.
+     * @return if the user exists in the database.
+     */
     public boolean userExists(String email) {
-
         try {
             this.openConnection();
 
@@ -206,18 +221,20 @@ public class DAO implements Signable {
             if (rs.next()) {
                 return true;
             }
-
         } catch (SQLException e) {
             logger.severe("User already exists.");
         } catch (ConnectionErrorException ex) {
             logger.severe("Error connecting with database.");
         }
-
         return false;
     }
 
+    /**
+     *  Retrieves the partner ID from the database.
+     * 
+     * @return The partner ID as an Integer.
+     */
     public Integer getPartnerId() {
-
         Integer id = 0;
 
         try {
@@ -233,11 +250,15 @@ public class DAO implements Signable {
         } catch (SQLException e) {
             logger.severe("Error in the SQL sentence: " + e.getMessage());
         }
-
         return id;
-
     }
 
+    /**
+     * Displays an informational alert dialog with the specified title and message.
+     * 
+     * @param title of the alert window.
+     * @param message The content message to be displayed in the alert.
+     */
     public void alert(String title, String message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -247,6 +268,4 @@ public class DAO implements Signable {
             alert.showAndWait();
         });
     }
-
 }
-

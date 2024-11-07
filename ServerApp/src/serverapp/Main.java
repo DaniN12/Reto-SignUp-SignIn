@@ -53,7 +53,6 @@ public class Main {
             LOGGER.info("Servidor en marcha");
             svSocket = new ServerSocket(PORT);
 
-            // Thread to listen for 'q' input to close the server
             Thread tecladoThread = new Thread(() -> {
                 LOGGER.info("Presiona 'q' para cerrar el servidor.");
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -71,7 +70,6 @@ public class Main {
 
             tecladoThread.start();
 
-            // Server loop for handling client connections
             while (serverOn) {
                 LOGGER.info("Escuchando conexiones entrantes...");
                 if (i < MAX_USERS) {
@@ -80,13 +78,12 @@ public class Main {
                     st.start();
                     añadirCliente(st);
                 } else {
-                    // Handling too many clients
                     LOGGER.warning("Límite de clientes alcanzado. Rechazando conexión...");
                     try (ObjectOutputStream oos = new ObjectOutputStream(skCliente.getOutputStream())) {
                         mensaje.setMsg(MessageType.MAX_THREAD_USER);
                         oos.writeObject(mensaje);
                     }
-                    skCliente.close();  // Close socket after notifying client
+                    skCliente.close();
                 }
             }
 
