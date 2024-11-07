@@ -20,23 +20,24 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
  * @author 2dam
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class InfoViewControllerTest extends ApplicationTest{
-    
+public class InfoViewControllerTest extends ApplicationTest {
+
     @Override
-    public void start (Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         new MainInfo().start(stage);
     }
-    
+
     @Test
-    public void logOutButtonTest(){
+    public void logOutButtonTest() {
         clickOn("#logOutBtn");
         verifyThat("#signInpane", isVisible());
     }
+
     public InfoViewControllerTest() {
     }
 
     @Test
     public void testSomeMethod() {
     }
-    
+
 }

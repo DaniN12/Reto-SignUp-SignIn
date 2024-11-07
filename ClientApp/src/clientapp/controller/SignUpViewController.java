@@ -191,7 +191,6 @@ public class SignUpViewController {
     }
 
     private void manejarContextMenu(ContextMenuEvent event) {
-        logger.info("hola");
         contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
     }
 
