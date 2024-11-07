@@ -8,7 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" java-vm-args="-Xms256m -Xmx1024m "  href="http://java.sun.com/products/autodl/j2se"/>
+<<<<<<< HEAD
     <jar href="ClientApp.jar" size="1307857" download="eager" />
+=======
+    <jar href="ClientApp.jar" size="1307858" download="eager" />
+>>>>>>> 2df07685a82f8908a9f875d8feffd14ca415387e
     <jar href="lib\ProyectLibrary.jar" size="10195" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ClientApp" >

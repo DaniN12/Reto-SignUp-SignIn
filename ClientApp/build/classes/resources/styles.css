@@ -7,7 +7,7 @@
 #lblEmail, #lblPassword, #lblError, #emailLabel, #usernameLabel, #streetLabel, #passwordLabel, #repeatPasswdLabel, #cityLabel, #zipLabel, #userNameLbl, #emailLbl, #streetLbl, #cityLbl, #zipLbl  {
     -fx-font-family: 'Cheri';   /* Cambiar la fuente a Cheri */
     -fx-font-size: 18px;        /* Tamaño de fuente (ajústalo según prefieras) */
-    -fx-text-fill: black;       /* Color del texto */
+    -fx-text-fill: white;       /* Color del texto */
 }
 
 /* Estilos para los campos de texto */

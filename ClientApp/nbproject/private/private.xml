@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignInController.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/Main.java</file>
@@ -10,6 +11,17 @@
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/InfoView.fxml</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/view/SignInView.fxml</file>
+=======
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/InfoViewControllerTest.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+>>>>>>> 2df07685a82f8908a9f875d8feffd14ca415387e
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/resources/styles.css</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/InfoViewControllerTest.java</file>
         </group>
