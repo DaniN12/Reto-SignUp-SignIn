@@ -4,7 +4,7 @@
 }
 
 /* Aplicar la fuente Cheri a los Labels específicos */
-#lblEmail, #lblPassword, #lblError, #emailLabel, #usernameLabel, #streetLabel, #passwordLabel, #repeatPasswdLabel, #cityLabel, #zipLabel, #userNameLbl, #emailLbl, #streetLbl, #cityLbl, #zipLbl  {
+#lblEmail, #lblPassword, #lblError, #emailLabel, #usernameLabel, #streetLabel, #passwordLabel, #repeatPasswdLabel, #cityLabel, #zipLabel, #userNameLbl, #emailLbl, #streetLbl, #cityLbl, #zipLbl {
     -fx-font-family: 'Cheri';   /* Cambiar la fuente a Cheri */
     -fx-font-size: 18px;        /* Tamaño de fuente (ajústalo según prefieras) */
     -fx-text-fill: white;       /* Color del texto */
