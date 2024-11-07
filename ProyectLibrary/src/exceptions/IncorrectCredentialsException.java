@@ -11,6 +11,11 @@ package exceptions;
  */
 public class IncorrectCredentialsException extends Exception {
 
+    /**
+     * Exception thrown to indicate that an attempt to authenticate has failed due to incorrect credentials.
+     * 
+     * @param msg the detail message describing the error
+     */
     public IncorrectCredentialsException(String msg) {
         super(msg);
     }

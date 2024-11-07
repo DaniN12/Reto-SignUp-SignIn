@@ -11,6 +11,11 @@ package exceptions;
  */
 public class MaxUsersException extends Exception{
     
+    /**
+     * Constructs a new MaxUsersException with the specified detail message.
+     * 
+     * @param msg the detail message that provides information about the exception.
+     */
     public MaxUsersException(String msg){
         super(msg);
     }
