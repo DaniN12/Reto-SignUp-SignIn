@@ -15,14 +15,24 @@
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/resources/styles.css</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/InfoViewControllerTest.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/InfoViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/resources/package-info.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignInControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignInController.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/controller/SignUpViewController.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/Client.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/package-info.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/SignUpViewControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/MainSignUp.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/Main.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/MainInfo.java</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/resources/styles.css</file>
             <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/test/clientapp/controller/InfoViewControllerTest.java</file>
+            <file>file:/C:/Users/2dam/Desktop/Reto-SignUp-SignIn/ClientApp/src/clientapp/model/SocketFactory.java</file>
         </group>
     </open-files>
 </project-private>

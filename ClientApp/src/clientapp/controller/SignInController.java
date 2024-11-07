@@ -130,7 +130,7 @@ public class SignInController {
      * @throws UserDoesntExistExeption If the user does not exist.
      */
     @FXML
-    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption {
+    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption, UserNotActiveException, IncorrectCredentialsException {
         String email = txtFieldEmail.getText();
         String password = txtFieldPassword.getText();
         User user = new User();
@@ -143,27 +143,33 @@ public class SignInController {
             } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
                 throw new IncorrectPatternException("The email is not well written or is incorrect");
             } else {
+
                 SocketFactory socket = new SocketFactory();
                 Signable signable = socket.getSignable();
                 User signedInUser = signable.signIn(user);
 
-                if (!signedInUser.getPassword().equals(PasswordField.getText())) {
-                    throw new IncorrectCredentialsException("The email and password do not match");
-                } else if (signedInUser != null) {
-                    openMainWindow(event, signedInUser);
-                } else {
+                if (signedInUser.getActive() != false) {
                     throw new UserNotActiveException("The user is not active");
                 }
+
+                openMainWindow(event, signedInUser);
+
             }
         } catch (EmptyFieldException ex) {
-            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            logger.log(Level.SEVERE, ex.getLocalizedMessage());
             showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
         } catch (IncorrectPatternException ex) {
-            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            showAlert("Error", "The email does not exist. Please check your information or sign up.", Alert.AlertType.ERROR);
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "An unexpected error occurred.", ex);
-            showAlert("Error", "An unexpected error occurred. Please try again.", Alert.AlertType.ERROR);
+            logger.log(Level.SEVERE, ex.getLocalizedMessage());
+            showAlert("Error", "The email has to have a email format, don't forget the @.", Alert.AlertType.ERROR);
+        } catch (UserNotActiveException ex) {
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            showAlert("Error", "This user is not active.", Alert.AlertType.ERROR);
+        } catch (ConnectionErrorException ex) {
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+        } catch (IncorrectCredentialsException ex) {
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
         }
     }
 

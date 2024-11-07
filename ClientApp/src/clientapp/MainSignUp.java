@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author 2dam
+ * @author Enzo
  */
 public class MainSignUp extends Application {
 

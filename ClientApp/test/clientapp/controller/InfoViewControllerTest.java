@@ -32,12 +32,4 @@ public class InfoViewControllerTest extends ApplicationTest {
         clickOn("#logOutBtn");
         verifyThat("#signInpane", isVisible());
     }
-
-    public InfoViewControllerTest() {
-    }
-
-    @Test
-    public void testSomeMethod() {
-    }
-
 }
