@@ -1,83 +1,69 @@
 package serverapp.model;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Pool {
 
-    private static BasicDataSource ds = null;
-    private static final ResourceBundle archive = ResourceBundle.getBundle("resources.ConfigServer");
-    // Associate conection with a thread
-    private static ThreadLocal<Connection> threadLocalConnection = new ThreadLocal<>();
+    private static final BasicDataSource dataSource = new BasicDataSource();
+    private static Pool pool;
+    private static final ResourceBundle ARCHIVE = ResourceBundle.getBundle("resources.ConfigServer");
     private static Logger logger = Logger.getLogger(Pool.class.getName());
 
-    /**
-     * Initializes the basic data source if not activated
-     *
-     * @return the data source with the connections made
-     */
-    public static BasicDataSource getDataSource() {
-        if (ds == null) {
-            ds = new BasicDataSource();
-            ds.setDriverClassName(archive.getString("DRIVER"));
-            ds.setUsername(archive.getString("USER"));
-            ds.setPassword(archive.getString("PASSWORD"));
-            ds.setUrl(archive.getString("URL"));
-            ds.setInitialSize(50); // 50 conexiones iniciales
-            ds.setMaxIdle(10);
-            ds.setMaxTotal(20);
-        }
-        return ds;
+    // Configuración del DataSource
+    static {
+        dataSource.setUrl(ARCHIVE.getString("URL")); // Reemplaza con tu URL de la base de datos
+        dataSource.setUsername(ARCHIVE.getString("USER")); // Reemplaza con tu usuario
+        dataSource.setPassword(ARCHIVE.getString("PASSWORD")); // Reemplaza con tu contraseña
+
+        dataSource.setInitialSize(10); // Tamaño inicial del pool de conexiones
+        dataSource.setMaxTotal(20); // Número máximo de conexiones en el pool
+        dataSource.setMinIdle(5); // Número mínimo de conexiones inactivas
+        dataSource.setMaxIdle(15); // Número máximo de conexiones inactivas
+
+        logger.info("Pool de conexiones configurado con BasicDataSource.");
     }
 
-    /**
-     * Method that get's the connection with the thread
-     *
-     * @return the new connection
-     * @throws SQLException thrown if there's no connection done
-     */
-    public static Connection getConexion() throws SQLException {
-        // Revisa si ya existe una conexión asociada al hilo actual
-        Connection conn = threadLocalConnection.get();
-
-        if (conn == null || conn.isClosed()) {
-            // If there's no connection it creates a new one
-            conn = getDataSource().getConnection();
-            // Associate it with the new thread
-            threadLocalConnection.set(conn);
-            logger.info("Conexión gotten pool: " + conn);
-        }
-        return conn;
+    // Constructor privado para implementar el patrón singleton
+    private Pool() {
     }
 
-    /**
-     * Method to close the connection with the thread
-     *
-     * @throws SQLException thrown if there's an error with the connection
-     */
-    public static void closeConexion() throws SQLException {
-        Connection conn = threadLocalConnection.get();
-        if (conn != null && !conn.isClosed()) {
-            // Closes the connection with the pool (return it to the pool)
-            conn.close();
-            // Removes the connection with the thread
-            threadLocalConnection.remove();
+    // Método para obtener la instancia del pool (singleton)
+    public static Pool getPool() {
+        if (pool == null) {
+            synchronized (Pool.class) {
+                if (pool == null) {
+                    pool = new Pool();
+                }
+            }
+        }
+        return pool;
+    }
+
+    // Método para obtener una conexión del pool
+    public Connection getConnection() {
+        try {
+            Connection conn = dataSource.getConnection();
+            logger.info("Conexión obtenida del pool.");
+            return conn;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error al obtener una conexión del pool", e);
+            return null;
         }
     }
 
-    /**
-     * Method to close the conection with the pool
-     *
-     * @throws SQLException SQLException thrown if there's an error with the
-     * connection
-     */
-    public static void closePool() throws SQLException {
-        if (ds != null) {
-            //Closes all the connections with the pool and frees the pool resources
-            ds.close();
+    // Método para cerrar el DataSource y liberar los recursos
+    public void closePool() {
+        try {
+            dataSource.close();
+            logger.info("Pool de conexiones cerrado.");
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error al cerrar el pool de conexiones", e);
         }
     }
 }

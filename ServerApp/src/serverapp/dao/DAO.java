@@ -22,7 +22,7 @@ import serverapp.model.Pool;
  */
 public class DAO implements Signable {
 
-    private Connection con;
+    private Connection con = Pool.getPool().getConnection();
 
     private static final Logger logger = Logger.getLogger(DAO.class.getName());
     final String INSERT_USER = "insert into res_users (login, password, company_id, partner_id, active, notification_type) values (?,?,?,?,?, 'email')";
@@ -33,24 +33,29 @@ public class DAO implements Signable {
     final String GET_USERNAME = "select * from res_partner where id = ?";
     final String USER_EXIST = "select * from res_users where login=?";
 
-    // Método para abrir conexión desde el pool
-    private void openConnection() throws ConnectionErrorException {
-        try {
-            con = Pool.getConexion();  // Obtener la conexión desde el pool
-        } catch (SQLException e) {
-            logger.severe("Error opening the connection: " + e.getMessage());
-            throw new ConnectionErrorException("Error connectiong to the database.");
-        }
+    /**
+     * Method to open connection with the database
+     *
+     * @throws ConnectionErrorException checks if the connection with the
+     * database is made
+     */
+    private Connection openConnection() throws ConnectionErrorException {
+        // Get the connection from the pool
+        logger.info("Connection opened successfully.");
+        return con;
     }
 
-    // Método para cerrar la conexión y devolverla al pool
-    private void closeConnection() {
+    /**
+     * Method to close the connection with the database
+     */
+    private void closeConnection(Connection con) {
         try {
             if (con != null && !con.isClosed()) {
-                Pool.closeConexion(); // Cerrar la conexión asociada al hilo
+                con.close(); // This will return the connection to the pool
+                logger.info("Connection closed successfully.");
             }
         } catch (SQLException e) {
-            logger.severe("Error closing conection: " + e.getMessage());
+            logger.severe("Error closing connection: " + e.getMessage());
             new Alert(Alert.AlertType.ERROR, e.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
     }
@@ -105,7 +110,7 @@ public class DAO implements Signable {
             alert("Error", e.getMessage());
         } finally {
             // Close connection with the pool
-            this.closeConnection();
+            this.closeConnection(con);
         }
 
         // return the user with all the data from the database
@@ -162,7 +167,7 @@ public class DAO implements Signable {
             }
             throw new ConnectionErrorException("Error during sign up.");
         } finally {
-            this.closeConnection();  // Cierra la conexión y la devuelve al pool
+            this.closeConnection(con);  // Cierra la conexión y la devuelve al pool
         }
 
         return user;
@@ -182,7 +187,7 @@ public class DAO implements Signable {
             } else if (id_usuario == 0) {
                 throw new SQLException("An error has occured");
             }
-            this.closeConnection();
+            this.closeConnection(con);
 
         } catch (ConnectionErrorException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
@@ -249,4 +254,3 @@ public class DAO implements Signable {
     }
 
 }
-
