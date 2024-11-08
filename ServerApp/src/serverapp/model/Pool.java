@@ -2,25 +2,30 @@ package serverapp.model;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class Pool {
 
     private static BasicDataSource ds = null;
-
-    // Para asociar conexiones a hilos específicos
+    private static final ResourceBundle archive = ResourceBundle.getBundle("resourcesServer.Config");
+    // Associate conection with a thread
     private static ThreadLocal<Connection> threadLocalConnection = new ThreadLocal<>();
-    private static Logger logger = Logger.getLogger(Pool.class.getName());;
+    private static Logger logger = Logger.getLogger(Pool.class.getName());
 
-    // Inicializa el BasicDataSource si aún no está inicializado
+    /**
+     * Initializes the basic data source if not activated
+     *
+     * @return the data source with the connections made
+     */
     public static BasicDataSource getDataSource() {
         if (ds == null) {
             ds = new BasicDataSource();
-             ds.setDriverClassName("org.postgresql.Driver");
-            ds.setUsername("odoo");
-            ds.setPassword("abcd*1234");
-            ds.setUrl("jdbc:postgresql://192.168.20.157:5432/flutter");
+            ds.setDriverClassName(archive.getString("DRIVER"));
+            ds.setUsername(archive.getString("USER"));
+            ds.setPassword(archive.getString("PASSWORD"));
+            ds.setUrl(archive.getString("URL"));
             ds.setInitialSize(50); // 50 conexiones iniciales
             ds.setMaxIdle(10);
             ds.setMaxTotal(20);
@@ -28,33 +33,51 @@ public class Pool {
         return ds;
     }
 
-    // Obtener una conexión para el hilo actual
+    /**
+     * Method that get's the connection with the thread
+     *
+     * @return the new connection
+     * @throws SQLException thrown if there's no connection done
+     */
     public static Connection getConexion() throws SQLException {
         // Revisa si ya existe una conexión asociada al hilo actual
         Connection conn = threadLocalConnection.get();
 
         if (conn == null || conn.isClosed()) {
-            // Si no hay una conexión o está cerrada, asigna una nueva
+            // If there's no connection it creates a new one
             conn = getDataSource().getConnection();
-            threadLocalConnection.set(conn); // Asociar la conexión con el hilo actual
-            logger.info("Conexión obtenida del pool: " + conn);
+            // Associate it with the new thread
+            threadLocalConnection.set(conn);
+            logger.info("Conexión gotten pool: " + conn);
         }
         return conn;
     }
 
-    // Método para cerrar la conexión asociada al hilo actual
+    /**
+     * Method to close the connection with the thread
+     *
+     * @throws SQLException thrown if there's an error with the connection
+     */
     public static void closeConexion() throws SQLException {
         Connection conn = threadLocalConnection.get();
         if (conn != null && !conn.isClosed()) {
-            conn.close(); // Cierra la conexión (la devuelve al pool)
-            threadLocalConnection.remove(); // Remueve la referencia en el hilo
+            // Closes the connection with the pool (return it to the pool)
+            conn.close();
+            // Removes the connection with the thread
+            threadLocalConnection.remove();
         }
     }
 
-    // Método para cerrar el pool de conexiones completo
+    /**
+     * Method to close the conection with the pool
+     *
+     * @throws SQLException SQLException thrown if there's an error with the
+     * connection
+     */
     public static void closePool() throws SQLException {
         if (ds != null) {
-            ds.close(); // Cierra todas las conexiones y libera los recursos del pool
+            //Closes all the connections with the pool and frees the pool resources
+            ds.close();
         }
     }
 }
