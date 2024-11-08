@@ -125,6 +125,9 @@ public class InfoViewController {
 
      /**
      * Method that initializes the controller class.
+     * 
+     * @param root the root element for the scene
+     * @param user the user data used to populate fields in the UI
      */
     public void initialize(Parent root, User user) {
         logger.info("Initializing InfoView stage.");
@@ -237,8 +240,6 @@ public class InfoViewController {
      * @param event the action event triggered by pressing the logout button
      * @throws RuntimeException if the SignInController or the stage is not
      * properly initialized
-     * @throws IOException if an error occurs while loading the
-     * "SignInView.fxml" file
      */
     @FXML
     public void logOutButtonActtion(ActionEvent event) {

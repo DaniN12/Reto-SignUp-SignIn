@@ -33,11 +33,4 @@ public class InfoViewControllerTest extends ApplicationTest {
         verifyThat("#signInpane", isVisible());
     }
 
-    public InfoViewControllerTest() {
-    }
-
-    @Test
-    public void testSomeMethod() {
-    }
-
 }

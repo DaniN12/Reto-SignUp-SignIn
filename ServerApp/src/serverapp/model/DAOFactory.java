@@ -9,7 +9,9 @@ import model.Signable;
 import serverapp.dao.DAO;
 
 /**
- *
+ *A factory class for creating instances of data access objects (DAO) that implement
+ * the interface.
+ * 
  * @author Ruth
  */
 public class DAOFactory{

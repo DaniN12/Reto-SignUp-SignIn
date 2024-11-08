@@ -6,7 +6,8 @@
 package exceptions;
 
 /**
- *
+ * Exception thrown when the maximun numbre of user is reached
+ * 
  * @author Enzo
  */
 public class MaxUsersException extends Exception{

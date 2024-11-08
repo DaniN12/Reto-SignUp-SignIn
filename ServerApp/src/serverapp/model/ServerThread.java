@@ -18,7 +18,9 @@ import serverapp.Main;
 import serverapp.model.DAOFactory;
 
 /**
- *
+ *Class thta represents a thread responsible for handling 
+ * communication between the server and a connected client.
+ * 
  * @author Ruth
  */
 public class ServerThread extends Thread {
@@ -43,9 +45,6 @@ public class ServerThread extends Thread {
 
     /**
      *  Handles client-server communication and processes sign-in and sign-up requests from clients.
-     * 
-     *  @throws ClassNotFoundException if the received message object type is unrecognized.
-     * @throws IOException if an I/O error occurs during message reading/writing.
      */
     @Override
     public void run() {

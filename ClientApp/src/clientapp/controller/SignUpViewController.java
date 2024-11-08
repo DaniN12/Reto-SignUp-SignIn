@@ -162,6 +162,8 @@ public class SignUpViewController {
 
     /**
      * Initializes the controller class.
+     * 
+     * @param root the root node of the scene graph to be used for initializing the scene.
      */
     public void initialize(Parent root) {
 

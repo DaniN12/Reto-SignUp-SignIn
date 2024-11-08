@@ -5,6 +5,12 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * The class that manages a database connection pool and provides thread-safe access
+ * to database connections using a thread approach.
+ * 
+ * @author Enzo and Kelian
+ */
 public class Pool {
 
     private static BasicDataSource ds = null;

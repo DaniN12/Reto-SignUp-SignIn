@@ -6,6 +6,7 @@
 package exceptions;
 
 /**
+ * Exception thrown when credentials are incorrect
  *
  * @author Enzo
  */

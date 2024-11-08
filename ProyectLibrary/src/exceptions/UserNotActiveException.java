@@ -6,7 +6,8 @@
 package exceptions;
 
 /**
- *
+ * Exception thrown when user is not active
+ * 
  * @author Enzo
  */
 public class UserNotActiveException extends Exception {

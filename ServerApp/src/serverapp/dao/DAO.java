@@ -17,7 +17,9 @@ import model.User;
 import serverapp.model.Pool;
 
 /**
- *
+ * DAO class providing database access operations for user authentication and registration.
+ * Implements the interface.
+ * 
  * @author Kelian and Enzo
  */
 public class DAO implements Signable {
@@ -67,7 +69,6 @@ public class DAO implements Signable {
      *
      * @param user object containing the credentials
      * @return an object populated with the user's details if sign-in is successful
-     * @throws UserDoesNotExistException if the provided credentials do not match any user in the database.
      * @throws ConnectionErrorException if a database connection issue occurs while attempting to sign in.
      */
     @Override

@@ -25,9 +25,6 @@ public class SignInControllerTest extends ApplicationTest{
     public void start (Stage stage) throws Exception{
         new Main().start(stage);
     }
-    
-    public SignInControllerTest() {
-    }
 
   //@Test
     public void testSignIn() {
