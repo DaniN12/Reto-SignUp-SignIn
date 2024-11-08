@@ -44,16 +44,16 @@
         </AnchorPane>
         <AnchorPane fx:id="anchorPaneDown" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <children>
-                <TextField fx:id="userNameTextF" editable="false" layoutX="232.0" layoutY="40.0" prefHeight="26.0" prefWidth="195.0" />
-                <TextField fx:id="emailTextF" editable="false" layoutX="47.0" layoutY="145.0" prefHeight="26.0" prefWidth="195.0" />
-                <TextField fx:id="streetTextF" editable="false" layoutX="47.0" layoutY="292.0" prefHeight="26.0" prefWidth="195.0" />
-                <TextField fx:id="cityTextF" editable="false" layoutX="473.0" layoutY="158.0" prefHeight="26.0" prefWidth="195.0" />
-                <Label fx:id="userNameLbl" layoutX="232.0" layoutY="14.0" prefHeight="18.0" prefWidth="195.0" text="User name:" />
-                <Label fx:id="emailLbl" layoutX="47.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="Email:" />
-                <Label fx:id="streetLbl" layoutX="47.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Street:" />
-                <Label fx:id="cityLbl" layoutX="473.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="City:" />
-                <Label fx:id="zipLbl" layoutX="473.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Zip:" />
-                <TextField fx:id="zipTextF" editable="false" layoutX="473.0" layoutY="292.0" prefHeight="26.0" prefWidth="195.0" />
+                <TextField fx:id="userNameTextF" editable="false" layoutX="301.0" layoutY="39.0" prefHeight="26.0" prefWidth="195.0" />
+                <TextField fx:id="emailTextF" editable="false" layoutX="105.0" layoutY="145.0" prefHeight="26.0" prefWidth="195.0" />
+                <TextField fx:id="streetTextF" editable="false" layoutX="105.0" layoutY="278.0" prefHeight="26.0" prefWidth="195.0" />
+                <TextField fx:id="cityTextF" editable="false" layoutX="496.0" layoutY="145.0" prefHeight="26.0" prefWidth="195.0" />
+                <Label fx:id="userNameLbl" layoutX="301.0" layoutY="14.0" prefHeight="18.0" prefWidth="195.0" text="User name:" />
+                <Label fx:id="emailLbl" layoutX="105.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="Email:" />
+                <Label fx:id="streetLbl" layoutX="105.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Street:" />
+                <Label fx:id="cityLbl" layoutX="496.0" layoutY="119.0" prefHeight="16.0" prefWidth="100.0" text="City:" />
+                <Label fx:id="zipLbl" layoutX="496.0" layoutY="253.0" prefHeight="16.0" prefWidth="100.0" text="Zip:" />
+                <TextField fx:id="zipTextF" editable="false" layoutX="496.0" layoutY="278.0" prefHeight="26.0" prefWidth="195.0" />
             </children>
         </AnchorPane>
     </items>
