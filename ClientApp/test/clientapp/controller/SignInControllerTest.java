@@ -16,7 +16,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
  *
- * @author 2dam
+ * @author Dani
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SignInControllerTest extends ApplicationTest{
@@ -26,7 +26,7 @@ public class SignInControllerTest extends ApplicationTest{
         new Main().start(stage);
     }
 
-  //@Test
+  @Test
     public void testSignIn() {
         clickOn("#txtFieldEmail");
         write("test@gmail.com");
@@ -47,7 +47,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("Aceptar");
     }
     
-   //@Test
+   @Test
     public void testCredentials() {
         clickOn("#txtFieldEmail");
         write("");
@@ -58,7 +58,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("Aceptar");
     }
  
-   // @Test
+   @Test
     public void testHyperlink() {
         clickOn("#HyperLinkRegistered");
         verifyThat("#signUpView", isVisible());

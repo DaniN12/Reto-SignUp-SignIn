@@ -17,7 +17,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
  *
- * @author 2dam
+ * @author Ruth
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class InfoViewControllerTest extends ApplicationTest {

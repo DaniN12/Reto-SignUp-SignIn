@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * Represents the various types of messages that can be sent in the application.
  *
- * @author kbilb
+ * @author Kelian
  */
 public enum MessageType implements Serializable { 
         

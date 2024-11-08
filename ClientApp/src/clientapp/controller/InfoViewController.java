@@ -25,7 +25,7 @@ import javafx.scene.input.MouseEvent;
 import model.User;
 
 /**
- * FXML Controller class
+ * FXML Controller class of the info  window
  *
  * @author ruth
  */
