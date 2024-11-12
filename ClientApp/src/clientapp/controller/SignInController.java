@@ -3,7 +3,7 @@
  * It handles user input, displays errors, and initiates the sign-in process.
  *
  *
- * @author Dani and Ruth
+ * @author Dani
  */
 package clientapp.controller;
 

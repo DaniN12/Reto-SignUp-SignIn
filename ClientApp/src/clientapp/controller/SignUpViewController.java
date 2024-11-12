@@ -152,7 +152,7 @@ public class SignUpViewController {
 
     private boolean repeatpasswordVisible = false;
 
-    private Signable sign;
+    private Signable signable;
 
     private ContextMenu contextMenu = new ContextMenu();
 
@@ -191,6 +191,7 @@ public class SignUpViewController {
     }
 
     private void manejarContextMenu(ContextMenuEvent event) {
+        logger.info("hola");
         contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
     }
 
@@ -254,9 +255,18 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                sign = SocketFactory.getSignable();
-                sign.signUp(user);
-                backButtonAction(event);
+                signable = SocketFactory.getSignable();
+                signable.signUp(user);
+                // create a user to verify if the register has been fullfilled
+                User signedUpUser = signable.signUp(user);
+
+                if (signedUpUser != null) {
+                    // if the method is well executed returns to the signIn window
+                    backButtonAction(event);
+                } else {
+                    // if not an exection is thrown to botify the user
+                    throw new ConnectionErrorException("An unexpected error occurred.");
+                }
 
             }
 

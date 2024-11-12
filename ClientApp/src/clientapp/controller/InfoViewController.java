@@ -32,8 +32,7 @@ import model.User;
 public class InfoViewController {
 
     /**
-     * Button used to log out user sesion
-     * Button to log out of the application
+     * Button used to log out user sesion Button to log out of the application
      */
     @FXML
     private Button logOutBtn;
@@ -99,8 +98,8 @@ public class InfoViewController {
     private MenuItem optionRigby;
 
     /**
-     * logger to show the steps of the application by console
-     * ImageView for Mordecay image
+     * logger to show the steps of the application by console ImageView for
+     * Mordecay image
      */
     @FXML
     private ImageView profileImageMordecay;
@@ -124,10 +123,21 @@ public class InfoViewController {
     private Stage stage;
 
     /**
-     * Method to initializes the controller class.
+     * Method that initializes the controller class.
      */
-    public void initialize(Parent root) {
+    public void initialize(Parent root, User user) {
         logger.info("Initializing InfoView stage.");
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("User info");
+        stage.getIcons().add(icon);
+        stage.setResizable(false);
+        emailTextF.setText(user.getEmail());
+        streetTextF.setText(user.getStreet());
+        userNameTextF.setText(user.getFullName());
+        cityTextF.setText(Optional.ofNullable(user.getCity()).orElse("City not available"));
+        zipTextF.setText(user.getZip() != null ? String.valueOf(user.getZip()) : "ZIP not available");
 
         profileImageMordecay.setVisible(false);
         profileImageCj.setVisible(false);
@@ -137,10 +147,7 @@ public class InfoViewController {
         optionCj.setOnAction(this::onOptionCj);
         optionRigby.setOnAction(this::onOptionRigby);
 
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Información del usuario");
-        stage.setResizable(false);
+        profileImageView.setOnMouseClicked(this::showContextMenu);
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing);
         stage.setOnCloseRequest(this::onCloseRequest);
         stage.show();
@@ -278,54 +285,6 @@ public class InfoViewController {
         } else {
             event.consume();
         }
-    }
-
-   
-
-    private void changeProfileImage(String imageFile) {
-        Image image = new Image(getClass().getResourceAsStream(imageFile));
-        profileImageView.setImage(image);
-    }
-
-    /**
-     * Initializes the controller class.
-     */
-    public void initialize(Parent root, User user) {
-        logger.info("Initializing InfoView stage.");
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("User info");
-        stage.getIcons().add(icon);
-        stage.setResizable(false);
-        emailTextF.setText(user.getEmail());
-        streetTextF.setText(user.getStreet());
-        userNameTextF.setText(user.getFullName());
-        cityTextF.setText(Optional.ofNullable(user.getCity()).orElse("City not available"));
-        zipTextF.setText(user.getZip() != null ? String.valueOf(user.getZip()) : "ZIP not available");
-
-        profileImageMordecay.setVisible(false);
-        profileImageCj.setVisible(false);
-        profileImageRigby.setVisible(true);
-
-        // Asocia las acciones del menú contextual con los métodos correspondientes
-        optionMordecay.setOnAction(this::onOptionMordecay);
-        optionCj.setOnAction(this::onOptionCj);
-        optionRigby.setOnAction(this::onOptionRigby);
-        Image rigbyImage = new Image(getClass().getResourceAsStream("/resources/rigby.png"));
-
-        // Asignar el evento de clic derecho para mostrar el ContextMenu
-        profileImageView.setOnMouseClicked(this::showContextMenu);
-
-        // Asignar eventos de cambio de imagen a cada opción del menú
-        optionMordecay.setOnAction(event -> changeProfileImage("/resources/mordecay.png"));
-        optionCj.setOnAction(event -> changeProfileImage("/resources/cj.png"));
-        optionRigby.setOnAction(event -> changeProfileImage("/resources/rigby.png"));
-
-        //set window's events handlesrs
-        //stage.addEventHandler(WindowEvent.WINDOW_SHOWN, this::handleWindowShowing); // Asegúrate de manejar la ventana al mostrar
-        stage.setOnCloseRequest(this::onCloseRequest);
-        stage.show();
     }
 
     /**
