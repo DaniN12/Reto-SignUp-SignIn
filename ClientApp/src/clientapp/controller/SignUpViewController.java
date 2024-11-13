@@ -132,9 +132,15 @@ public class SignUpViewController {
     @FXML
     private Button returnButton;
 
+    /**
+     * Image view to set the button eye
+     */
     @FXML
     private ImageView buttonImgView;
 
+    /**
+     * Image view to set the second button eye
+     */
     @FXML
     private ImageView repeatbuttonImgView;
 
@@ -148,20 +154,39 @@ public class SignUpViewController {
      */
     private Stage stage;
 
+    /**
+     * Boolean for the password change
+     */
     private boolean passwordVisible = false;
 
+    /**
+     * Boolean for the password change
+     */
     private boolean repeatpasswordVisible = false;
+    /**
+     * Interface of the application
+     */
+    private Signable signable;
 
-    private Signable sign;
-
+    /**
+     * Context menu of the window
+     */
     private ContextMenu contextMenu = new ContextMenu();
 
+    /**
+     * First menu Item of the menu
+     */
     private MenuItem itemResetFields = new MenuItem("Reset fields");
 
+    /**
+     * Second menu Item of the menu
+     */
     private MenuItem itemBack = new MenuItem("Go back");
 
     /**
-     * Initializes the controller class.
+     * Method that initializes the sign up view and sets the event handlers
+     *
+     * @param root the parent gotten from the previous window
      */
     public void initialize(Parent root) {
 
@@ -190,8 +215,13 @@ public class SignUpViewController {
         stage.show();
     }
 
+    /**
+     * Method to create the context menu and set it to be usable in all the
+     * window
+     *
+     * @param event triggers an action, in this case a click on the window
+     */
     private void manejarContextMenu(ContextMenuEvent event) {
-        logger.info("hola");
         contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
     }
 
@@ -230,24 +260,30 @@ public class SignUpViewController {
     @FXML
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
-
-            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
+            // Check if the fields are empty and throws an exception if they are
+            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty()
+                    || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty()
+                    || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
 
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-
+                // Checks if the password and retry password do match, if not throws an exception
             } else if (!passwordTxf.getText().equalsIgnoreCase(retryPasswordTxf.getText()) && !passwordPwdf.getText().equalsIgnoreCase(repeatPasswordPwdf.getText())) {
 
                 throw new IncorrectPasswordException("The password fields do not match");
-
+                // Checks if the email format is correct, if not throws an exception
             } else if (!emailTxf.getText().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
 
                 throw new IncorrectPatternException("The email has to have a email format, don't forget the @");
+                // Checks if the zip format is correct, if not throws an exception
             } else if (!zipTxf.getText().matches("\\d+")) {
 
                 throw new IncorrectPatternException("The zip has to be an Integer");
-            } else {
-                User user = new User();
 
+                // if all the credentials are ok creates a user with the written credentials
+            } else {
+                // Create a new user
+                User user = new User();
+                // Set the credentials to the new user
                 user.setEmail(emailTxf.getText());
                 user.setFullName(fullNameTxf.getText());
                 user.setPassword(passwordTxf.getText());
@@ -255,9 +291,18 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                sign = SocketFactory.getSignable();
-                sign.signUp(user);
-                backButtonAction(event);
+                // Generates a signable to get the register method
+                signable = SocketFactory.getSignable();
+                // Execute the register method
+                User signedUpUser = signable.signUp(user);
+
+                if (signedUpUser != null) {
+                    // if the method is well executed returns to the signIn window
+                    backButtonAction(event);
+                } else {
+                    // if not an exection is thrown to botify the user
+                    throw new ConnectionErrorException("An unexpected error occurred.");
+                }
 
             }
 
@@ -351,6 +396,11 @@ public class SignUpViewController {
         }
     }
 
+    /**
+     * Method to change the visibility of the password
+     *
+     * @param event triggers an action, in this case a button click
+     */
     public void showPassword(ActionEvent event) {
         if (!passwordVisible) {
             buttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -369,6 +419,11 @@ public class SignUpViewController {
         }
     }
 
+    /**
+     * Method to change the visibility of the retryPassword
+     *
+     * @param event triggers an action, in this case a button click
+     */
     public void retryShowPassword(ActionEvent event) {
         if (!repeatpasswordVisible) {
             repeatbuttonImgView.setImage(new Image(getClass().getResourceAsStream("/resources/ViendoContraseña.png")));
@@ -387,6 +442,11 @@ public class SignUpViewController {
         }
     }
 
+    /**
+     * Method to reset all the fields in the window
+     *
+     * @param event triggers an action, in this case a button click
+     */
     public void resetFields(ActionEvent event) {
         // Limpiar los campos de texto
         emailTxf.clear();
@@ -400,10 +460,20 @@ public class SignUpViewController {
         zipTxf.clear();
     }
 
+    /**
+     * Gets the stage of the window
+     *
+     * @return the stage of the window
+     */
     public Stage getStage() {
         return stage;
     }
 
+    /**
+     * Set's the window's stage
+     *
+     * @param stage represents the changed stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }

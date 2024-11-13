@@ -14,7 +14,7 @@ import model.User;
 
 /**
  *
- * @author 2dam
+ * @author Ruth
  */
 public class MainInfo extends Application {
 
