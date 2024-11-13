@@ -16,9 +16,8 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 /**
- *Main class for sign up view test
- * 
- * @author Kelian and Enzo
+ *
+ * @author 2dam
  */
 public class MainSignUp extends Application {
 

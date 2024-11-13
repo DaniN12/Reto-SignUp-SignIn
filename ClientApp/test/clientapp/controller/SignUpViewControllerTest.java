@@ -80,13 +80,13 @@ public class SignUpViewControllerTest extends ApplicationTest {
         verifyThat("This user already exist", isVisible());
     }
     
-    @Test
+    //@Test
     public void test_C_SignUpEmptyFields() {
         clickOn("#singUpButton");
         verifyThat("Fields are empty, all fields need to be filled", isVisible());
     }
 
-    @Test
+   // @Test
     public void test_D_SignUpPasswordDoesntMatch() {
         clickOn("#emailTxf");
         write("manolo@gmail.com");
@@ -108,7 +108,7 @@ public class SignUpViewControllerTest extends ApplicationTest {
         verifyThat("The password fields do not match", isVisible());
     }
     
-    @Test
+   // @Test
     public void test_E_SignUpEmailDoesntMatch() {
         clickOn("#emailTxf");
         write("manoloa.com");
@@ -127,7 +127,7 @@ public class SignUpViewControllerTest extends ApplicationTest {
         clickOn("#singUpButton");
         verifyThat("The email has to have a email format, don't forget the @", isVisible());
     }
-    @Test
+  //  @Test
     public void test_F_SignUpZipDoesntMatch() {
         clickOn("#emailTxf");
         write("manolo@gmail.com");

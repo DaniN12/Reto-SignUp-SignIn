@@ -17,7 +17,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
  *
- * @author Ruth
+ * @author 2dam
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class InfoViewControllerTest extends ApplicationTest {
@@ -31,6 +31,13 @@ public class InfoViewControllerTest extends ApplicationTest {
     public void logOutButtonTest() {
         clickOn("#logOutBtn");
         verifyThat("#signInpane", isVisible());
+    }
+
+    public InfoViewControllerTest() {
+    }
+
+    @Test
+    public void testSomeMethod() {
     }
 
 }

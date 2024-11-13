@@ -13,9 +13,8 @@ import javafx.stage.Stage;
 import model.User;
 
 /**
- *Main class for Info view test
- * 
- * @author Ruth
+ *
+ * @author 2dam
  */
 public class MainInfo extends Application {
 

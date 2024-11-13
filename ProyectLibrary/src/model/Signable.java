@@ -9,7 +9,6 @@ package model;
  * This interface defines the contract for user authentication operations.
  * Implementing classes are expected to provide functionality for signing
  * in and signing up users.
- * 
  * @author Kelian
  */
 public interface Signable {

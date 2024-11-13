@@ -25,15 +25,14 @@ import javafx.scene.input.MouseEvent;
 import model.User;
 
 /**
- * FXML Controller class of the info  window
+ * FXML Controller class
  *
  * @author ruth
  */
 public class InfoViewController {
 
     /**
-     * Button used to log out user sesion
-     * Button to log out of the application
+     * Button used to log out user sesion Button to log out of the application
      */
     @FXML
     private Button logOutBtn;
@@ -99,8 +98,8 @@ public class InfoViewController {
     private MenuItem optionRigby;
 
     /**
-     * logger to show the steps of the application by console
-     * ImageView for Mordecay image
+     * logger to show the steps of the application by console ImageView for
+     * Mordecay image
      */
     @FXML
     private ImageView profileImageMordecay;
@@ -123,11 +122,8 @@ public class InfoViewController {
 
     private Stage stage;
 
-     /**
+    /**
      * Method that initializes the controller class.
-     * 
-     * @param root the root element for the scene
-     * @param user the user data used to populate fields in the UI
      */
     public void initialize(Parent root, User user) {
         logger.info("Initializing InfoView stage.");
@@ -156,7 +152,6 @@ public class InfoViewController {
         stage.setOnCloseRequest(this::onCloseRequest);
         stage.show();
     }
-    
 
     /**
      * Method that handles the events that occur before the window opens
@@ -240,6 +235,8 @@ public class InfoViewController {
      * @param event the action event triggered by pressing the logout button
      * @throws RuntimeException if the SignInController or the stage is not
      * properly initialized
+     * @throws IOException if an error occurs while loading the
+     * "SignInView.fxml" file
      */
     @FXML
     public void logOutButtonActtion(ActionEvent event) {

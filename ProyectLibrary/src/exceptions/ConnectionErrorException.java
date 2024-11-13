@@ -8,7 +8,7 @@ package exceptions;
 /**
  * Exception thrown when there is a connection error.
  *
- * @author Enzo
+ * @author 2dam
  */
 public class ConnectionErrorException extends Exception {
 

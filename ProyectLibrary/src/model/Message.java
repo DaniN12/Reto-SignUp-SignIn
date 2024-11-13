@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Represents a message that contains information about a specific user
  * and the type of message being sent.
  *
- * @author Kelian
+ * @author kbilb
  */
 public class Message implements Serializable {
     

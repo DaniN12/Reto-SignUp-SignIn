@@ -3,6 +3,7 @@
  * It handles user input, displays errors, and initiates the sign-in process.
  *
  *
+ * @author Dani
  */
 package clientapp.controller;
 
@@ -39,11 +40,6 @@ import exceptions.UserDoesntExistExeption;
 import exceptions.UserNotActiveException;
 import model.Signable;
 
-/**
- * FXML Controller class of the sign in window
- * 
- * @author Dani
- */
 public class SignInController {
 
     @FXML

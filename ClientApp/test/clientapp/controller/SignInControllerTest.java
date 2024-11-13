@@ -29,11 +29,11 @@ public class SignInControllerTest extends ApplicationTest{
   @Test
     public void testSignIn() {
         clickOn("#txtFieldEmail");
-        write("test@gmail.com");
+        write("paki@gmail.com");
         clickOn("#PasswordField");
-        write("abcd*1234");
+        write("abcd");
         clickOn("#btnSignIn");
-        verifyThat("#panel", isVisible());
+        verifyThat("#infoViewpanel", isVisible());
     }
     
     @Test

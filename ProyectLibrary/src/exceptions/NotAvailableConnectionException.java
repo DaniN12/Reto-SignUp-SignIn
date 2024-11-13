@@ -7,11 +7,11 @@ package exceptions;
 
 /**
  *
- * @author Enzo
+ * @author 2dam
  */
-public class UserNotActiveException extends Exception {
-
-    public UserNotActiveException(String msg) {
+public class NotAvailableConnectionException extends Exception{
+    
+    public NotAvailableConnectionException(String msg){
         super(msg);
     }
 }

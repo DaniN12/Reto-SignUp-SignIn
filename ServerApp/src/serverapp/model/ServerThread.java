@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package serverapp.model;
 
 import exceptions.ConnectionErrorException;
@@ -18,13 +23,12 @@ import serverapp.Main;
 import serverapp.model.DAOFactory;
 
 /**
- *Class thta represents a thread responsible for handling 
- * communication between the server and a connected client.
- * 
+ *
  * @author Ruth
  */
 public class ServerThread extends Thread {
 
+    //Llamada de los distintos objetos
     private ObjectInputStream ois = null;
     private ObjectOutputStream oos = null;
     private Socket sk = null;
@@ -34,27 +38,28 @@ public class ServerThread extends Thread {
     private static final int MAX_USERS = 7;
     private static final Logger LOGGER = Logger.getLogger(ServerThread.class.getName());
 
-    /**
-     * Constructs a new ServerThread to handle communication over the specified socket.
-     * 
-     * @param sk the socket that this thread will manage
-     */
-    public ServerThread(Socket sk) {
-        this.sk = sk;
+    //Constructor vacio
+    public ServerThread() {
     }
 
-    /**
-     *  Handles client-server communication and processes sign-in and sign-up requests from clients.
-     */
+    //Constructor con el socket
+    public ServerThread(Socket sk) {
+        this.sk = sk;
+
+    }
+
     @Override
     public void run() {
         try {
+            // Initialize input and output streams early
             oos = new ObjectOutputStream(sk.getOutputStream());
             ois = new ObjectInputStream(sk.getInputStream());
 
+            // Initialize DAO for sign-in and sign-up methods
             DAOFactory daofact = new DAOFactory();
             sign = daofact.getDAO();
 
+            // Read message from client
             msg = (Message) ois.readObject();
             LOGGER.info("Message received: " + msg.getMsg());
 
@@ -101,6 +106,7 @@ public class ServerThread extends Thread {
                     break;
             }
 
+            // Send response back to the client
             oos.writeObject(msg);
             oos.flush();
 
@@ -111,6 +117,7 @@ public class ServerThread extends Thread {
             LOGGER.log(Level.SEVERE, "I/O error during client communication", e);
             msg.setMsg(MessageType.CONNECTION_ERROR_RESPONSE);
         } finally {
+            // Ensure resources are closed
             LOGGER.info("Closing client connection...");
             try {
                 if (ois != null) {
@@ -126,6 +133,7 @@ public class ServerThread extends Thread {
             } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Error closing resources", e);
             }
+
         }
     }
 }

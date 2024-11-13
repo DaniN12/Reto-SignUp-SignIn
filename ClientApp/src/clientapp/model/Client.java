@@ -23,7 +23,7 @@ import model.User;
 /**
  * Handles client-side operations for signing in and signing up a user.
  *
- * @author Enzo and Kelian
+ * @author 2dam
  */
 public class Client implements Signable {
 

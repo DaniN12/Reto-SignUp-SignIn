@@ -13,9 +13,8 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 /**
- *Main class that launches the Sign In view
- * 
- * @author Dani
+ *
+ * @author 2dam
  */
 public class Main extends Application {
 
