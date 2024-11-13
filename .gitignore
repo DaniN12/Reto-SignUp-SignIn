@@ -1,2 +1,10 @@
+<<<<<<< HEAD
+/ClientApp/nbproject/private/
 /ClientApp/build/
 /ClientApp/dist/
+/ProyectLibrary/build/
+/ProyectLibrary/dist/
+=======
+/ServerApp/build/
+/ServerApp/dist/
+>>>>>>> 5cf4cf3e674134eb3c3e3526f0e115c219e5e1e9
