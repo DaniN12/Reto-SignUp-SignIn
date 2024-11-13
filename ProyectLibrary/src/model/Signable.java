@@ -21,7 +21,9 @@ public interface Signable {
      * @throws exceptions.ConnectionErrorException if there is a problem with the connection to the server.
      * @throws exceptions.UserDoesntExistExeption if the provided user does not exist in the system.
      */
-    public User signIn(User user) throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption;
+    public User signIn(User user) throws exceptions.ConnectionErrorException, 
+            exceptions.UserDoesntExistExeption, exceptions.UserNotActiveException,
+            exceptions.IncorrectCredentialsException;
 
      /**
      * Registers a new user account.

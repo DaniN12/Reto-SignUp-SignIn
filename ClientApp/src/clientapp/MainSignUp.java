@@ -18,7 +18,7 @@ import javafx.stage.WindowEvent;
 
 /**
  *
- * @author 2dam
+ * @author Enzo
  */
 public class MainSignUp extends Application {
 

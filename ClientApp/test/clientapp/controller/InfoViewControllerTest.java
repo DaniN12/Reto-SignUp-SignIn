@@ -35,9 +35,4 @@ public class InfoViewControllerTest extends ApplicationTest {
 
     public InfoViewControllerTest() {
     }
-
-    @Test
-    public void testSomeMethod() {
-    }
-
 }

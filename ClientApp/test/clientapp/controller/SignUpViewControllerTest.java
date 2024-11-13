@@ -131,9 +131,57 @@ public class SignUpViewControllerTest extends ApplicationTest {
         write("48170");
         clickOn("#singUpButton");
         verifyThat("The email has to have a email format, don't forget the @", isVisible());
-    }
-    //  @Test
 
+    }
+
+    /*  @Test
+    public void test_C_SignUpEmptyFields() {
+        clickOn("#singUpButton");
+        verifyThat("Fields are empty, all fields need to be filled", isVisible());
+    }
+   // @Test
+    public void test_D_SignUpPasswordDoesntMatch() {
+        clickOn("#emailTxf");
+        write("manolo@gmail.com");
+        clickOn("#fullNameTxf");
+        write("manoloSantana");
+        clickOn("#passwordPwdf");
+        write("abcd*1234");
+        clickOn("#btnShowPasswd");
+        clickOn("#repeatPasswordPwdf");
+        write("abcd*12345");
+        clickOn("#btnShowPasswd2");
+        clickOn("#streetTxf");
+        write("enara");
+        clickOn("#cityTxf");
+        write("Zamudio");
+        clickOn("#zipTxf");
+        write("48170");
+        clickOn("#singUpButton");
+        verifyThat("The password fields do not match", isVisible());
+    }
+    
+   // @Test
+    public void test_E_SignUpEmailDoesntMatch() {
+        clickOn("#emailTxf");
+        write("manoloa.com");
+        clickOn("#fullNameTxf");
+        write("manoloSantana");
+        clickOn("#passwordPwdf");
+        write("abcd*1234");
+        clickOn("#repeatPasswordPwdf");
+        write("abcd*1234");
+        clickOn("#streetTxf");
+        write("enara");
+        clickOn("#cityTxf");
+        write("Zamudio");
+        clickOn("#zipTxf");
+        write("48170");
+        clickOn("#singUpButton");
+        verifyThat("The email has to have a email format, don't forget the @", isVisible());
+    }
+    
+    //@Test
     public void test_F_SignUpZipDoesntMatch() {
         clickOn("#emailTxf");
         write("manolo@gmail.com");
@@ -152,4 +200,5 @@ public class SignUpViewControllerTest extends ApplicationTest {
         clickOn("#singUpButton");
         verifyThat("The zip has to be an Integer", isVisible());
     }
+     */
 }

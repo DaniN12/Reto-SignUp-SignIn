@@ -19,17 +19,17 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
  * @author 2dam
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SignInControllerTest extends ApplicationTest{
-    
+public class SignInControllerTest extends ApplicationTest {
+
     @Override
-    public void start (Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         new Main().start(stage);
     }
-    
+
     public SignInControllerTest() {
     }
 
-  //@Test
+    //@Test
     public void testSignIn() {
         clickOn("#txtFieldEmail");
         write("test@gmail.com");
@@ -38,19 +38,19 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#btnSignIn");
         verifyThat("#panel", isVisible());
     }
-    
+
     @Test
-    public void testEmailExists(){
+    public void testEmailExists() {
         clickOn("#txtFieldEmail");
         write("dani@gmail.com");
         clickOn("#PasswordField");
         write("abcd");
         clickOn("#btnSignIn");
-        verifyThat("The email does not exist. Please check your information or sign up.", isVisible());
+        verifyThat("The gmail has to have a email format, don't forget the @.", isVisible());
         clickOn("Aceptar");
     }
-    
-   //@Test
+
+    //@Test
     public void testCredentials() {
         clickOn("#txtFieldEmail");
         write("");
@@ -60,8 +60,8 @@ public class SignInControllerTest extends ApplicationTest{
         verifyThat("Please fill in all fields.", isVisible());
         clickOn("Aceptar");
     }
- 
-   // @Test
+
+    // @Test
     public void testHyperlink() {
         clickOn("#HyperLinkRegistered");
         verifyThat("#signUpView", isVisible());
