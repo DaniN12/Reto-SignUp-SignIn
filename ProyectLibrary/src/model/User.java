@@ -22,7 +22,6 @@ public class User implements Serializable {
     private Integer zip;
     private Integer company_id;
     private Boolean active;
-    
 
     /**
      * Default constructor for creating an empty {@link User} object.
@@ -34,13 +33,13 @@ public class User implements Serializable {
     /**
      * Constructs a {@link User} object with the specified attributes.
      *
-     * @param email     The user's email address.
-     * @param fullName  The user's full name.
-     * @param password  The user's password.
-     * @param street    The street address of the user.
-     * @param city      The city where the user resides.
-     * @param zip       The zip code for the user's address.
-     * @param active    Indicates whether the user account is active.
+     * @param email The user's email address.
+     * @param fullName The user's full name.
+     * @param password The user's password.
+     * @param street The street address of the user.
+     * @param city The city where the user resides.
+     * @param zip The zip code for the user's address.
+     * @param active Indicates whether the user account is active.
      */
     public User(String email, String fullName, String password, String street, String city, Integer zip, Boolean active) {
         this.email = email;
@@ -51,6 +50,7 @@ public class User implements Serializable {
         this.zip = zip;
         this.active = active;
     }
+
     /**
      * Returns the user's email address.
      *
@@ -96,7 +96,7 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-    
+
     /**
      * Sets the user's password.
      *
@@ -124,7 +124,7 @@ public class User implements Serializable {
         this.street = street;
     }
 
-     /**
+    /**
      * Returns the user's city.
      *
      * @return The city where the user resides.
@@ -178,7 +178,7 @@ public class User implements Serializable {
         this.active = active;
     }
 
-     /**
+    /**
      * Returns the company's ID associated with the user.
      *
      * @return The company ID of the user.
@@ -195,5 +195,4 @@ public class User implements Serializable {
     public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
     }
-
 }

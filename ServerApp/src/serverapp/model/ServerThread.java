@@ -6,13 +6,16 @@
 package serverapp.model;
 
 import exceptions.ConnectionErrorException;
+import exceptions.IncorrectCredentialsException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
+import exceptions.UserNotActiveException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Message;
@@ -35,7 +38,6 @@ public class ServerThread extends Thread {
     private Signable sign;
     private Message msg = null;
     private User user;
-    private static final int MAX_USERS = 7;
     private static final Logger LOGGER = Logger.getLogger(ServerThread.class.getName());
 
     //Constructor vacio
@@ -78,7 +80,13 @@ public class ServerThread extends Thread {
                         msg.setMsg(MessageType.USER_NOT_FOUND_RESPONSE);
                         LOGGER.log(Level.SEVERE, "User does not exist");
                     } catch (ConnectionErrorException ex) {
-                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE,ex.getLocalizedMessage());
+                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+                        msg.setMsg(MessageType.CONNECTION_ERROR_RESPONSE);
+                    } catch (UserNotActiveException ex) {
+                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+                    } catch (IncorrectCredentialsException ex) {
+                        Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+                        msg.setMsg(MessageType.INCORRECT_CREDENTIALS_RESPONSE);
                     }
                     break;
 
