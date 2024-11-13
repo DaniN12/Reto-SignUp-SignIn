@@ -22,6 +22,7 @@ public class User implements Serializable {
     private Integer zip;
     private Integer company_id;
     private Boolean active;
+    private Integer phone;
     
 
     /**
@@ -42,7 +43,7 @@ public class User implements Serializable {
      * @param zip       The zip code for the user's address.
      * @param active    Indicates whether the user account is active.
      */
-    public User(String email, String fullName, String password, String street, String city, Integer zip, Boolean active) {
+    public User(String email, String fullName, String password, String street, String city, Integer zip, Boolean active, Integer phone) {
         this.email = email;
         this.fullName = fullName;
         this.password = password;
@@ -50,6 +51,7 @@ public class User implements Serializable {
         this.city = city;
         this.zip = zip;
         this.active = active;
+        this.phone = phone;
     }
     /**
      * Returns the user's email address.
@@ -194,6 +196,24 @@ public class User implements Serializable {
      */
     public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
+    }
+    
+      /**
+     * Returns the phone associated with the user.
+     *
+     * @return The phone of the user.
+     */
+    public Integer getPhone() {
+        return phone;
+    }
+
+    /**
+     * Sets the phone associated with the user.
+     *
+     * @param phone The new phone to set for the user.
+     */
+    public void setPhone(Integer Phone) {
+        this.phone = Phone;
     }
 
 }

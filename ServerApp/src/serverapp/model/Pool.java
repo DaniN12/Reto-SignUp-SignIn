@@ -26,7 +26,6 @@ public class Pool {
         dataSource.setMinIdle(5); // Número mínimo de conexiones inactivas
         dataSource.setMaxIdle(15); // Número máximo de conexiones inactivas
 
-        logger.info("Pool de conexiones configurado con BasicDataSource.");
     }
 
     // Constructor privado para implementar el patrón singleton
@@ -54,16 +53,8 @@ public class Pool {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Error al obtener una conexión del pool", e);
             return null;
-        }
-    }
 
-    // Método para cerrar el DataSource y liberar los recursos
-    public void closePool() {
-        try {
-            dataSource.close();
-            logger.info("Pool de conexiones cerrado.");
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al cerrar el pool de conexiones", e);
         }
+
     }
 }

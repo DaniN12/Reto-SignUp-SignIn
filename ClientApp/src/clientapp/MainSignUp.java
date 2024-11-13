@@ -14,6 +14,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -39,7 +40,6 @@ public class MainSignUp extends Application {
         controller.setStage(stage);
         //Initializes the controller with the loaded view
         controller.initialize(root);
-
     }
 
     /**
@@ -52,5 +52,3 @@ public class MainSignUp extends Application {
     }
 
 }
-
-

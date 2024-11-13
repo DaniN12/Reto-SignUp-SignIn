@@ -132,6 +132,12 @@ public class SignUpViewController {
     @FXML
     private Button returnButton;
 
+    /**
+     * Button to show password
+     */
+    @FXML
+    private TextField txfPhone = new TextField();
+
     @FXML
     private ImageView buttonImgView;
 
@@ -231,7 +237,9 @@ public class SignUpViewController {
     public void handleButtonAction(ActionEvent event) throws UserAlreadyExistException, ConnectionErrorException {
         try {
 
-            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty() || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty() || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty()) {
+            if (emailTxf.getText().isEmpty() || fullNameTxf.getText().isEmpty() || passwordTxf.getText().isEmpty()
+                    || passwordPwdf.getText().isEmpty() || retryPasswordTxf.getText().isEmpty()
+                    || repeatPasswordPwdf.getText().isEmpty() || streetTxf.getText().isEmpty() || cityTxf.getText().isEmpty() || txfPhone.getText().isEmpty()) {
 
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
 
@@ -245,6 +253,9 @@ public class SignUpViewController {
             } else if (!zipTxf.getText().matches("\\d+")) {
 
                 throw new IncorrectPatternException("The zip has to be an Integer");
+            } else if (!txfPhone.getText().matches("\\d+")) {
+
+                throw new IncorrectPatternException("The phone has to be an Integer");
             } else {
                 User user = new User();
 
@@ -255,9 +266,9 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                signable = SocketFactory.getSignable();
-                signable.signUp(user);
+                user.setPhone(Integer.parseInt(txfPhone.getText()));
                 // create a user to verify if the register has been fullfilled
+                signable = SocketFactory.getSignable();
                 User signedUpUser = signable.signUp(user);
 
                 if (signedUpUser != null) {
