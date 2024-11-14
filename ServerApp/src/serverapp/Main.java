@@ -25,7 +25,7 @@ import serverapp.model.ServerThread;
  */
 public class Main {
 
-    private static final ResourceBundle archive = ResourceBundle.getBundle("resources.Config");
+    private static final ResourceBundle archive = ResourceBundle.getBundle("resources.ConfigServer");
     private static final int MAX_USERS = Integer.parseInt(archive.getString("MAX_USERS"));;
     private static final int PORT = Integer.parseInt(archive.getString("PORT"));
 

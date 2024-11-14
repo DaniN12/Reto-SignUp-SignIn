@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" java-vm-args="-Xms256m -Xmx1024m "  href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ClientApp.jar" size="1308335" download="eager" />
-    <jar href="lib\ProyectLibrary.jar" size="23253" download="eager" />
+    <jar href="ClientApp.jar" size="1308045" download="eager" />
+    <jar href="lib\ProyectLibrary.jar" size="23686" download="eager" />
     <jar href="lib\junit-4.12.jar" size="316791" download="eager" />
     <jar href="lib\testng-6.8.1-dist.jar" size="899661" download="eager" />
   </resources>

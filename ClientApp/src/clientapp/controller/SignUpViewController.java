@@ -292,9 +292,6 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                signable = SocketFactory.getSignable();
-                signable.signUp(user);
-                // create a user to verify if the register has been fullfilled
                 // Generates a signable to get the register method
                 signable = SocketFactory.getSignable();
                 // Execute the register method
