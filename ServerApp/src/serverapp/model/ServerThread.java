@@ -6,6 +6,7 @@
 package serverapp.model;
 
 import exceptions.ConnectionErrorException;
+import exceptions.IncorrectCredentialsException;
 import exceptions.UserAlreadyExistException;
 import exceptions.UserDoesntExistExeption;
 import java.io.IOException;
@@ -79,7 +80,9 @@ public class ServerThread extends Thread {
                         LOGGER.log(Level.SEVERE, "User does not exist");
                     } catch (ConnectionErrorException ex) {
                         Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE,ex.getLocalizedMessage());
-                    }
+                    } catch (IncorrectCredentialsException ex) {
+                Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     break;
 
                 case SIGNUP_REQUEST:

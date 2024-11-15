@@ -5,7 +5,7 @@
  */
 package clientapp.controller;
 
-import clientapp.model.SocketFactory;
+import clientapp.model.SignableFactory;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -255,7 +255,7 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                signable = SocketFactory.getSignable();
+                signable = SignableFactory.getSignable();
                 User signedUpUser =signable.signUp(user);
                 // create a user to verify if the register has been fullfilled
                
@@ -271,21 +271,21 @@ public class SignUpViewController {
 
         } catch (IncorrectPasswordException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (IncorrectPatternException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (EmptyFieldException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         } catch (UserAlreadyExistException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, "This user already exist", ButtonType.OK).showAndWait();
         } catch (ConnectionErrorException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
 

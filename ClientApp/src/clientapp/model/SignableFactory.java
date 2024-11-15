@@ -13,7 +13,7 @@ import model.Signable;
  *
  * @author Enzo
  */
-public class SocketFactory {
+public class SignableFactory {
 
     /**
      * Returns an instance of a {@link Signable} implementation.

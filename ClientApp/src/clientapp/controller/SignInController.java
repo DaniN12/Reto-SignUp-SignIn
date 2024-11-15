@@ -33,7 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
-import clientapp.model.SocketFactory;
+import clientapp.model.SignableFactory;
 import exceptions.ConnectionErrorException;
 import exceptions.IncorrectCredentialsException;
 import exceptions.UserDoesntExistExeption;
@@ -92,7 +92,6 @@ public class SignInController {
     private Label errorLabel;
 
     private Signable signable;
-
     private Image icon = new Image(getClass().getResourceAsStream("/resources/icon.png"));
 
     private Stage stage;
@@ -140,15 +139,15 @@ public class SignInController {
         try {
             if (email.isEmpty() || password.isEmpty() || txtFieldPassword.getText().isEmpty()) {
                 throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-            } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-                throw new IncorrectPatternException("The email is not well written or is incorrect");
+            } else if (!(email.matches("^[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z]{2,}$"))) {
+                throw new IncorrectPatternException("The email has incorrect patern");
             } else {
-                SocketFactory socket = new SocketFactory();
+                SignableFactory socket = new SignableFactory();
                 Signable signable = socket.getSignable();
                 User signedInUser = signable.signIn(user);
-
-                if (!signedInUser.getPassword().equals(PasswordField.getText())) {
-                    throw new IncorrectCredentialsException("The email and password do not match");
+                
+                if (!(signedInUser.getPassword().equals(PasswordField.getText())) || !(signedInUser.getEmail().equals(txtFieldEmail.getText()))) {
+                    throw new IncorrectCredentialsException( "The email or password is incorrect");
                 } else if (signedInUser != null) {
                     openMainWindow(event, signedInUser);
                 } else {
@@ -158,9 +157,12 @@ public class SignInController {
         } catch (EmptyFieldException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
             showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
+        } catch (IncorrectCredentialsException ex) {
+            logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+            showAlert("Error", "The email or password is incorrect", Alert.AlertType.ERROR);
         } catch (IncorrectPatternException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-            showAlert("Error", "The email does not exist. Please check your information or sign up.", Alert.AlertType.ERROR);
+            showAlert("Error", "The email has incorrect patern", Alert.AlertType.ERROR);
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "An unexpected error occurred.", ex);
             showAlert("Error", "An unexpected error occurred. Please try again.", Alert.AlertType.ERROR);

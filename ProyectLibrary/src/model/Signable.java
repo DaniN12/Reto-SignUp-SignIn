@@ -5,6 +5,8 @@
  */
 package model;
 
+import exceptions.IncorrectCredentialsException;
+
 /**
  * This interface defines the contract for user authentication operations.
  * Implementing classes are expected to provide functionality for signing
@@ -21,7 +23,7 @@ public interface Signable {
      * @throws exceptions.ConnectionErrorException if there is a problem with the connection to the server.
      * @throws exceptions.UserDoesntExistExeption if the provided user does not exist in the system.
      */
-    public User signIn(User user) throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption;
+    public User signIn(User user) throws exceptions.ConnectionErrorException, exceptions.UserDoesntExistExeption, IncorrectCredentialsException;
 
      /**
      * Registers a new user account.
