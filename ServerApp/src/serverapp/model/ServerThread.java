@@ -104,6 +104,7 @@ public class ServerThread extends Thread {
                         msg.setMsg(MessageType.USER_ALREADY_EXISTS_RESPONSE);
                         LOGGER.log(Level.SEVERE, "User already exists");
                     } catch (ConnectionErrorException ex) {
+                        msg.setMsg(MessageType.CONNECTION_ERROR_RESPONSE);
                         Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
                     }
                     break;

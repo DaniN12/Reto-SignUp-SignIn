@@ -33,6 +33,7 @@ public interface Signable {
      * @throws exceptions.UserAlreadyExistException if the user already exists in the system.
      * @throws exceptions.ConnectionErrorException if there is a problem with the connection to the server.
      */
-    public User signUp(User user) throws exceptions.UserAlreadyExistException, exceptions.ConnectionErrorException;
+    public User signUp(User user) throws exceptions.UserAlreadyExistException, 
+            exceptions.ConnectionErrorException;
 
 }

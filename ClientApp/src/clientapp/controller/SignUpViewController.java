@@ -222,7 +222,6 @@ public class SignUpViewController {
      * @param event triggers an action, in this case a click on the window
      */
     private void manejarContextMenu(ContextMenuEvent event) {
-        logger.info("hola");
         contextMenu.show(splitPane, event.getScreenX(), event.getScreenY());
     }
 
@@ -300,30 +299,14 @@ public class SignUpViewController {
                 if (signedUpUser != null) {
                     // if the method is well executed returns to the signIn window
                     backButtonAction(event);
-                } else {
-                    // if not an exection is thrown to botify the user
-                    throw new ConnectionErrorException("An unexpected error occurred.");
                 }
 
             }
 
-        } catch (IncorrectPasswordException ex) {
+        } catch (IncorrectPasswordException | IncorrectPatternException
+                | EmptyFieldException | UserAlreadyExistException | ConnectionErrorException ex) {
             // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
-        } catch (IncorrectPatternException ex) {
-            // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
-        } catch (EmptyFieldException ex) {
-            // Logs the error and displays an alert messsage
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
-        } catch (UserAlreadyExistException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            new Alert(Alert.AlertType.ERROR, "This user already exist", ButtonType.OK).showAndWait();
-        } catch (ConnectionErrorException ex) {
-            Logger.getLogger(SignUpViewController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
+            Logger.getLogger(SignUpViewController.class.getName()).log(Level.WARNING, ex.getLocalizedMessage());
             new Alert(Alert.AlertType.ERROR, ex.getLocalizedMessage(), ButtonType.OK).showAndWait();
         }
 

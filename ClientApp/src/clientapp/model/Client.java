@@ -16,6 +16,8 @@ import java.net.Socket;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import model.Message;
 import model.MessageType;
 import model.Signable;
@@ -43,7 +45,7 @@ public class Client implements Signable {
      * server.
      */
     @Override
-    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException, 
+    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException,
             IncorrectCredentialsException {
         Message msg = new Message();
         try (Socket socket = new Socket(HOST, PORT);
@@ -112,6 +114,7 @@ public class Client implements Signable {
             }
         } catch (IOException | ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getLocalizedMessage());
+            new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK).showAndWait();
 
         }
         return null;
