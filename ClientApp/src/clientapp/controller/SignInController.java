@@ -130,48 +130,49 @@ public class SignInController {
      * @throws UserDoesntExistExeption If the user does not exist.
      */
     @FXML
-    protected void handleSignIn(ActionEvent event) throws ConnectionErrorException, UserDoesntExistExeption, UserNotActiveException, IncorrectCredentialsException {
-        String email = txtFieldEmail.getText();
-        String password = txtFieldPassword.getText();
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
+protected void handleSignIn(ActionEvent event) {
+    String email = txtFieldEmail.getText();
+    String password = txtFieldPassword.getText();
+    User user = new User();
+    user.setEmail(email);
+    user.setPassword(password);
 
-        try {
-            if (email.isEmpty() || password.isEmpty() || txtFieldPassword.getText().isEmpty()) {
-                throw new EmptyFieldException("Fields are empty, all fields need to be filled");
-            } else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
-                throw new IncorrectPatternException("The email is not well written or is incorrect");
-            } else {
-
-                SocketFactory socket = new SocketFactory();
-                Signable signable = socket.getSignable();
-                User signedInUser = signable.signIn(user);
-
-                if (signedInUser.getActive() != false) {
-                    throw new UserNotActiveException("The user is not active");
-                }
-
-                openMainWindow(event, signedInUser);
-
-            }
-        } catch (EmptyFieldException ex) {
-            logger.log(Level.SEVERE, ex.getLocalizedMessage());
-            showAlert("Error", "Please fill in all fields.", Alert.AlertType.ERROR);
-        } catch (IncorrectPatternException ex) {
-            logger.log(Level.SEVERE, ex.getLocalizedMessage());
-            showAlert("Error", "The email has to have a email format, don't forget the @.", Alert.AlertType.ERROR);
-        } catch (UserNotActiveException ex) {
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            showAlert("Error", "This user is not active.", Alert.AlertType.ERROR);
-        } catch (ConnectionErrorException ex) {
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
-        } catch (IncorrectCredentialsException ex) {
-            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
-            showAlert("Error", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+    try {
+        // Validación de campos vacíos
+        if (email.isEmpty() || password.isEmpty() || txtFieldPassword.getText().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all fields.");
         }
+        // Validación de formato de email
+        else if (!email.matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+            throw new IncorrectPatternException("The email format is incorrect. Make sure to include '@gmail.com'.");
+        } else {
+            // Lógica de conexión y autenticación
+            SocketFactory socket = new SocketFactory();
+            Signable signable = socket.getSignable();
+            User signedInUser = signable.signIn(user);
+
+            // Verificación de usuario activo
+            if (signedInUser.getActive() == false) {
+                throw new UserNotActiveException("This user is not active. Please contact support.");
+            }
+
+            // Si todo es correcto, abrir la ventana principal
+            openMainWindow(event, signedInUser);
+        }
+    } 
+    // Multicatch para manejar todas las excepciones de manera común
+    catch (EmptyFieldException | IncorrectPatternException | UserNotActiveException | 
+           ConnectionErrorException | IncorrectCredentialsException ex) {
+        logger.log(Level.SEVERE, ex.getLocalizedMessage());
+        showAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+    } catch (Exception ex) {
+        // Captura cualquier otra excepción no anticipada
+        logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        showAlert("Error", "An unexpected error occurred. Please try again later.", Alert.AlertType.ERROR);
     }
+}
+
+
 
     @FXML
     public void openMainWindow(ActionEvent event, User user) {
