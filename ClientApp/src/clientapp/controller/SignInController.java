@@ -33,7 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
-import clientapp.model.SocketFactory;
+import clientapp.model.SignableFactory;
 import exceptions.ConnectionErrorException;
 import exceptions.IncorrectCredentialsException;
 import exceptions.UserDoesntExistExeption;
@@ -144,7 +144,7 @@ public class SignInController {
                 throw new IncorrectPatternException("The email is not well written or is incorrect");
             } else {
 
-                SocketFactory socket = new SocketFactory();
+                SignableFactory socket = new SignableFactory();
                 Signable signable = socket.getSignable();
                 User signedInUser = signable.signIn(user);
 

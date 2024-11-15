@@ -5,7 +5,7 @@
  */
 package clientapp.controller;
 
-import clientapp.model.SocketFactory;
+import clientapp.model.SignableFactory;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -211,6 +211,8 @@ public class SignUpViewController {
         itemResetFields.setOnAction(this::resetFields);
         itemBack.setOnAction(this::backButtonAction);
         root.setOnContextMenuRequested(this::manejarContextMenu);
+        // Generates a signable to get the register method
+        signable = SignableFactory.getSignable();
         //show primary window
         stage.show();
     }
@@ -272,9 +274,9 @@ public class SignUpViewController {
 
                 throw new IncorrectPasswordException("The password fields do not match");
                 // Checks if the email format is correct, if not throws an exception
-            } else if (!emailTxf.getText().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+            } else if (!emailTxf.getText().matches("^[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z]{2,}$")) {
 
-                throw new IncorrectPatternException("The email has to have a email format, don't forget the @");
+                throw new IncorrectPatternException("Email has an invalid format.");
                 // Checks if the zip format is correct, if not throws an exception
             } else if (!zipTxf.getText().matches("\\d+")) {
 
@@ -292,11 +294,6 @@ public class SignUpViewController {
                 user.setCity(cityTxf.getText());
                 user.setZip(Integer.parseInt(zipTxf.getText()));
                 user.setActive(checkActive.isSelected());
-                signable = SocketFactory.getSignable();
-                signable.signUp(user);
-                // create a user to verify if the register has been fullfilled
-                // Generates a signable to get the register method
-                signable = SocketFactory.getSignable();
                 // Execute the register method
                 User signedUpUser = signable.signUp(user);
 
