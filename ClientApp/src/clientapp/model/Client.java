@@ -43,35 +43,37 @@ public class Client implements Signable {
      * server.
      */
     @Override
-    public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException, 
-            IncorrectCredentialsException {
-        Message msg = new Message();
-        try (Socket socket = new Socket(HOST, PORT);
-                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
+public User signIn(User user) throws UserDoesntExistExeption, ConnectionErrorException, IncorrectCredentialsException {
+    Message msg = new Message();
+    try (Socket socket = new Socket(HOST, PORT);
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream())) {
 
-            logger.info("Initializing logIn...");
-            msg.setUser(user);
-            msg.setMsg(MessageType.SIGNIN_REQUEST);
-            oos.writeObject(msg);
-            msg = (Message) ois.readObject();
+        logger.info("Initializing logIn...");
+        msg.setUser(user);
+        msg.setMsg(MessageType.SIGNIN_REQUEST);
+        oos.writeObject(msg);
+        msg = (Message) ois.readObject();
 
-            switch (msg.getMsg()) {
-                case OK_RESPONSE:
-                    return msg.getUser();
-                case USER_NOT_FOUND_RESPONSE:
-                    throw new UserDoesntExistExeption("This user doesn't exist");
-                case INCORRECT_CREDENTIALS_RESPONSE:
-                    throw new IncorrectCredentialsException("The email or password are not correct");
-                case CONNECTION_ERROR_RESPONSE:
-                    throw new ConnectionErrorException("A problem occurred trying to connect with the server");
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            logger.log(Level.SEVERE, e.getLocalizedMessage());
-            throw new ConnectionErrorException("Connection issue: " + e.getMessage());
+        // Verificamos la respuesta del servidor
+        switch (msg.getMsg()) {
+            case OK_RESPONSE:
+                return msg.getUser();  // Si todo es correcto, retornamos el usuario
+            case USER_NOT_FOUND_RESPONSE:
+                throw new UserDoesntExistExeption("El usuario no existe.");
+            case INCORRECT_CREDENTIALS_RESPONSE:
+                throw new IncorrectCredentialsException("El correo electrónico o la contraseña no son correctos.");
+            case CONNECTION_ERROR_RESPONSE:
+                throw new ConnectionErrorException("Hubo un problema al intentar conectar con el servidor.");
+            default:
+                throw new ConnectionErrorException("Respuesta no válida del servidor.");
         }
-        return null;
+    } catch (IOException | ClassNotFoundException e) {
+        logger.log(Level.SEVERE, e.getLocalizedMessage());
+        throw new ConnectionErrorException("Problema de conexión: " + e.getMessage());
     }
+}
+
 
     /**
      * Attempts to register a new user by sending a sign-up request to the

@@ -153,7 +153,7 @@ protected void handleSignIn(ActionEvent event) {
 
             // Verificación de usuario activo
             if (signedInUser.getActive() == false) {
-                throw new UserNotActiveException("This user is not active. Please contact support.");
+                throw new UserNotActiveException("Email or password incorrect");
             }
 
             // Si todo es correcto, abrir la ventana principal
